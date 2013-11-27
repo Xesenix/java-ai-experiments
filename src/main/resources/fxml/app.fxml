@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import pl.xesenix.fxml.viewport.*?>
+<?scenebuilder-classpath-element ../../../../target/jfx/app/lib/viewport-1.0.0.jar?>
+<?scenebuilder-stylesheet ../styles/app.css?>
+
+<AnchorPane fx:id="view" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="experiment.AppController">
+  <SplitPane dividerPositions="0.7257731958762886" focusTraversable="true" orientation="VERTICAL" prefHeight="487.0" prefWidth="639.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <items>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+        <children>
+          <Viewport fx:id="viewport" prefHeight="600.0" prefWidth="857.0" style="" styleClass="grid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        </children>
+      </AnchorPane>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+        <children>
+          <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <content>
+              <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                <children>
+                  <TextArea fx:id="source" prefHeight="90.0" prefWidth="397.0" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="10.0" />
+                  <VBox id="VBox" alignment="TOP_LEFT" prefHeight="90.0" spacing="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                    <children>
+                      <Button id="load" mnemonicParsing="false" onAction="#clickLoadButton" prefHeight="30.0" prefWidth="180.0" text="%button.load" />
+                      <Button id="load" mnemonicParsing="false" onAction="#clickStartButton" prefHeight="30.0" prefWidth="180.0" text="%button.start" />
+                      <Button id="load" mnemonicParsing="false" onAction="#clickSaveButton" prefHeight="30.0" prefWidth="180.0" text="%button.save" />
+                    </children>
+                  </VBox>
+                </children>
+              </AnchorPane>
+            </content>
+          </ScrollPane>
+        </children>
+      </AnchorPane>
+    </items>
+  </SplitPane>
+</AnchorPane>
