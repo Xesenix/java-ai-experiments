@@ -1,5 +1,5 @@
 
-package experiment;
+package experiments;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -11,12 +11,12 @@ import javax.xml.bind.Marshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
+import ai.AIEnviromentFactory;
+import ai.actions.Move;
+import ai.actors.NPC;
+import ai.world.Position;
 
-import experiment.ai.AIEnviroment;
-import experiment.ai.actions.Move;
-import experiment.ai.actors.NPC;
-import experiment.world.Position;
+import com.google.inject.Inject;
 
 public class BaseExperiment implements IExperimentManager
 {
@@ -28,7 +28,7 @@ public class BaseExperiment implements IExperimentManager
 
 
 	@Inject
-	protected AIEnviroment enviroment;
+	protected AIEnviromentFactory enviroment;
 
 
 	@Inject
@@ -77,7 +77,7 @@ public class BaseExperiment implements IExperimentManager
 		
 		try
 		{
-			enviroment = (AIEnviroment) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
+			enviroment = (AIEnviromentFactory) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
 		}
 		catch (JAXBException e)
 		{

@@ -1,4 +1,4 @@
-package experiment.ai.actions;
+package ai.actions;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import experiment.world.Position;
-import experiment.xml.IReferenceable;
+import ai.world.Position;
+import xml.IReferenceable;
 
 
 @XmlRootElement

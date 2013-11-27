@@ -1,5 +1,5 @@
 
-package experiment.world;
+package ai.world;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

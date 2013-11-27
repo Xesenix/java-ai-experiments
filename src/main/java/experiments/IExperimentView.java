@@ -1,4 +1,4 @@
-package experiment;
+package experiments;
 
 public interface IExperimentView
 {

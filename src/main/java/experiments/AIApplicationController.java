@@ -1,5 +1,5 @@
 
-package experiment;
+package experiments;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,7 +15,7 @@ import com.google.inject.Singleton;
 
 
 @Singleton
-public class AppController implements IExperimentView
+public class AIApplicationController implements IExperimentView
 {
 	@Inject
 	IExperimentManager experiment;

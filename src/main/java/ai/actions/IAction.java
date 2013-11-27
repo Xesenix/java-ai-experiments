@@ -1,10 +1,10 @@
 
-package experiment.ai.actions;
+package ai.actions;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
-@XmlJavaTypeAdapter(experiment.xml.AnyTypeAdapter.class)
+@XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface IAction
 {
 	void execute();

@@ -1,4 +1,4 @@
-package experiment.xml;
+package xml;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 

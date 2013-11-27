@@ -1,10 +1,10 @@
-package experiment.ai.actors;
+package ai.actors;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import experiment.world.Position;
+import ai.world.Position;
 
-@XmlJavaTypeAdapter(experiment.xml.AnyTypeAdapter.class)
+@XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface IActor
 {
 	void setPosition(Position position);

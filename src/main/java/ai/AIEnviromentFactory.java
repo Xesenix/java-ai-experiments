@@ -1,5 +1,5 @@
 
-package experiment.ai;
+package ai;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +11,18 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ai.actions.IAction;
+import ai.actions.Move;
+import ai.actors.IActor;
+import ai.actors.NPC;
+
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
-import experiment.ai.actions.IAction;
-import experiment.ai.actions.Move;
-import experiment.ai.actors.IActor;
-import experiment.ai.actors.NPC;
 
 
 @XmlRootElement(name = "enviroment")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AIEnviroment
+public class AIEnviromentFactory
 {
 	@Inject
 	@XmlTransient

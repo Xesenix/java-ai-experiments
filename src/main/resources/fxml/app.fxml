@@ -8,7 +8,7 @@
 <?scenebuilder-classpath-element ../../../../target/jfx/app/lib/viewport-1.0.0.jar?>
 <?scenebuilder-stylesheet ../styles/app.css?>
 
-<AnchorPane fx:id="view" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="experiment.AppController">
+<AnchorPane fx:id="view" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="experiments.AIApplicationController">
   <SplitPane dividerPositions="0.7257731958762886" focusTraversable="true" orientation="VERTICAL" prefHeight="487.0" prefWidth="639.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
     <items>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

@@ -1,4 +1,4 @@
-package experiment;
+package experiments;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -17,9 +17,9 @@ import com.cathive.fx.guice.GuiceFXMLLoader.Result;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 
-public class AIApp extends GuiceApplication
+public class AIApplication extends GuiceApplication
 {
-	private static final Logger log = LoggerFactory.getLogger(AIApp.class);
+	private static final Logger log = LoggerFactory.getLogger(AIApplication.class);
 
 
 	@Inject
@@ -51,7 +51,8 @@ public class AIApp extends GuiceApplication
 	
 	public void init(List<Module> modules) throws Exception
 	{
-		modules.add(new AIModule(BaseExperiment.class));
+		modules.add(new AIApplicationModule(BaseExperiment.class));
+		modules.add(new AIModule());
 	}
 	
 	
