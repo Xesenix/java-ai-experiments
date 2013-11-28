@@ -29,17 +29,17 @@ public class AI
 
 
 	@XmlElementWrapper(name = "actions")
-	@XmlAnyElement
+	@XmlAnyElement(lax = true)
 	private ArrayList<IAction> actions = new ArrayList<IAction>();
 
 
 	@XmlElementWrapper(name = "actors")
-	@XmlAnyElement
+	@XmlAnyElement(lax = true)
 	private ArrayList<IActor> actors = new ArrayList<IActor>();
 
 
 	@XmlElementWrapper(name = "behaviours")
-	@XmlAnyElement
+	@XmlAnyElement(lax = true)
 	private ArrayList<IBehaviour> behaviours = new ArrayList<IBehaviour>();
 
 
