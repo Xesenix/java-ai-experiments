@@ -130,5 +130,15 @@
 			<artifactId>jts</artifactId>
 			<version>1.13</version>
 		</dependency>
+		<dependency>
+			<groupId>pl.xesenix.javafx.animation</groupId>
+			<artifactId>fixed-frame-rate-animator</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.netthreads.libgdx</groupId>
+			<artifactId>netthreads-libgdx</artifactId>
+			<version>1.0.4-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

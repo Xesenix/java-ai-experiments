@@ -1,4 +1,8 @@
 .grid {
 	-fx-background-color: #111;
 	-fx-background-image: url("../images/grey_grid.png");
-};
+}
+
+.context-tool-bar {
+	-fx-background-color: transparent;
+}

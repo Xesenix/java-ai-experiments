@@ -4,14 +4,6 @@ package experiments;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
-import ai.AIEnviromentFactory;
-import ai.actions.Move;
-import ai.actors.NPC;
-import ai.world.Position;
-
 import com.google.inject.AbstractModule;
 
 

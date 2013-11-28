@@ -1,13 +1,40 @@
+
 package experiments;
 
 public interface IExperimentManager
 {
 	void initialize();
 
-	void loadFromXmlString(String source);
 
-	void start();
+	void loadAiFromXmlString(String source);
 
-	String getAsXmlString();
 
+	String getAiAsXmlString();
+
+
+	void loadAiFromJsonString(String source);
+
+
+	String getAiAsJsonString();
+
+
+	void loadWorldFromJsonString(String text);
+
+
+	String getWorldAsJsonString();
+
+
+	void loadWorldFromXmlString(String text);
+
+
+	String getWorldAsXmlString();
+
+
+	void startAi();
+
+
+	void doAiLogicStep();
+
+
+	void stopAi();
 }

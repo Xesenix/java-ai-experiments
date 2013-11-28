@@ -1,3 +1,4 @@
+
 package ai.actions;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,32 +17,25 @@ import xml.IReferenceable;
 public class Move implements IAction, IReferenceable
 {
 	@XmlID
-	@XmlAttribute(name="id")
+	@XmlAttribute(name = "id")
 	private String instanceId;
-	
-	
+
+
 	@XmlElement
 	private Position target;
-	
-	
+
+
 	public void execute()
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	
-	public String toString()
-	{
-		return String.format("{move: %s}", target);
-	}
 
-
-	
 	public void setInstanceId(String id)
 	{
 		this.instanceId = id;
-		
+
 	}
 
 
@@ -60,5 +54,11 @@ public class Move implements IAction, IReferenceable
 	public void setTarget(Position target)
 	{
 		this.target = target;
+	}
+
+
+	public String toString()
+	{
+		return String.format("{move: %s}", target);
 	}
 }

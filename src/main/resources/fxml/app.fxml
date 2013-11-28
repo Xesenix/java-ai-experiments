@@ -1,41 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import pl.xesenix.fxml.viewport.*?>
 <?scenebuilder-classpath-element ../../../../target/jfx/app/lib/viewport-1.0.0.jar?>
+<?scenebuilder-preview-i18n-resource ../bundles/app.properties?>
 <?scenebuilder-stylesheet ../styles/app.css?>
 
-<AnchorPane fx:id="view" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="experiments.AIApplicationController">
-  <SplitPane dividerPositions="0.7257731958762886" focusTraversable="true" orientation="VERTICAL" prefHeight="487.0" prefWidth="639.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-    <items>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-        <children>
-          <Viewport fx:id="viewport" prefHeight="600.0" prefWidth="857.0" style="" styleClass="grid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        </children>
-      </AnchorPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-        <children>
-          <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <content>
-              <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+<AnchorPane fx:id="view" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="experiments.AIApplicationController">
+  <VBox prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <children>
+      <MenuBar useSystemMenuBar="true">
+        <menus>
+          <Menu mnemonicParsing="false" text="%menu.file">
+            <items>
+              <MenuItem mnemonicParsing="false" text="%menu.file.close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="%menu.edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="%menu.edit.initialize" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="%menu.help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="%menu.help.about" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.600250626566416" focusTraversable="true" orientation="HORIZONTAL" prefHeight="540.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+            <children>
+              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <children>
-                  <TextArea fx:id="source" prefHeight="90.0" prefWidth="397.0" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="10.0" />
-                  <VBox id="VBox" alignment="TOP_LEFT" prefHeight="90.0" spacing="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                    <children>
-                      <Button id="load" mnemonicParsing="false" onAction="#clickLoadButton" prefHeight="30.0" prefWidth="180.0" text="%button.load" />
-                      <Button id="load" mnemonicParsing="false" onAction="#clickStartButton" prefHeight="30.0" prefWidth="180.0" text="%button.start" />
-                      <Button id="load" mnemonicParsing="false" onAction="#clickSaveButton" prefHeight="30.0" prefWidth="180.0" text="%button.save" />
-                    </children>
-                  </VBox>
+                  <ToolBar maxHeight="30.0" minHeight="30.0" orientation="HORIZONTAL" prefWidth="-1.0" VBox.vgrow="NEVER">
+                    <items>
+                      <ToggleButton fx:id="aiRunningButton" maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#toggleAiRunning" prefHeight="30.0" prefWidth="-1.0" selected="false" text="%button.start" textAlignment="CENTER" underline="false" wrapText="false" />
+                    </items>
+                  </ToolBar>
+                  <Viewport fx:id="viewport" style="" styleClass="grid" VBox.vgrow="ALWAYS" />
                 </children>
-              </AnchorPane>
-            </content>
-          </ScrollPane>
-        </children>
-      </AnchorPane>
-    </items>
-  </SplitPane>
+              </VBox>
+            </children>
+          </AnchorPane>
+          <AnchorPane minHeight="-1.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+            <children>
+              <Accordion prefHeight="538.0" prefWidth="316.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <expandedPane>
+                  <TitledPane id="x3" fx:id="x1" animated="false" prefWidth="-1.0" text="%pane.ai_context">
+                    <content>
+                      <AnchorPane id="Content">
+                        <children>
+                          <TabPane prefHeight="-1.0" prefWidth="-1.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <tabs>
+                              <Tab closable="true" text="%tab.xml">
+                                <content>
+                                  <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                                    <children>
+                                      <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <children>
+                                          <ToolBar maxHeight="30.0" minHeight="30.0" orientation="HORIZONTAL" style="&#10;" styleClass="context-tool-bar">
+                                            <items>
+                                              <Button id="saveXml" maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickAiXmlSaveButton" prefHeight="30.0" prefWidth="-1.0" text="%button.save_xml" />
+                                              <Button id="loadXml" maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickAiXmlLoadButton" prefHeight="30.0" prefWidth="-1.0" text="%button.load_xml" />
+                                            </items>
+                                          </ToolBar>
+                                          <TextArea id="" fx:id="aiXmlSource" minHeight="-1.0" prefHeight="-1.0" prefWidth="-1.0" wrapText="true" VBox.vgrow="ALWAYS">
+                                            <VBox.margin>
+                                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                                            </VBox.margin>
+                                          </TextArea>
+                                        </children>
+                                      </VBox>
+                                    </children>
+                                  </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="%tab.json">
+                                <content>
+                                  <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                                    <children>
+                                      <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <children>
+                                          <ToolBar maxHeight="30.0" minHeight="30.0" orientation="HORIZONTAL" prefHeight="-1.0" prefWidth="-1.0" styleClass="context-tool-bar">
+                                            <items>
+                                              <Button id="saveJson" maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickAiSaveJsonButton" prefHeight="30.0" prefWidth="-1.0" text="%button.save_json" />
+                                              <Button id="loadJson" maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickAiLoadJsonButton" prefHeight="30.0" prefWidth="-1.0" text="%button.load_json" />
+                                            </items>
+                                          </ToolBar>
+                                          <TextArea id="" fx:id="aiJsonSource" prefHeight="47.0" prefWidth="615.0" wrapText="true" VBox.margin="$x2" VBox.vgrow="ALWAYS" />
+                                        </children>
+                                      </VBox>
+                                    </children>
+                                  </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="%tab.ai">
+                                <content>
+                                  <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                                    <children>
+                                      <TextArea id="" fx:id="aiConsole" prefHeight="-1.0" prefWidth="-1.0" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                    </children>
+                                  </AnchorPane>
+                                </content>
+                              </Tab>
+                            </tabs>
+                          </TabPane>
+                        </children>
+                      </AnchorPane>
+                    </content>
+                  </TitledPane>
+                </expandedPane>
+                <panes>
+                  <fx:reference source="x1" />
+                  <TitledPane id="x1" animated="false" text="%pane.world_context">
+                    <content>
+                      <AnchorPane id="Content">
+                        <children>
+                          <TabPane prefHeight="-1.0" prefWidth="-1.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <tabs>
+                              <Tab text="%tab.xml">
+                                <content>
+                                  <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                                    <children>
+                                      <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <children>
+                                          <ToolBar maxHeight="30.0" minHeight="30.0" orientation="HORIZONTAL" prefHeight="-1.0" prefWidth="-1.0" styleClass="context-tool-bar">
+                                            <items>
+                                              <Button maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickWorldXmlSaveButton" prefHeight="30.0" prefWidth="-1.0" text="%button.save_xml" />
+                                              <Button maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickWorldXmlLoadButton" prefHeight="30.0" prefWidth="-1.0" text="%button.load_xml" />
+                                            </items>
+                                          </ToolBar>
+                                          <TextArea fx:id="worldXmlSource" minHeight="-1.0" prefHeight="-1.0" prefWidth="-1.0" wrapText="true" VBox.vgrow="ALWAYS">
+                                            <VBox.margin>
+                                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                                            </VBox.margin>
+                                          </TextArea>
+                                        </children>
+                                      </VBox>
+                                    </children>
+                                  </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="%tab.json">
+                                <content>
+                                  <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                                    <children>
+                                      <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <children>
+                                          <ToolBar maxHeight="30.0" minHeight="30.0" orientation="HORIZONTAL" prefHeight="-1.0" prefWidth="-1.0" styleClass="context-tool-bar">
+                                            <items>
+                                              <Button maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickWorldSaveJsonButton" prefHeight="30.0" prefWidth="-1.0" text="%button.save_json" />
+                                              <Button maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#clickWorldLoadJsonButton" prefHeight="30.0" prefWidth="-1.0" text="%button.load_json" />
+                                            </items>
+                                          </ToolBar>
+                                          <TextArea id="world" fx:id="worldJsonSource" prefHeight="47.0" prefWidth="615.0" wrapText="true" VBox.vgrow="ALWAYS">
+                                            <VBox.margin>
+                                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                                            </VBox.margin>
+                                          </TextArea>
+                                        </children>
+                                      </VBox>
+                                    </children>
+                                  </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="%tab.world">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
+                                    <children>
+                                      <TextArea prefHeight="-1.0" prefWidth="-1.0" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                    </children>
+                                  </AnchorPane>
+                                </content>
+                              </Tab>
+                            </tabs>
+                          </TabPane>
+                        </children>
+                      </AnchorPane>
+                    </content>
+                  </TitledPane>
+                </panes>
+              </Accordion>
+            </children>
+          </AnchorPane>
+        </items>
+      </SplitPane>
+    </children>
+  </VBox>
 </AnchorPane>
