@@ -22,6 +22,8 @@ import ai.actors.NPC;
 import ai.world.World.WorldDescriptor;
 
 
+
+
 public class World implements IWorld
 {
 	@Inject
@@ -70,9 +72,19 @@ public class World implements IWorld
 	}
 
 
+	public Target createTarget(String name)
+	{
+		Target target = injector.getInstance(Target.class);
+
+		worldObjects.put(name, target);
+
+		return target;
+	}
+
+
 	public String toString()
 	{
-		return String.format("{actors: %s;}", actors);
+		return String.format("{actors: %s; objects: %s;}", actors, worldObjects);
 	}
 	
 	
@@ -133,8 +145,11 @@ public class World implements IWorld
 			
 			for (WorldObjectDescriptor objectDescriptor : descriptor.objects)
 			{
-				worldObjects.entrySet().add(entryUnmrashaller.unmarshall(objectDescriptor));
+				Map.Entry<String, IWorldObject> entry = entryUnmrashaller.unmarshall(objectDescriptor);
+				worldObjects.put(entry.getKey(), entry.getValue());
 			}
+			
+			world.setWorldObjects(worldObjects);
 
 			return world;
 		}
@@ -145,32 +160,12 @@ public class World implements IWorld
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class WorldObjectDescriptor
 	{
-		@Inject
-		private transient Injector injector;
-		
-		
-		@XmlAttribute(name = "type")
-		public Class<? extends IWorldObject> type;
-
-
 		@XmlAttribute(name = "name")
 		public String name;
 
 
 		@XmlAnyElement(lax = true)
 		public IWorldObject object;
-
-
-		public WorldObjectDescriptor marshall(Map.Entry<String, IWorldObject> entry)
-		{
-			WorldObjectDescriptor descriptor = new WorldObjectDescriptor();
-
-			descriptor.name = entry.getKey();
-			descriptor.type = entry.getValue().getClass();
-			descriptor.object = entry.getValue();
-
-			return descriptor;
-		}
 	}
 	
 	
@@ -185,7 +180,6 @@ public class World implements IWorld
 			WorldObjectDescriptor descriptor = new WorldObjectDescriptor();
 
 			descriptor.name = entry.getKey();
-			descriptor.type = entry.getValue().getClass();
 			descriptor.object = entry.getValue();
 
 			return descriptor;

@@ -17,6 +17,7 @@ public interface IWorld
 	Collection<? extends IActor> getActors();
 
 	Map<String,IWorldObject> getWorldObjects();
-	
+
+	Target createTarget(String name);
 
 }

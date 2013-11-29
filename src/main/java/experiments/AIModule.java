@@ -13,6 +13,7 @@ import ai.actors.NPC;
 import ai.behaviour.Scene;
 import ai.world.IWorld;
 import ai.world.Position;
+import ai.world.Target;
 import ai.world.World;
 
 import com.google.inject.AbstractModule;
@@ -40,6 +41,7 @@ public class AIModule extends AbstractModule
 				AI.class,
 				World.WorldDescriptor.class,
 				World.WorldObjectDescriptor.class,
+				Target.class,
 				Position.class,
 				NPC.class,
 				Scene.class

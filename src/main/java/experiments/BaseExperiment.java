@@ -24,6 +24,7 @@ import ai.actors.NPC;
 import ai.behaviour.IBehaviour;
 import ai.world.IWorld;
 import ai.world.Position;
+import ai.world.Target;
 import ai.world.World;
 import ai.world.World.WorldDescriptor;
 
@@ -92,6 +93,11 @@ public class BaseExperiment implements IExperimentManager
 
 		NPC npcC = world.createNpcActor();
 		npcC.setName("Ceron");
+		
+		Target targetA = world.createTarget("strategyATarget");
+		targetA.setPosition(new Position(3f, 3f));
+
+		Target targetB = world.createTarget("strategyBTarget");
 
 		IBehaviour behavior;
 
@@ -251,8 +257,9 @@ public class BaseExperiment implements IExperimentManager
 
 		try
 		{
-			// TODO enable loading world class based on source
-			world = json.fromJson(World.class, source);
+			World.WorldDescriptor descriptor = json.fromJson(World.WorldDescriptor.class, source);
+			
+			world = worldUnmarshaller.unmarshal(descriptor);
 		}
 		catch (Exception e)
 		{
@@ -265,7 +272,7 @@ public class BaseExperiment implements IExperimentManager
 
 	public String getWorldAsJsonString()
 	{
-		String result = json.prettyPrint(world);
+		String result = json.prettyPrint(worldMarshaller.marshall(world));
 
 		log.debug("serialized - Json World: {}", result);
 
