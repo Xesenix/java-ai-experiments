@@ -20,7 +20,7 @@ import ai.behaviour.Scene;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
-@XmlRootElement(name = "enviroment")
+@XmlRootElement(name = "ai")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AI
 {
@@ -31,11 +31,6 @@ public class AI
 	@XmlElementWrapper(name = "actions")
 	@XmlAnyElement(lax = true)
 	private ArrayList<IAction> actions = new ArrayList<IAction>();
-
-
-	@XmlElementWrapper(name = "actors")
-	@XmlAnyElement(lax = true)
-	private ArrayList<IActor> actors = new ArrayList<IActor>();
 
 
 	@XmlElementWrapper(name = "behaviours")
@@ -55,18 +50,6 @@ public class AI
 	}
 
 
-	public ArrayList<IActor> getActors()
-	{
-		return actors;
-	}
-
-
-	public void setActors(ArrayList<IActor> actors)
-	{
-		this.actors = actors;
-	}
-
-
 	public Move createMoveAction()
 	{
 		Move move = injector.getInstance(Move.class);
@@ -79,24 +62,6 @@ public class AI
 	}
 
 
-	public NPC createNpcActor()
-	{
-		NPC npc = injector.getInstance(NPC.class);
-
-		actors.add(npc);
-
-		npc.setInstanceId(String.format("npc%02d", actors.indexOf(npc)));
-
-		return npc;
-	}
-
-
-	public String toString()
-	{
-		return String.format("{actions: %s; actors: %s; behaviours: %s}", actions, actors, behaviours);
-	}
-
-
 	public Scene createSceneBehaviour()
 	{
 		Scene scene = injector.getInstance(Scene.class);
@@ -106,5 +71,11 @@ public class AI
 		scene.setInstanceId(String.format("scene%02d", behaviours.indexOf(scene)));
 		
 		return scene;
+	}
+
+
+	public String toString()
+	{
+		return String.format("{actions: %s; behaviours: %s}", actions, behaviours);
 	}
 }

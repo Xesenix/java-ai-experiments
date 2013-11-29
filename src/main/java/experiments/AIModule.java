@@ -38,7 +38,8 @@ public class AIModule extends AbstractModule
 			bind(JAXBContext.class).toInstance(JAXBContext.newInstance(
 				Move.class,
 				AI.class,
-				World.class,
+				World.WorldDescriptor.class,
+				World.WorldObjectDescriptor.class,
 				Position.class,
 				NPC.class,
 				Scene.class

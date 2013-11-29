@@ -1,6 +1,8 @@
 
 package experiments;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -9,6 +11,9 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +25,28 @@ import ai.behaviour.IBehaviour;
 import ai.world.IWorld;
 import ai.world.Position;
 import ai.world.World;
+import ai.world.World.WorldDescriptor;
 
 import com.badlogic.gdx.utils.Json;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 
 public class BaseExperiment implements IExperimentManager
 {
 	private static final Logger log = LoggerFactory.getLogger(BaseExperiment.class);
+
+
+	@Inject
+	protected Injector injector;
+
+
+	@Inject
+	private World.WorldMarshaller worldMarshaller;
+
+
+	@Inject
+	private World.WorldUnmarshaller worldUnmarshaller;
 
 
 	@Inject
@@ -55,32 +75,31 @@ public class BaseExperiment implements IExperimentManager
 	public void initialize()
 	{
 		Move move;
-		
+
 		move = ai.createMoveAction();
 		move.setTarget(new Position(2f, 3f));
-		
+
 		move = ai.createMoveAction();
 		move.setTarget(new Position(5f, 3f));
-		
+
 		ai.createMoveAction();
-		
-		NPC npcA = ai.createNpcActor();
+
+		NPC npcA = world.createNpcActor();
 		npcA.setName("Alistar");
-		
-		NPC npcB = ai.createNpcActor();
+
+		NPC npcB = world.createNpcActor();
 		npcB.setName("Baldarok");
-		
-		NPC npcC = ai.createNpcActor();
+
+		NPC npcC = world.createNpcActor();
 		npcC.setName("Ceron");
-		
+
 		IBehaviour behavior;
-		
+
 		behavior = ai.createSceneBehaviour();
-		
+
 		behavior.addActor(npcA);
 		behavior.addActor(npcB);
 		behavior.addActor(npcC);
-		
 
 		log.debug("initialized: {}", ai);
 	}
@@ -89,7 +108,7 @@ public class BaseExperiment implements IExperimentManager
 	public void startAi()
 	{
 		log.debug("starting AI");
-		
+
 		isAiRunning = true;
 	}
 
@@ -97,7 +116,7 @@ public class BaseExperiment implements IExperimentManager
 	public void stopAi()
 	{
 		log.debug("stopping AI");
-		
+
 		isAiRunning = false;
 	}
 
@@ -114,9 +133,9 @@ public class BaseExperiment implements IExperimentManager
 	public void loadAiFromXmlString(String source)
 	{
 		log.debug("loading - XML AI: {}", source);
-		
+
 		StringReader xmlReader = new StringReader(source);
-		
+
 		try
 		{
 			ai = (AI) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
@@ -125,7 +144,7 @@ public class BaseExperiment implements IExperimentManager
 		{
 			e.printStackTrace();
 		}
-		
+
 		log.debug("deserialized - AI: {}", ai);
 	}
 
@@ -145,19 +164,33 @@ public class BaseExperiment implements IExperimentManager
 		{
 			e.printStackTrace();
 		}
-		
+
 		String result = xmlWriter.toString();
-		
+
 		log.debug("serialized - XML AI: {}", result);
-		
+
 		return result;
 	}
 
 
 	public void loadWorldFromXmlString(String source)
 	{
-		// TODO Auto-generated method stub
-		
+		log.debug("loading - XML World: {}", source);
+
+		StringReader xmlReader = new StringReader(source);
+
+		try
+		{
+			World.WorldDescriptor descriptor = (World.WorldDescriptor) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
+			
+			world = worldUnmarshaller.unmarshal(descriptor);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+
+		log.debug("deserialized - World: {}", world);
 	}
 
 
@@ -170,17 +203,17 @@ public class BaseExperiment implements IExperimentManager
 		{
 			jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(world, xmlWriter);
+			jaxbMarshaller.marshal(worldMarshaller.marshall(world), xmlWriter);
 		}
 		catch (JAXBException e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		String result = xmlWriter.toString();
-		
+
 		log.debug("serialized - XML World: {}", result);
-		
+
 		return result;
 	}
 
@@ -188,7 +221,7 @@ public class BaseExperiment implements IExperimentManager
 	public void loadAiFromJsonString(String source)
 	{
 		log.debug("loading - Json AI: {}", source);
-		
+
 		try
 		{
 			ai = json.fromJson(AI.class, source);
@@ -197,7 +230,7 @@ public class BaseExperiment implements IExperimentManager
 		{
 			e.printStackTrace();
 		}
-		
+
 		log.debug("deserialized - AI: {}", ai);
 	}
 
@@ -205,9 +238,9 @@ public class BaseExperiment implements IExperimentManager
 	public String getAiAsJsonString()
 	{
 		String result = json.prettyPrint(ai);
-		
+
 		log.debug("serialized - Json AI: {}", result);
-		
+
 		return result;
 	}
 
@@ -215,7 +248,7 @@ public class BaseExperiment implements IExperimentManager
 	public void loadWorldFromJsonString(String source)
 	{
 		log.debug("loading - Json World: {}", source);
-		
+
 		try
 		{
 			// TODO enable loading world class based on source
@@ -225,7 +258,7 @@ public class BaseExperiment implements IExperimentManager
 		{
 			e.printStackTrace();
 		}
-		
+
 		log.debug("deserialized - World: {}", world);
 	}
 
@@ -233,10 +266,31 @@ public class BaseExperiment implements IExperimentManager
 	public String getWorldAsJsonString()
 	{
 		String result = json.prettyPrint(world);
-		
+
 		log.debug("serialized - Json World: {}", result);
-		
+
 		return result;
+	}
+	
+	
+	public void saveXmlSchema()
+	{
+		try
+		{
+			jaxbContext.generateSchema(new SchemaOutputResolver() {
+				public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException
+				{
+					File file = new File(suggestedFileName);
+					StreamResult result = new StreamResult(file);
+					result.setSystemId(file.toURI().toURL().toString());
+					return result;
+				}
+			});
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }
