@@ -2,13 +2,13 @@ package ai.actors;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import ai.world.Position;
+import ai.world.navigation.IPosition;
 
 @XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface IActor
 {
-	void setPosition(Position position);
+	void setPosition(IPosition position);
 	
 	
-	Position getPosition();
+	IPosition getPosition();
 }

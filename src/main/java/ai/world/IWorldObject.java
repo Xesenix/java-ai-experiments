@@ -3,11 +3,13 @@ package ai.world;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import ai.world.navigation.IPosition;
+
 @XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface IWorldObject
 {
-	Position getPosition();
+	IPosition getPosition();
 
 
-	void setPosition(Position position);
+	void setPosition(IPosition position);
 }

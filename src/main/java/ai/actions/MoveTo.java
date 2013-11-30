@@ -3,26 +3,27 @@ package ai.actions;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ai.world.Position;
 import xml.IReferenceable;
+import ai.world.navigation.IPosition;
 
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Move implements IAction, IReferenceable
+public class MoveTo implements IAction, IReferenceable
 {
 	@XmlID
 	@XmlAttribute(name = "id")
 	private String instanceId;
 
 
-	@XmlElement
-	private Position target;
+	@XmlAnyElement(lax=true)
+	private IPosition target;
 
 
 	public void execute()
@@ -45,13 +46,13 @@ public class Move implements IAction, IReferenceable
 	}
 
 
-	public Position getTarget()
+	public IPosition getTarget()
 	{
 		return target;
 	}
 
 
-	public void setTarget(Position target)
+	public void setTarget(IPosition target)
 	{
 		this.target = target;
 	}

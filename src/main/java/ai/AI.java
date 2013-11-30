@@ -2,20 +2,20 @@
 package ai;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ai.actions.IAction;
-import ai.actions.Move;
-import ai.actors.IActor;
-import ai.actors.NPC;
+import ai.actions.rules.IRule;
 import ai.behaviour.IBehaviour;
 import ai.behaviour.Scene;
+import ai.domains.IProblemsDomain;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -28,37 +28,42 @@ public class AI
 	private transient Injector injector;
 
 
-	@XmlElementWrapper(name = "actions")
-	@XmlAnyElement(lax = true)
-	private ArrayList<IAction> actions = new ArrayList<IAction>();
-
-
 	@XmlElementWrapper(name = "behaviours")
 	@XmlAnyElement(lax = true)
 	private ArrayList<IBehaviour> behaviours = new ArrayList<IBehaviour>();
-
-
-	public ArrayList<IAction> getActions()
+	
+	
+	@XmlElementWrapper(name = "domains")
+	@XmlAnyElement(lax = true)
+	private TreeSet<IProblemsDomain> domains = new TreeSet<IProblemsDomain>();
+	
+	
+	@XmlElementWrapper(name = "rules")
+	@XmlAnyElement(lax = true)
+	private ArrayList<IRule> rules = new ArrayList<IRule>();
+	
+	
+	public void addProblemsDomain(IProblemsDomain domain)
 	{
-		return actions;
+		this.domains.add(domain);
 	}
-
-
-	public void setActions(ArrayList<IAction> actions)
+	
+	
+	public void addAllProblemsDomain(IProblemsDomain... domains)
 	{
-		this.actions = actions;
+		for (IProblemsDomain domain : domains)
+		{
+			addProblemsDomain(domain);
+		}
 	}
-
-
-	public Move createMoveAction()
+	
+	
+	public void addAllProblemsDomain(Collection<IProblemsDomain> domains)
 	{
-		Move move = injector.getInstance(Move.class);
-
-		actions.add(move);
-
-		move.setInstanceId(String.format("move%02d", actions.indexOf(move)));
-
-		return move;
+		for (IProblemsDomain domain : domains)
+		{
+			addProblemsDomain(domain);
+		}
 	}
 
 
@@ -76,6 +81,6 @@ public class AI
 
 	public String toString()
 	{
-		return String.format("{actions: %s; behaviours: %s}", actions, behaviours);
+		return String.format("{behaviours: %s}", behaviours);
 	}
 }

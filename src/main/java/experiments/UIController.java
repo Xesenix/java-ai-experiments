@@ -18,7 +18,7 @@ import com.google.inject.Singleton;
 
 
 @Singleton
-public class AIApplicationController implements IExperimentView
+public class UIController implements IExperimentView
 {
 	@Inject
 	IExperimentManager experiment;

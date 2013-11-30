@@ -7,12 +7,12 @@ import java.util.ResourceBundle;
 import com.google.inject.AbstractModule;
 
 
-public class AIApplicationModule extends AbstractModule
+public class UIModule extends AbstractModule
 {
 	private Class<? extends IExperimentManager> type;
 
 
-	public AIApplicationModule(Class<? extends IExperimentManager> type)
+	public UIModule(Class<? extends IExperimentManager> type)
 	{
 		this.type = type;
 	}
@@ -27,8 +27,8 @@ public class AIApplicationModule extends AbstractModule
 
 	private void bindExperiment()
 	{
-		bind(IExperimentManager.class).to(this.type);
-		bind(IExperimentView.class).to(AIApplicationController.class);
+		bind(IExperimentManager.class).to(type);
+		bind(IExperimentView.class).to(UIController.class);
 	}
 
 

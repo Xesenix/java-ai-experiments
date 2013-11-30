@@ -1,9 +1,9 @@
-package ai.behaviour;
+package ai.actions.rules;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
-public interface IGoal
+public interface IRule
 {
-	boolean achived();
+	boolean check();
 }

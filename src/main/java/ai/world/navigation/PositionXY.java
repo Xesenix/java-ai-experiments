@@ -1,5 +1,5 @@
 
-package ai.world;
+package ai.world.navigation;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Position
+public class PositionXY implements IPosition
 {
 	@XmlAttribute
 	private double x;
@@ -19,12 +19,12 @@ public class Position
 	private double y;
 
 
-	public Position()
+	public PositionXY()
 	{
 	}
 
 
-	public Position(double x, double y)
+	public PositionXY(double x, double y)
 	{
 		this.x = x;
 		this.y = y;

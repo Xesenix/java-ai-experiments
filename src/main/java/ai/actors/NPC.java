@@ -8,8 +8,8 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import ai.world.Position;
 import xml.IReferenceable;
+import ai.world.navigation.IPosition;
 
 
 @XmlRootElement
@@ -22,7 +22,7 @@ public class NPC implements IActor, IReferenceable
 
 
 	@XmlTransient
-	private Position position;
+	private IPosition position;
 	
 	
 	@XmlAttribute
@@ -53,16 +53,16 @@ public class NPC implements IActor, IReferenceable
 	}
 
 
-	public void setPosition(Position position)
+	public void setPosition(IPosition position)
 	{
 		this.position = position;
 
 	}
 
 
-	public Position getPosition()
+	public IPosition getPosition()
 	{
-		return null;
+		return position;
 	}
 
 

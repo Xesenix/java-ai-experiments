@@ -1,12 +1,10 @@
 
-package experiments;
+package experiments.base;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -19,18 +17,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ai.AI;
-import ai.actions.Move;
+import ai.actions.MoveTo;
 import ai.actors.NPC;
 import ai.behaviour.IBehaviour;
 import ai.world.IWorld;
-import ai.world.Position;
-import ai.world.Target;
 import ai.world.World;
-import ai.world.World.WorldDescriptor;
+import ai.world.navigation.PositionXY;
+import ai.world.navigation.Target;
 
 import com.badlogic.gdx.utils.Json;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+
+import experiments.IExperimentManager;
+import experiments.IExperimentView;
 
 
 public class BaseExperiment implements IExperimentManager
@@ -75,15 +75,15 @@ public class BaseExperiment implements IExperimentManager
 
 	public void initialize()
 	{
-		Move move;
+		MoveTo move;
 
-		move = ai.createMoveAction();
-		move.setTarget(new Position(2f, 3f));
+		move = world.createMoveAction();
+		move.setTarget(new PositionXY(2f, 3f));
 
-		move = ai.createMoveAction();
-		move.setTarget(new Position(5f, 3f));
+		move = world.createMoveAction();
+		move.setTarget(new PositionXY(5f, 3f));
 
-		ai.createMoveAction();
+		world.createMoveAction();
 
 		NPC npcA = world.createNpcActor();
 		npcA.setName("Alistar");
@@ -95,7 +95,7 @@ public class BaseExperiment implements IExperimentManager
 		npcC.setName("Ceron");
 		
 		Target targetA = world.createTarget("strategyATarget");
-		targetA.setPosition(new Position(3f, 3f));
+		targetA.setPosition(new PositionXY(3f, 3f));
 
 		Target targetB = world.createTarget("strategyBTarget");
 

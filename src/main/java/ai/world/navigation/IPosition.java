@@ -1,9 +1,9 @@
-package ai.behaviour;
+package ai.world.navigation;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
-public interface IGoal
+public interface IPosition
 {
-	boolean achived();
+
 }

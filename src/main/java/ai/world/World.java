@@ -14,14 +14,15 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
+import ai.actions.IAction;
+import ai.actions.MoveTo;
 import ai.actors.IActor;
 import ai.actors.NPC;
-import ai.world.World.WorldDescriptor;
+import ai.world.navigation.Target;
 
-
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
 
 public class World implements IWorld
@@ -31,6 +32,9 @@ public class World implements IWorld
 
 
 	private List<IActor> actors = new ArrayList<IActor>();
+
+
+	private List<IAction> actions = new ArrayList<IAction>();
 
 
 	private Map<String, IWorldObject> worldObjects = new HashMap<String, IWorldObject>();
@@ -60,6 +64,18 @@ public class World implements IWorld
 	}
 
 
+	public List<IAction> getActions()
+	{
+		return actions;
+	}
+
+
+	public void setActions(List<IAction> actions)
+	{
+		this.actions = actions;
+	}
+
+
 	public NPC createNpcActor()
 	{
 		NPC npc = injector.getInstance(NPC.class);
@@ -69,6 +85,18 @@ public class World implements IWorld
 		npc.setInstanceId(String.format("npc%02d", actors.indexOf(npc)));
 
 		return npc;
+	}
+
+
+	public MoveTo createMoveAction()
+	{
+		MoveTo move = injector.getInstance(MoveTo.class);
+
+		actions.add(move);
+
+		move.setInstanceId(String.format("move%02d", actions.indexOf(move)));
+
+		return move;
 	}
 
 
@@ -84,17 +112,22 @@ public class World implements IWorld
 
 	public String toString()
 	{
-		return String.format("{actors: %s; objects: %s;}", actors, worldObjects);
+		return String.format("{actors: %s; actions: %s; objects: %s;}", actors, actions, worldObjects);
 	}
-	
-	
+
+
 	@XmlRootElement(name = "world")
 	@XmlAccessorType(XmlAccessType.FIELD)
-	public static class WorldDescriptor
+	public static class WorldDescriptor implements IWorldDescriptor
 	{
 		@XmlElementWrapper(name = "actors")
 		@XmlAnyElement(lax = true)
 		public ArrayList<IActor> actors = new ArrayList<IActor>();
+
+
+		@XmlElementWrapper(name = "actions")
+		@XmlAnyElement(lax = true)
+		private ArrayList<IAction> actions = new ArrayList<IAction>();
 
 
 		@XmlElementWrapper(name = "objects")
@@ -102,21 +135,29 @@ public class World implements IWorld
 		public ArrayList<WorldObjectDescriptor> objects = new ArrayList<WorldObjectDescriptor>();
 	}
 
-
+	@Singleton
 	public static class WorldMarshaller
 	{
 		@Inject
 		private transient Injector injector;
 
 
+		/**
+		 * Converts world implementation to serializable model.
+		 * 
+		 * @param world
+		 * @return world model object
+		 */
 		public WorldDescriptor marshall(IWorld world)
 		{
-			WorldDescriptor descriptor = injector.getInstance(WorldDescriptor.class);
+			WorldDescriptor descriptor = (WorldDescriptor) injector.getInstance(IWorldDescriptor.class);
 
 			descriptor.actors = new ArrayList<IActor>(world.getActors());
-			
+
+			descriptor.actions = new ArrayList<IAction>(world.getActions());
+
 			WorldObjectMarshaller objectMarshaller = injector.getInstance(WorldObjectMarshaller.class);
-			
+
 			for (Map.Entry<String, IWorldObject> entry : world.getWorldObjects().entrySet())
 			{
 				descriptor.objects.add(objectMarshaller.marshall(entry));
@@ -126,35 +167,41 @@ public class World implements IWorld
 		}
 	}
 
-
+	@Singleton
 	public static class WorldUnmarshaller
 	{
 		@Inject
 		private transient Injector injector;
 
 
-		public World unmarshal(WorldDescriptor descriptor)
+		/**
+		 * Deserializes model to world object
+		 * 
+		 * @param descriptor
+		 * @return
+		 */
+		public IWorld unmarshal(WorldDescriptor descriptor)
 		{
-			World world = injector.getInstance(World.class);
+			IWorld world = injector.getInstance(IWorld.class);
 
 			world.setActors(descriptor.actors);
-			
+			world.setActions(descriptor.actions);
+
 			WorldObjectUnmarshaller entryUnmrashaller = injector.getInstance(WorldObjectUnmarshaller.class);
-			
+
 			HashMap<String, IWorldObject> worldObjects = new HashMap<String, IWorldObject>();
-			
+
 			for (WorldObjectDescriptor objectDescriptor : descriptor.objects)
 			{
 				Map.Entry<String, IWorldObject> entry = entryUnmrashaller.unmarshall(objectDescriptor);
 				worldObjects.put(entry.getKey(), entry.getValue());
 			}
-			
+
 			world.setWorldObjects(worldObjects);
 
 			return world;
 		}
 	}
-	
 
 	@XmlRootElement(name = "object")
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -167,14 +214,10 @@ public class World implements IWorld
 		@XmlAnyElement(lax = true)
 		public IWorldObject object;
 	}
-	
-	
+
+	@Singleton
 	public static class WorldObjectMarshaller
 	{
-		@Inject
-		private transient Injector injector;
-
-
 		public WorldObjectDescriptor marshall(Map.Entry<String, IWorldObject> entry)
 		{
 			WorldObjectDescriptor descriptor = new WorldObjectDescriptor();
@@ -185,17 +228,14 @@ public class World implements IWorld
 			return descriptor;
 		}
 	}
-	
-	
+
+	@Singleton
 	public static class WorldObjectUnmarshaller
 	{
-		@Inject
-		private transient Injector injector;
-
-
 		public Map.Entry<String, IWorldObject> unmarshall(WorldObjectDescriptor descriptor)
 		{
-			Map.Entry<String, IWorldObject> entry = new AbstractMap.SimpleEntry<String, IWorldObject>(descriptor.name, descriptor.object);
+			Map.Entry<String, IWorldObject> entry = new AbstractMap.SimpleEntry<String, IWorldObject>(descriptor.name,
+				descriptor.object);
 
 			return entry;
 		}
