@@ -1,7 +1,5 @@
 package experiments.artemis.components;
 
-import ai.behaviour.IGoal;
-
 import com.artemis.Component;
 
 public class PositionComponent extends Component

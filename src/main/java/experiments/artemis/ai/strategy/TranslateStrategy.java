@@ -10,7 +10,6 @@ import experiments.artemis.components.IStrategy;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.PositionGoal;
 import experiments.artemis.components.PositionUtils;
-import experiments.artemis.components.TaskComponent;
 
 public class TranslateStrategy implements IStrategy
 {

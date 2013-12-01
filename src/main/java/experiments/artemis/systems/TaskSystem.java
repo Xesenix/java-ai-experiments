@@ -13,7 +13,6 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 
 import experiments.artemis.ai.StrategyPlanner;
-import experiments.artemis.components.BehaviourComponent;
 import experiments.artemis.components.IStrategy;
 import experiments.artemis.components.StrategyComponent;
 import experiments.artemis.components.TaskComponent;
@@ -72,11 +71,15 @@ public class TaskSystem extends EntityProcessingSystem
 					for (int j = 0; j < strategies.length; j++)
 					{
 						strategy = strategies[j];
-
+						log.debug("checking strategy {}", strategy);
 						if (strategy.canPerform(world, e, goal))
 						{
 							chosenStrategy = new StrategyComponent(strategy);
 							break;
+						}
+						else
+						{
+							log.debug("can`t perform strategy {}", strategy);
 						}
 					}
 				}
@@ -101,12 +104,14 @@ public class TaskSystem extends EntityProcessingSystem
 			{
 				boolean finished = chosenStrategy.perform(world, e, task.getCurrentGoal());
 
+				log.debug("strategy performed {}", finished);
+				
 				if (finished)
 				{
 					e.removeComponent(chosenStrategy);
 					chosenStrategy = null;
 				}
-				else if (!tm.has(e))
+				else if (!sm.has(e))
 				{
 					e.addComponent(chosenStrategy);
 				}

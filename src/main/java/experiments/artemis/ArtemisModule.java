@@ -1,20 +1,15 @@
 
 package experiments.artemis;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
 import ai.AI;
 import ai.actions.MoveTo;
 import ai.actors.NPC;
-import ai.behaviour.Scene;
 import ai.world.IWorld;
 import ai.world.IWorldDescriptor;
 import ai.world.World;
 import ai.world.World.WorldDescriptor;
 import ai.world.navigation.IPosition;
 import ai.world.navigation.PositionXY;
-import ai.world.navigation.Target;
 
 import com.google.inject.AbstractModule;
 

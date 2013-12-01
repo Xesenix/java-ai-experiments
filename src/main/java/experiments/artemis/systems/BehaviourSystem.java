@@ -5,20 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.artemis.Aspect;
-import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.artemis.systems.IntervalEntitySystem;
-import com.artemis.utils.Bag;
-import com.artemis.utils.ImmutableBag;
 
-import experiments.artemis.ArtemisExperiment;
 import experiments.artemis.components.BehaviourComponent;
 import experiments.artemis.components.TaskComponent;
-import experiments.artemis.components.MoveTo;
-import experiments.artemis.components.TaskSelector;
 
 
 public class BehaviourSystem extends EntityProcessingSystem

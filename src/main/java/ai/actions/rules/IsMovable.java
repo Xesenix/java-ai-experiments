@@ -4,9 +4,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.google.inject.Inject;
-
 import ai.domains.navigation.INavigationProblemsDomain;
+
+import com.google.inject.Inject;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

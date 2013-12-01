@@ -4,9 +4,6 @@ package experiments.artemis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ai.behaviour.IGoal;
-
-import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.google.inject.Inject;
@@ -21,7 +18,6 @@ import experiments.artemis.components.MoveTo;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.PositionGoal;
 import experiments.artemis.components.TaskComponent;
-import experiments.artemis.components.TaskFilter;
 import experiments.artemis.components.TaskSelector;
 import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.TaskSystem;
@@ -90,8 +86,9 @@ public class ArtemisExperiment implements IExperimentManager
 		}
 		
 		TaskSelector selector = new TaskSelector();
-		selector.setBehaviours(tasks[0], tasks[1]);
+		selector.setBehaviours(tasks[0], tasks[1], tasks[2]);
 		
+		e.addComponent(new PositionComponent(0, 0));
 		e.addComponent(new BehaviourComponent(selector));
 		e.addToWorld();
 	}

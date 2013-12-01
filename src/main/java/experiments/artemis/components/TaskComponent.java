@@ -3,11 +3,11 @@ package experiments.artemis.components;
 
 import java.util.Collection;
 
-import com.artemis.Entity;
-import com.artemis.World;
-
 import ai.behaviour.IGoal;
 import ai.behaviour.ITask;
+
+import com.artemis.Entity;
+import com.artemis.World;
 
 
 public class TaskComponent extends BehaviourComponent implements ITask

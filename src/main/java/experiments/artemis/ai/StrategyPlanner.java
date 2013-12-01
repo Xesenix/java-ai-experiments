@@ -19,7 +19,7 @@ public class StrategyPlanner
 	{
 		if (goal instanceof PositionGoal)
 		{
-			return moveStrategy ;
+			return moveStrategy;
 		}
 		
 		return null;
