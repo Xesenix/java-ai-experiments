@@ -1,8 +1,11 @@
-package experiments.artemis.components;
+
+package experiments.artemis.componentsbehaviours;
 
 import java.util.Collection;
 
 import ai.behaviour.IGoal;
+import experiments.artemis.components.tasks.TaskComponent;
+
 
 public class Idle extends TaskComponent
 {

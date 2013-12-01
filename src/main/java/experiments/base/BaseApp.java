@@ -1,3 +1,4 @@
+
 package experiments.base;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import com.google.inject.Module;
 
 import experiments.UIModule;
 
+
 public class BaseApp extends GuiceApplication
 {
 	private static final Logger log = LoggerFactory.getLogger(BaseApp.class);
@@ -26,38 +28,33 @@ public class BaseApp extends GuiceApplication
 
 	@Inject
 	private GuiceFXMLLoader fxmlLoader;
-	
-	
+
+
 	@Inject
 	private ResourceBundle resource;
-	
-	
+
+
 	public void start(Stage stage) throws Exception
 	{
 		log.debug("starting");
-		
+
 		final Result loaderResult = fxmlLoader.load(getClass().getResource("/fxml/app.fxml"), resource);
 
-		StageBuilder.create().title(resource.getString("app.name"))
-			.resizable(false)
-			.scene(SceneBuilder.create()
-				.root((Parent) loaderResult.getRoot())
-				.stylesheets("/styles/app.css")
-				.build()
-			)
+		StageBuilder.create().title(resource.getString("app.name")).resizable(false)
+			.scene(SceneBuilder.create().root((Parent) loaderResult.getRoot()).stylesheets("/styles/app.css").build())
 			.resizable(true).applyTo(stage);
 
 		stage.show();
 	}
-	
-	
+
+
 	public void init(List<Module> modules) throws Exception
 	{
 		modules.add(new UIModule(BaseExperiment.class));
 		modules.add(new BaseModule());
 	}
-	
-	
+
+
 	public static void main(String[] args) throws Exception
 	{
 		launch(args);

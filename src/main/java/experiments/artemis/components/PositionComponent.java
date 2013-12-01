@@ -1,20 +1,22 @@
+
 package experiments.artemis.components;
 
 import com.artemis.Component;
 
+
 public class PositionComponent extends Component
 {
 	private double x;
-	
-	
+
+
 	private double y;
-	
-	
+
+
 	public PositionComponent()
 	{
 	}
-	
-	
+
+
 	public PositionComponent(double x, double y)
 	{
 		this.setX(x);

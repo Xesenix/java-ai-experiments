@@ -93,7 +93,7 @@ public class BaseExperiment implements IExperimentManager
 
 		NPC npcC = world.createNpcActor();
 		npcC.setName("Ceron");
-		
+
 		Target targetA = world.createTarget("strategyATarget");
 		targetA.setPosition(new PositionXY(3f, 3f));
 
@@ -187,8 +187,9 @@ public class BaseExperiment implements IExperimentManager
 
 		try
 		{
-			World.WorldDescriptor descriptor = (World.WorldDescriptor) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
-			
+			World.WorldDescriptor descriptor = (World.WorldDescriptor) jaxbContext.createUnmarshaller()
+				.unmarshal(xmlReader);
+
 			world = worldUnmarshaller.unmarshal(descriptor);
 		}
 		catch (JAXBException e)
@@ -258,7 +259,7 @@ public class BaseExperiment implements IExperimentManager
 		try
 		{
 			World.WorldDescriptor descriptor = json.fromJson(World.WorldDescriptor.class, source);
-			
+
 			world = worldUnmarshaller.unmarshal(descriptor);
 		}
 		catch (Exception e)
@@ -278,8 +279,8 @@ public class BaseExperiment implements IExperimentManager
 
 		return result;
 	}
-	
-	
+
+
 	public void saveXmlSchema()
 	{
 		try

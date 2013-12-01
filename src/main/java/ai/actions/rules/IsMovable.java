@@ -1,3 +1,4 @@
+
 package ai.actions.rules;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,14 +9,15 @@ import ai.domains.navigation.INavigationProblemsDomain;
 
 import com.google.inject.Inject;
 
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IsMovable implements IRule
 {
 	@Inject
 	private INavigationProblemsDomain navigationDomain;
-	
-	
+
+
 	public boolean check()
 	{
 		return navigationDomain.canMove(null);

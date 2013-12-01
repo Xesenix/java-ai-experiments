@@ -1,8 +1,11 @@
-package experiments.artemis.components;
+
+package experiments.artemis.components.tasks;
 
 import java.util.Collection;
 
 import ai.behaviour.IGoal;
+import experiments.artemis.components.PositionGoal;
+
 
 public class MoveTo extends TaskComponent
 {
@@ -22,13 +25,13 @@ public class MoveTo extends TaskComponent
 			if (goal instanceof PositionGoal)
 			{
 				this.setTarget((PositionGoal) goals);
-				
+
 				return;
 			}
 		}
 	}
-	
-	
+
+
 	public void setTarget(PositionGoal target)
 	{
 		this.goals[0] = target;

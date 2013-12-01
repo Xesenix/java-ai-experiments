@@ -21,7 +21,7 @@ public class MoveTo implements IAction, IReferenceable
 	private String instanceId;
 
 
-	@XmlAnyElement(lax=true)
+	@XmlAnyElement(lax = true)
 	private IPosition target;
 
 

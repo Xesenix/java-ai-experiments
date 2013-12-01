@@ -19,6 +19,7 @@ import ai.domains.IProblemsDomain;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
+
 @XmlRootElement(name = "ai")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AI
@@ -30,24 +31,24 @@ public class AI
 	@XmlElementWrapper(name = "behaviours")
 	@XmlAnyElement(lax = true)
 	private ArrayList<IBehaviour> behaviours = new ArrayList<IBehaviour>();
-	
-	
+
+
 	@XmlElementWrapper(name = "domains")
 	@XmlAnyElement(lax = true)
 	private TreeSet<IProblemsDomain> domains = new TreeSet<IProblemsDomain>();
-	
-	
+
+
 	@XmlElementWrapper(name = "rules")
 	@XmlAnyElement(lax = true)
 	private ArrayList<IRule> rules = new ArrayList<IRule>();
-	
-	
+
+
 	public void addProblemsDomain(IProblemsDomain domain)
 	{
 		this.domains.add(domain);
 	}
-	
-	
+
+
 	public void addAllProblemsDomain(IProblemsDomain... domains)
 	{
 		for (IProblemsDomain domain : domains)
@@ -55,8 +56,8 @@ public class AI
 			addProblemsDomain(domain);
 		}
 	}
-	
-	
+
+
 	public void addAllProblemsDomain(Collection<IProblemsDomain> domains)
 	{
 		for (IProblemsDomain domain : domains)
@@ -69,11 +70,11 @@ public class AI
 	public Scene createSceneBehaviour()
 	{
 		Scene scene = injector.getInstance(Scene.class);
-		
+
 		behaviours.add(scene);
-		
+
 		scene.setInstanceId(String.format("scene%02d", behaviours.indexOf(scene)));
-		
+
 		return scene;
 	}
 

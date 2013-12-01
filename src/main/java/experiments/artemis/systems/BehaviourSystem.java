@@ -10,53 +10,56 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 
-import experiments.artemis.components.BehaviourComponent;
-import experiments.artemis.components.TaskComponent;
+import experiments.artemis.ai.behaviours.ITask;
+import experiments.artemis.components.tasks.TaskComponent;
+import experiments.artemis.componentsbehaviours.BehaviorComponent;
 
 
 public class BehaviourSystem extends EntityProcessingSystem
 {
 	private static final Logger log = LoggerFactory.getLogger(BehaviourSystem.class);
-	
-	
+
+
 	@Mapper
 	ComponentMapper<TaskComponent> tm;
 
 
 	@Mapper
-	ComponentMapper<BehaviourComponent> bm;
+	ComponentMapper<BehaviorComponent> bm;
 
 
 	public BehaviourSystem()
 	{
-		super(Aspect.getAspectForOne(BehaviourComponent.class).exclude(TaskComponent.class));
+		super(Aspect.getAspectForOne(BehaviorComponent.class).exclude(TaskComponent.class));
 	}
 
 
 	protected void process(Entity e)
 	{
 		log.debug("processing entity {}", e);
-		
-		BehaviourComponent behaviour = bm.get(e); // get behavior for entity
-		
-		log.debug("entity behavior {}", behaviour);
-		
-		TaskComponent task = tm.get(e);
-		
-		log.debug("entity task {}", task);
-		
-		task = decide(behaviour, e); // decide what to do
-		
-		log.debug("entity task {}", task);
+
+		BehaviorComponent behavior = bm.get(e); // get behavior for entity
+
+		log.debug("entity behavior {}", behavior);
+
+		ITask task = tm.get(e);
+
+		log.debug("entity current task {}", task);
+
+		// decide what to do
+
+		task = decide(behavior, e);
+
+		log.debug("entity new task {}", task);
 
 		e.addComponent(new TaskComponent(task));
 		e.changedInWorld();
 	}
 
 
-	private TaskComponent decide(BehaviourComponent behaviour, Entity e)
+	private ITask decide(BehaviorComponent behavior, Entity e)
 	{
-		return behaviour.chooseTask(world, e);
+		return behavior.chooseTask(world, e);
 	}
 
 }

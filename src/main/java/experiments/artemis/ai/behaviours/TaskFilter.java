@@ -1,15 +1,16 @@
 
-package experiments.artemis.components;
+package experiments.artemis.ai.behaviours;
 
 import com.artemis.Entity;
 import com.artemis.World;
 
 import conditions.ICondition;
+import experiments.artemis.componentsbehaviours.BehaviorComponent;
 
 
-public class TaskFilter extends BehaviourComponent implements ICondition
+public class TaskFilter extends BehaviorComponent implements ICondition
 {
-	private TaskComponent task;
+	private ITask task;
 
 
 	private transient World world;
@@ -18,7 +19,7 @@ public class TaskFilter extends BehaviourComponent implements ICondition
 	private transient Entity e;
 
 
-	public TaskComponent chooseTask(World world, Entity e)
+	public ITask chooseTask(World world, Entity e)
 	{
 		setContext(world, e);
 
@@ -44,15 +45,20 @@ public class TaskFilter extends BehaviourComponent implements ICondition
 	}
 
 
-	public TaskComponent getTask()
+	public ITask getTask()
 	{
 		return task;
 	}
 
 
-	public void setTask(TaskComponent task)
+	public void setTask(ITask task)
 	{
 		this.task = task;
 	}
 
+
+	public String toString()
+	{
+		return String.format("[%s@%x, {task: %s}]", getClass().getSimpleName(), hashCode(), task);
+	}
 }

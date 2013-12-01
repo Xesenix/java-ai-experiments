@@ -1,3 +1,4 @@
+
 package conditions;
 
 public interface ICondition

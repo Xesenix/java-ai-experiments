@@ -14,8 +14,8 @@ import com.artemis.systems.EntityProcessingSystem;
 
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.components.IStrategy;
-import experiments.artemis.components.StrategyComponent;
-import experiments.artemis.components.TaskComponent;
+import experiments.artemis.components.strategies.StrategyComponent;
+import experiments.artemis.components.tasks.TaskComponent;
 
 
 public class TaskSystem extends EntityProcessingSystem
@@ -105,7 +105,7 @@ public class TaskSystem extends EntityProcessingSystem
 				boolean finished = chosenStrategy.perform(world, e, task.getCurrentGoal());
 
 				log.debug("strategy performed {}", finished);
-				
+
 				if (finished)
 				{
 					e.removeComponent(chosenStrategy);

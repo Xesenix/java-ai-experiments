@@ -23,8 +23,8 @@ public class NPC implements IActor, IReferenceable
 
 	@XmlTransient
 	private IPosition position;
-	
-	
+
+
 	@XmlAttribute
 	private String name;
 

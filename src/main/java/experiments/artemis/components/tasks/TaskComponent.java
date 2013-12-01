@@ -1,18 +1,20 @@
 
-package experiments.artemis.components;
+package experiments.artemis.components.tasks;
 
 import java.util.Collection;
 
 import ai.behaviour.IGoal;
-import ai.behaviour.ITask;
 
 import com.artemis.Entity;
 import com.artemis.World;
 
+import experiments.artemis.ai.behaviours.ITask;
+import experiments.artemis.componentsbehaviours.BehaviorComponent;
 
-public class TaskComponent extends BehaviourComponent implements ITask
+
+public class TaskComponent extends BehaviorComponent implements ITask
 {
-	private TaskComponent task;
+	private ITask task;
 
 
 	private IGoal currentGoal;
@@ -23,7 +25,7 @@ public class TaskComponent extends BehaviourComponent implements ITask
 	}
 
 
-	public TaskComponent(TaskComponent task)
+	public TaskComponent(ITask task)
 	{
 		super(task);
 
@@ -37,21 +39,19 @@ public class TaskComponent extends BehaviourComponent implements ITask
 	}
 
 
-	@Override
 	public IGoal[] getGoals()
 	{
 		return task.getGoals();
 	}
 
 
-	@Override
 	public void setGoals(Collection<IGoal> goals)
 	{
 		task.setGoals(goals);
 	}
 
 
-	public TaskComponent chooseTask(World world, Entity e)
+	public final ITask chooseTask(World world, Entity e)
 	{
 		return this;
 	}
@@ -60,12 +60,17 @@ public class TaskComponent extends BehaviourComponent implements ITask
 	public void setCurrentGoal(IGoal goal)
 	{
 		this.currentGoal = goal;
-
 	}
 
 
 	public IGoal getCurrentGoal()
 	{
 		return currentGoal;
+	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x, {task: %s}]", getClass().getSimpleName(), hashCode(), task);
 	}
 }

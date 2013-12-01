@@ -1,3 +1,4 @@
+
 package ai.domains.navigation;
 
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ai.actors.IActor;
 import ai.world.navigation.IPosition;
+
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -33,10 +35,10 @@ public class DiscretPositionSet implements INavigationProblemsDomain
 		{
 			availablePositions = new HashSet<IPosition>(availablePositions);
 		}
-		
+
 		this.availablePositions = availablePositions;
 	}
-	
+
 
 	public boolean canMove(IActor actor)
 	{

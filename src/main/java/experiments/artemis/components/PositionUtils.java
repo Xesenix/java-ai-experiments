@@ -1,5 +1,5 @@
-package experiments.artemis.components;
 
+package experiments.artemis.components;
 
 public class PositionUtils
 {
@@ -8,5 +8,5 @@ public class PositionUtils
 	{
 		return 20;
 	}
-	
+
 }

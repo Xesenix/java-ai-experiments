@@ -52,7 +52,7 @@ public class Scene implements IBehaviour
 		this.actors = new ArrayList<IActor>(actors);
 	}
 
-	
+
 	public String toString()
 	{
 		return String.format("behaviour{actors: %s}", actors);

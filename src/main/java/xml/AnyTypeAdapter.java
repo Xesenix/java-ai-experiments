@@ -1,6 +1,8 @@
+
 package xml;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 
 public class AnyTypeAdapter extends XmlAdapter<Object, Object>
 {

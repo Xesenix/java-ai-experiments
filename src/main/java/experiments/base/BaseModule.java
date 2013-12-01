@@ -35,19 +35,17 @@ public class BaseModule extends AbstractModule
 		bind(IWorld.class).to(World.class);
 		bind(IWorldDescriptor.class).to(WorldDescriptor.class);
 		bind(IPosition.class).to(PositionXY.class);
-		
+
 		try
 		{
-			bind(JAXBContext.class).toInstance(JAXBContext.newInstance(
-				MoveTo.class,
+			bind(JAXBContext.class).toInstance(JAXBContext.newInstance(MoveTo.class,
 				AI.class,
 				World.WorldDescriptor.class,
 				World.WorldObjectDescriptor.class,
 				Target.class,
 				PositionXY.class,
 				NPC.class,
-				Scene.class
-			));
+				Scene.class));
 		}
 		catch (JAXBException e)
 		{
