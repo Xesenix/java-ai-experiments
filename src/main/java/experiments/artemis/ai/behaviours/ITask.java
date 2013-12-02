@@ -14,15 +14,11 @@ import com.artemis.World;
  */
 public interface ITask extends IBehavior
 {
-
-	boolean isRunning();
-
-
 	IGoal[] getGoals();
 
 
 	void setGoals(Collection<IGoal> goals);
 
 
-	boolean goalsAchived(World world, Entity e);
+	boolean finished(World world, Entity e);
 }

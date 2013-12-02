@@ -1,5 +1,5 @@
 
-package experiments.artemis.components.behaviours;
+package experiments.artemis.components;
 
 import java.util.Stack;
 
@@ -40,5 +40,17 @@ public class BehaviorComponent extends Component implements IBehavior
 	public String toString()
 	{
 		return String.format("[%s@%x, {behavior: %s}]", getClass().getSimpleName(), hashCode(), root);
+	}
+
+
+	public void setCompleted(World world, Entity e, boolean completed)
+	{
+		this.root.setCompleted(world, e, completed);
+	}
+
+
+	public boolean isRunning()
+	{
+		return this.root.isRunning();
 	}
 }

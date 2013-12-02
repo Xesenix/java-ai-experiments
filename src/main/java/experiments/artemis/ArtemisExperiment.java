@@ -14,17 +14,18 @@ import com.google.inject.Injector;
 import experiments.IExperimentManager;
 import experiments.IExperimentView;
 import experiments.artemis.ai.StrategyPlanner;
+import experiments.artemis.ai.behaviours.Counter;
+import experiments.artemis.ai.behaviours.MoveTo;
+import experiments.artemis.ai.behaviours.Task;
 import experiments.artemis.ai.behaviours.TaskSelector;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
+import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.PositionGoal;
-import experiments.artemis.components.behaviours.BehaviorComponent;
 import experiments.artemis.components.behaviours.Idle;
-import experiments.artemis.components.tasks.MoveTo;
-import experiments.artemis.components.tasks.TaskComponent;
 import experiments.artemis.systems.DebugEntitySystem;
 import experiments.artemis.systems.NavigationSystem;
 import experiments.artemis.systems.BehaviourSystem;
@@ -64,15 +65,15 @@ public class ArtemisExperiment implements IExperimentManager
 
 		world.initialize();
 
-		Position[] positions = new Position[] { new Position(100, 50), new Position(100, 200), new Position(300, 500), new Position(200, 300), new Position(300, 100)};
-		TaskComponent[] tasks = new TaskComponent[] { new MoveTo(), new MoveTo(), new Idle() };
-		PositionGoal[] goals = new PositionGoal[] { new PositionGoal(positions[1]), new PositionGoal(positions[2]), };
+		Position[] positions = new Position[] { new Position(100, 50), new Position(100, 200), new Position(300, 500), new Position(400, 100), new Position(300, 100)};
+		Task[] tasks = new Task[] { new MoveTo(), new MoveTo(), new MoveTo(), };
+		PositionGoal[] goals = new PositionGoal[] { new PositionGoal(positions[1]), new PositionGoal(positions[2]), new PositionGoal(positions[3]),};
 
 		int j = -1;
 
 		for (int i = 0; i < tasks.length; i++)
 		{
-			TaskComponent task = tasks[i];
+			Task task = tasks[i];
 
 			if (task instanceof MoveTo)
 			{
@@ -88,12 +89,12 @@ public class ArtemisExperiment implements IExperimentManager
 
 		Entity e = world.createEntity();
 		TaskSelector selector = new TaskSelector();
-		selector.setBehaviours(tasks[0], tasks[1], tasks[2]);
+		selector.setBehaviours(new Counter(tasks[0], 4), tasks[1], tasks[2]);
 		
 		e.addComponent(new PositionComponent(positions[0]));
 		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(40f));
-		e.addComponent(new NearDistanceComponent(40f));
+		e.addComponent(new MovementSpeedComponent(200f));
+		e.addComponent(new NearDistanceComponent(100f));
 		e.addToWorld();
 		
 		/*e = world.createEntity();
@@ -112,6 +113,7 @@ public class ArtemisExperiment implements IExperimentManager
 		e.addComponent(new PositionComponent(positions[2]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(30f));
+		e.addComponent(new NearDistanceComponent(50f));
 		e.addToWorld();
 		
 		e = world.createEntity();
@@ -121,6 +123,7 @@ public class ArtemisExperiment implements IExperimentManager
 		e.addComponent(new PositionComponent(positions[3]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(20f));
+		e.addComponent(new NearDistanceComponent(50f));
 		e.addToWorld();
 		
 		e = world.createEntity();
@@ -130,6 +133,7 @@ public class ArtemisExperiment implements IExperimentManager
 		e.addComponent(new PositionComponent(positions[4]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(30f));
+		e.addComponent(new NearDistanceComponent(50f));
 		e.addToWorld();*/
 	}
 

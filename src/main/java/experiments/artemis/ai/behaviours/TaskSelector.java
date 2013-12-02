@@ -20,13 +20,47 @@ public class TaskSelector implements IBehavior
 		{
 			task = behaviors[i].chooseTask(world, e);
 
-			if (task != null && !task.goalsAchived(world, e))
+			if (task != null && !task.finished(world, e))
 			{
 				return task;
 			}
 		}
 
 		return null;
+	}
+
+
+	public void setCompleted(World world, Entity e, boolean completed)
+	{
+		IBehavior behavior;
+
+		for (int i = 0; i < behaviors.length; i++)
+		{
+			behavior = behaviors[i];
+
+			if (!behavior.isRunning())
+			{
+				behavior.setCompleted(world, e, completed);
+			}
+		}
+	}
+
+
+	public boolean isRunning()
+	{
+		IBehavior behavior;
+		
+		for (int i = 0; i < behaviors.length; i++)
+		{
+			behavior = behaviors[i];
+
+			if (behavior.isRunning())
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 

@@ -17,12 +17,6 @@ public class PositionGoal extends PositionComponent implements IPositionGoal
 	}
 
 
-	public boolean achived()
-	{
-		return false;
-	}
-
-
 	public IPosition getTarget()
 	{
 		return getPosition();

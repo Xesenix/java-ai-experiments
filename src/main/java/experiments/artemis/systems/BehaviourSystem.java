@@ -15,7 +15,8 @@ import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.behaviours.IGoal;
 import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.strategy.IStrategy;
-import experiments.artemis.components.behaviours.BehaviorComponent;
+import experiments.artemis.components.BehaviorComponent;
+import experiments.artemis.components.PositionGoal;
 
 
 public class BehaviourSystem extends EntityProcessingSystem
@@ -72,12 +73,12 @@ public class BehaviourSystem extends EntityProcessingSystem
 			return;
 		}
 		
-		IStrategy chosenStrategy = strategyByEntity.get(e.getId());
+		IStrategy runningStrategy = strategyByEntity.get(e.getId());
 		
 		log.debug("current task {}", task);
-		log.debug("current strategy {}", chosenStrategy);
+		log.debug("current running strategy {}", runningStrategy);
 
-		if (chosenStrategy == null && planner != null)
+		if (runningStrategy == null && planner != null)
 		{
 			// choosing new strategy
 			log.info("choosing new strategy");
@@ -99,51 +100,61 @@ public class BehaviourSystem extends EntityProcessingSystem
 			}
 		}
 		
-		chosenStrategy = strategyByEntity.get(e.getId());
+		runningStrategy = strategyByEntity.get(e.getId());
 
-		log.debug("chosen strategy: {}", chosenStrategy);
+		log.debug("chosen strategy: {}", runningStrategy);
 
-		if (chosenStrategy != null)
+		if (runningStrategy != null)
 		{
 			// check is strategy can be performed
 			
 			IGoal goal = goalByEntity.get(e.getId());
 			
-			if (chosenStrategy.canPerform(world, e, goal))
+			if (runningStrategy.canPerform(world, e, goal))
 			{
 				// performing strategy
 				log.info("performing chosen strategy");
 				
-				boolean finished = chosenStrategy.perform(world, e, goal);
+				boolean finished = runningStrategy.perform(world, e, goal);
 
-				log.debug("strategy performed {}", finished);
+				log.debug("strategy finished: {}", finished);
 				
-				e.changedInWorld();
+				//e.changedInWorld();
 
 				if (finished)
 				{
 					log.info("finished performing chosen strategy");
 					
+					if (goal.achived(world, e))
+					{
+						log.info("goal achived");
+						// TODO strategy successful modify priority so it would be used more often
+					}
+					else
+					{
+						log.error("goal not achived");
+						// TODO strategy unsuccessful modify priority so it would be used less frequent
+					}
+					
 					strategyByEntity.remove(e.getId());
-					chosenStrategy = null;
+					runningStrategy = null;
 				}
 			}
 			else
 			{
 				log.info("can`t perform chosen strategy");
-				chosenStrategy = null;
+				runningStrategy = null;
 			}
 		}
 		
-		if (task.goalsAchived(world, e))
+		if (task.finished(world, e))
 		{
 			log.info("task completed");
+			task.setCompleted(world, e, true);
 			task = null;
 		}
 		
-		// 
-		strategyByEntity.set(e.getId(), chosenStrategy);
-
+		strategyByEntity.set(e.getId(), runningStrategy);
 		taskByEntity.set(e.getId(), task);
 	}
 
@@ -167,6 +178,8 @@ public class BehaviourSystem extends EntityProcessingSystem
 				// find strategy to achieve goal
 				
 				IStrategy[] strategies = planner.findStrategies(world, e, goal);
+				
+				// TODO use priorities for more successful strategies
 				
 				for (int j = 0; j < strategies.length; j++)
 				{

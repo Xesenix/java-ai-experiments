@@ -1,12 +1,9 @@
 
-package experiments.artemis.components.tasks;
+package experiments.artemis.ai.behaviours;
 
 import java.util.Collection;
 
-import experiments.artemis.ai.behaviours.IGoal;
-import experiments.artemis.ai.behaviours.IPositionGoal;
-
-public class MoveTo extends TaskComponent
+public class MoveTo extends Task
 {
 	private IPositionGoal[] goals = new IPositionGoal[1];
 

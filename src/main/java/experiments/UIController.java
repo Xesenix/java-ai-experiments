@@ -166,7 +166,7 @@ public class UIController implements IExperimentView
 		
 		experiment.initialize();
 
-		AnimationTimer animator = new FixedStepAnimationTimer(60) {
+		AnimationTimer animator = new FixedStepAnimationTimer(10) {
 
 			public void render(long stepMiliseconds)
 			{
