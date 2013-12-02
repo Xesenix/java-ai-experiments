@@ -18,6 +18,7 @@ import com.cathive.fx.guice.GuiceFXMLLoader.Result;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 
+import experiments.DebugModule;
 import experiments.UIModule;
 
 
@@ -52,6 +53,7 @@ public class ArtemisApp extends GuiceApplication
 	{
 		modules.add(new UIModule(ArtemisExperiment.class));
 		modules.add(new ArtemisModule());
+		modules.add(new DebugModule());
 	}
 
 

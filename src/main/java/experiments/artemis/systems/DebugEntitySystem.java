@@ -14,25 +14,30 @@ import com.artemis.utils.Bag;
 
 import experiments.IExperimentView;
 import experiments.artemis.ai.world2d.Position;
+import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
-import experiments.ui.PositionDebugSprite;
+import experiments.ui.DebugSpriteMediator;
 
-public class DebugEntityPositionSystem extends EntityProcessingSystem
+public class DebugEntitySystem extends EntityProcessingSystem
 {
-	private static final Logger log = LoggerFactory.getLogger(DebugEntityPositionSystem.class);
+	private static final Logger log = LoggerFactory.getLogger(DebugEntitySystem.class);
 
 
 	@Mapper
 	ComponentMapper<PositionComponent> pm;
+
+
+	@Mapper
+	ComponentMapper<NearDistanceComponent> ndm;
 	
 	
 	private IExperimentView view;
 	
 	
-	private Bag<PositionDebugSprite> spritesByEntity = new Bag<PositionDebugSprite>();
+	private Bag<DebugSpriteMediator> mediatorByEntity = new Bag<DebugSpriteMediator>();
 
 	
-	public DebugEntityPositionSystem(IExperimentView view)
+	public DebugEntitySystem(IExperimentView view)
 	{
 		super(Aspect.getAspectForAll(PositionComponent.class));
 		
@@ -41,7 +46,13 @@ public class DebugEntityPositionSystem extends EntityProcessingSystem
 
 	protected void process(Entity e)
 	{
-		// log.debug("debugging: {}", e);
+		DebugSpriteMediator mediator = mediatorByEntity.get(e.getId());
+		
+		if (mediator == null)
+		{
+			mediator = view.createPositionDebugSprite();
+			mediatorByEntity.set(e.getId(), mediator);
+		}
 		
 		PositionComponent position = pm.get(e);
 		
@@ -49,21 +60,17 @@ public class DebugEntityPositionSystem extends EntityProcessingSystem
 		{
 			IPosition coordinates = position.getPosition();
 			
-			// log.debug("coordinates: {}", coordinates);
-			
 			if (coordinates instanceof Position)
 			{
-				PositionDebugSprite sprite = spritesByEntity.get(e.getId());
-				
-				if (sprite == null)
-				{
-					sprite = view.createPositionDebugSprite();
-					spritesByEntity.set(e.getId(), sprite);
-				}
-				
-				sprite.setTranslateX(((Position) coordinates).getX());
-				sprite.setTranslateY(((Position) coordinates).getY());
+				mediator.setPosition(((Position) coordinates).getX(), ((Position) coordinates).getY());
 			}
+		}
+		
+		NearDistanceComponent nearDistance = ndm.get(e);
+		
+		if (nearDistance != null)
+		{
+			mediator.setCloseSightRange(nearDistance.getNear());
 		}
 	}
 

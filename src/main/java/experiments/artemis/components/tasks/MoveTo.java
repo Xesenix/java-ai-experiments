@@ -35,4 +35,10 @@ public class MoveTo extends TaskComponent
 	{
 		this.goals[0] = target;
 	}
+	
+	
+	public String toString()
+	{
+		return String.format("[%s@%x, {goal: %s}]", getClass().getSimpleName(), hashCode(), this.goals[0].getTarget());
+	}
 }

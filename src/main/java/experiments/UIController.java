@@ -8,6 +8,7 @@ import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
@@ -15,14 +16,21 @@ import pl.xesenix.fxml.viewport.Viewport;
 import pl.xesenix.javafx.animation.FixedStepAnimationTimer;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
+import experiments.ui.DebugSpriteMediator;
+import experiments.ui.IDebugSprite;
 import experiments.ui.PositionDebugSprite;
 
 
 @Singleton
 public class UIController implements IExperimentView
 {
+	@Inject
+	Injector inject;
+	
+	
 	@Inject
 	IExperimentManager experiment;
 
@@ -176,12 +184,15 @@ public class UIController implements IExperimentView
 	}
 
 
-	public PositionDebugSprite createPositionDebugSprite()
+	public DebugSpriteMediator createPositionDebugSprite()
 	{
-		PositionDebugSprite sprite = new PositionDebugSprite();
+		IDebugSprite sprite = inject.getInstance(IDebugSprite.class);
 		
-		debugPointLayer.getChildren().add(sprite);
+		debugPointLayer.getChildren().add((Node) sprite);
 		
-		return sprite;
+		DebugSpriteMediator mediator = inject.getInstance(DebugSpriteMediator.class);
+		mediator.setView(sprite);
+		
+		return mediator;
 	}
 }
