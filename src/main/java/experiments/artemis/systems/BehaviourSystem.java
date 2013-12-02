@@ -135,6 +135,12 @@ public class BehaviourSystem extends EntityProcessingSystem
 			}
 		}
 		
+		if (task.goalsAchived(world, e))
+		{
+			log.info("task completed");
+			task = null;
+		}
+		
 		// 
 		strategyByEntity.set(e.getId(), chosenStrategy);
 
@@ -151,7 +157,6 @@ public class BehaviourSystem extends EntityProcessingSystem
 		
 		IStrategy strategy;
 		boolean strategyExists = false;
-		int goalsLeft = goals.length;
 		
 		for (int i = 0; i < goals.length; i++)
 		{
@@ -176,10 +181,6 @@ public class BehaviourSystem extends EntityProcessingSystem
 					}
 				}
 			}
-			else
-			{
-				goalsLeft --;
-			}
 			
 			if (strategyExists)
 			{
@@ -188,12 +189,6 @@ public class BehaviourSystem extends EntityProcessingSystem
 				
 				return;
 			}
-		}
-		
-		if (goalsLeft == 0)
-		{
-			log.info("task completed");
-			taskByEntity.set(e.getId(), null);
 		}
 	}
 

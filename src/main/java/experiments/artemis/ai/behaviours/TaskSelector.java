@@ -20,7 +20,7 @@ public class TaskSelector implements IBehavior
 		{
 			task = behaviors[i].chooseTask(world, e);
 
-			if (task != null)
+			if (task != null && !task.goalsAchived(world, e))
 			{
 				return task;
 			}

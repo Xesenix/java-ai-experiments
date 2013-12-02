@@ -16,6 +16,9 @@ public class TaskComponent extends BehaviorComponent implements ITask
 	private ITask task;
 
 
+	private int currentGoalIndex = -1;
+
+
 	public TaskComponent()
 	{
 	}
@@ -50,6 +53,22 @@ public class TaskComponent extends BehaviorComponent implements ITask
 	public final ITask chooseTask(World world, Entity e)
 	{
 		return this;
+	}
+
+
+	public boolean goalsAchived(World world, Entity e)
+	{
+		IGoal[] goals = getGoals();
+
+		for (int i = 0; i < goals.length; i++)
+		{
+			if (!goals[i].achived(world, e))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 

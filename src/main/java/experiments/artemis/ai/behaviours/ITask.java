@@ -3,6 +3,9 @@ package experiments.artemis.ai.behaviours;
 
 import java.util.Collection;
 
+import com.artemis.Entity;
+import com.artemis.World;
+
 
 /**
  * Task its leaf node in behavior tree. Task has goals to achieve.
@@ -20,4 +23,6 @@ public interface ITask extends IBehavior
 
 	void setGoals(Collection<IGoal> goals);
 
+
+	boolean goalsAchived(World world, Entity e);
 }
