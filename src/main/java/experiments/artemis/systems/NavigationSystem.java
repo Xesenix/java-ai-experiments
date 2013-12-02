@@ -16,17 +16,19 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
 
+import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.ai.strategy.Translate;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
+import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 
 
 public class NavigationSystem extends VoidEntitySystem
 {
-	private static final Logger log = LoggerFactory.getLogger(NavigationSystem.class);
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(NavigationSystem.class));
 	
 	
 	private static final double PRECISION = 1f;
@@ -40,6 +42,10 @@ public class NavigationSystem extends VoidEntitySystem
 	ComponentMapper<NearDistanceComponent> dm;
 
 
+	@Mapper
+	ComponentMapper<ConsoleDebugComponent> cdm;
+
+
 	private IMetric metric;
 
 
@@ -51,10 +57,17 @@ public class NavigationSystem extends VoidEntitySystem
 
 	public boolean nearPoint(Entity e, IPosition target)
 	{
+		log.setActive(cdm.get(e) != null);
+		
+		log.info("nearPoint entity {}", e);
+		log.info("retriving entity state..");
+		
 		PositionComponent worldPosition = pm.get(e);
 		NearDistanceComponent nearDistance = dm.get(e);
 
 		double near = nearDistance != null ? nearDistance.getNear() : PRECISION;
+		
+		log.debug("near {}", near);
 
 		if (worldPosition != null)
 		{
@@ -79,6 +92,11 @@ public class NavigationSystem extends VoidEntitySystem
 	 */
 	public boolean translateTo(Entity e, IPosition target, double max)
 	{
+		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
+		
+		log.info("translateTo entity {}", e);
+		log.info("retriving entity state..");
+		
 		PositionComponent worldPosition = pm.get(e);
 		
 		log.debug("worldPosition: {}", worldPosition);

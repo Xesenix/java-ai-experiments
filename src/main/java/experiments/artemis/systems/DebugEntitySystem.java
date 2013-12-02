@@ -13,14 +13,16 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.Bag;
 
 import experiments.IExperimentView;
+import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.world2d.Position;
+import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.ui.DebugSpriteMediator;
 
 public class DebugEntitySystem extends EntityProcessingSystem
 {
-	private static final Logger log = LoggerFactory.getLogger(DebugEntitySystem.class);
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(DebugEntitySystem.class));
 
 
 	@Mapper
@@ -29,6 +31,10 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<NearDistanceComponent> ndm;
+
+
+	@Mapper
+	ComponentMapper<ConsoleDebugComponent> cdm;
 	
 	
 	private IExperimentView view;
@@ -46,6 +52,11 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 	protected void process(Entity e)
 	{
+		log.setActive(cdm.get(e) != null && cdm.get(e).debug);
+		
+		log.info("processing entity {}", e);
+		log.info("retriving entity state..");
+		
 		DebugSpriteMediator mediator = mediatorByEntity.get(e.getId());
 		
 		if (mediator == null)
@@ -73,5 +84,4 @@ public class DebugEntitySystem extends EntityProcessingSystem
 			mediator.setCloseSightRange(nearDistance.getNear());
 		}
 	}
-
 }

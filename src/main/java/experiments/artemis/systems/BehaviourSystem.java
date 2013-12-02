@@ -11,21 +11,27 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.Bag;
 
+import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.behaviours.IGoal;
 import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.strategy.IStrategy;
 import experiments.artemis.components.BehaviorComponent;
+import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.PositionGoal;
 
 
 public class BehaviourSystem extends EntityProcessingSystem
 {
-	private static final Logger log = LoggerFactory.getLogger(BehaviourSystem.class);
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(BehaviourSystem.class));
 
 
 	@Mapper
 	ComponentMapper<BehaviorComponent> bm;
+
+
+	@Mapper
+	ComponentMapper<ConsoleDebugComponent> cdm;
 	
 	
 	private Bag<ITask> taskByEntity = new Bag<ITask>();
@@ -50,6 +56,8 @@ public class BehaviourSystem extends EntityProcessingSystem
 
 	protected void process(Entity e)
 	{
+		log.setActive(cdm.get(e) != null);
+		
 		log.info("processing entity {}", e);
 		log.info("retriving entity state..");
 		
@@ -135,7 +143,7 @@ public class BehaviourSystem extends EntityProcessingSystem
 					}
 					else
 					{
-						log.error("goal not achived");
+						log.info("goal not achived");
 						// TODO strategy unsuccessful modify priority so it would be used less frequent
 					}
 					
@@ -211,5 +219,4 @@ public class BehaviourSystem extends EntityProcessingSystem
 			}
 		}
 	}
-
 }

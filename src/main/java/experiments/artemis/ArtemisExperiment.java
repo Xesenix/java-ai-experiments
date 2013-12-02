@@ -21,6 +21,7 @@ import experiments.artemis.ai.behaviours.TaskSelector;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.BehaviorComponent;
+import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
@@ -80,30 +81,28 @@ public class ArtemisExperiment implements IExperimentManager
 				j = (j + 1) % goals.length;
 
 				((MoveTo) task).setTarget((PositionGoal) goals[j]);
-
-				Entity target = world.createEntity();
-				target.addComponent(goals[j]);
-				target.addToWorld();
 			}
 		}
 
 		Entity e = world.createEntity();
 		TaskSelector selector = new TaskSelector();
 		selector.setBehaviours(new Counter(tasks[0], 2), tasks[1], tasks[2]);
-		
+
+		e.addComponent(new ConsoleDebugComponent());
 		e.addComponent(new PositionComponent(positions[0]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(200f));
 		e.addComponent(new NearDistanceComponent(100f));
 		e.addToWorld();
 		
-		/*e = world.createEntity();
+		e = world.createEntity();
 		selector = new TaskSelector();
 		selector.setBehaviours(tasks[1], tasks[0], tasks[2]);
 
 		e.addComponent(new PositionComponent(positions[1]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(20f));
+		e.addComponent(new NearDistanceComponent(150f));
 		e.addToWorld();
 		
 		e = world.createEntity();
@@ -134,7 +133,7 @@ public class ArtemisExperiment implements IExperimentManager
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(30f));
 		e.addComponent(new NearDistanceComponent(50f));
-		e.addToWorld();*/
+		e.addToWorld();
 	}
 
 

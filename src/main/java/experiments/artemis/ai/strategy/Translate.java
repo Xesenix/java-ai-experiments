@@ -9,8 +9,10 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.utils.Bag;
 
+import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.behaviours.IGoal;
 import experiments.artemis.ai.behaviours.IPositionGoal;
+import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.PositionGoal;
@@ -20,7 +22,7 @@ import experiments.ui.PositionDebugSprite;
 
 public class Translate implements IStrategy
 {
-	private static final Logger log = LoggerFactory.getLogger(Translate.class);
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(Translate.class));
 	
 	
 	public boolean canPerform(World world, Entity e, IGoal goal)
@@ -35,6 +37,8 @@ public class Translate implements IStrategy
 
 	public boolean perform(World world, Entity e, IGoal goal)
 	{
+		log.setActive(e.getComponent(ConsoleDebugComponent.class) != null && e.getComponent(ConsoleDebugComponent.class).strategy);
+		
 		ComponentMapper<MovementSpeedComponent> msm = world.getMapper(MovementSpeedComponent.class);
 		
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
