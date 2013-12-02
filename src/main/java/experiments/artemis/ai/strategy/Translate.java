@@ -7,11 +7,15 @@ import org.slf4j.LoggerFactory;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.utils.Bag;
 
 import experiments.artemis.ai.behaviours.IGoal;
 import experiments.artemis.ai.behaviours.IPositionGoal;
+import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.PositionGoal;
+import experiments.artemis.systems.NavigationSystem;
+import experiments.ui.PositionDebugSprite;
 
 
 public class Translate implements IStrategy
@@ -31,17 +35,19 @@ public class Translate implements IStrategy
 
 	public boolean perform(World world, Entity e, IGoal goal)
 	{
-		ComponentMapper<PositionComponent> pm = world.getMapper(PositionComponent.class);
-
-		PositionComponent position = pm.get(e);
+		ComponentMapper<MovementSpeedComponent> msm = world.getMapper(MovementSpeedComponent.class);
 		
-		log.debug("current position: {}, target position: {}", position, goal);
-
-		if (position != null && goal instanceof IPositionGoal)
+		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
+		
+		if (goal instanceof IPositionGoal)
 		{
-			position.setPosition(((IPositionGoal) goal).getTarget());
-
-			return true;
+			MovementSpeedComponent movementSpeed = msm.get(e);
+			
+			double speed = movementSpeed != null ? movementSpeed.getSpeed() : 0;
+			
+			log.debug("speed: {}, delta: {}", speed, world.delta);
+			
+			return navigation.translateTo(e, ((IPositionGoal) goal).getTarget(), speed * world.delta);
 		}
 
 		return false;

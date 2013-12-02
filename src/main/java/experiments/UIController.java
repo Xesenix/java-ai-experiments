@@ -158,7 +158,7 @@ public class UIController implements IExperimentView
 		
 		experiment.initialize();
 
-		AnimationTimer animator = new FixedStepAnimationTimer(10) {
+		AnimationTimer animator = new FixedStepAnimationTimer(60) {
 
 			public void render(long stepMiliseconds)
 			{
@@ -168,7 +168,7 @@ public class UIController implements IExperimentView
 
 			public void dologic(long stepMiliseconds)
 			{
-				experiment.doAiLogicStep();
+				experiment.doAiLogicStep(stepMiliseconds);
 			}
 		};
 

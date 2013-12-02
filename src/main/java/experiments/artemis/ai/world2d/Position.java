@@ -1,6 +1,8 @@
+
 package experiments.artemis.ai.world2d;
 
 import ai.world.IPosition;
+
 
 public class Position implements IPosition
 {
@@ -17,8 +19,14 @@ public class Position implements IPosition
 
 	public Position(double x, double y)
 	{
-		this.setX(x);
-		this.setY(y);
+		this.set(x, y);
+	}
+
+
+	public void set(double x, double y)
+	{
+		this.x = x;
+		this.y = y;
 	}
 
 

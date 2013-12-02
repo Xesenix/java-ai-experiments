@@ -127,7 +127,7 @@ public class BaseExperiment implements IExperimentManager
 	}
 
 
-	public void doAiLogicStep()
+	public void doAiLogicStep(long step)
 	{
 		if (isAiRunning)
 		{

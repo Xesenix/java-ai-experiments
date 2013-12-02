@@ -33,7 +33,7 @@ public interface IExperimentManager
 	void startAi();
 
 
-	void doAiLogicStep();
+	void doAiLogicStep(long stepMiliseconds);
 
 
 	void stopAi();

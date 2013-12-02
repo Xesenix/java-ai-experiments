@@ -9,10 +9,10 @@ import experiments.artemis.components.tasks.TaskComponent;
 
 public class Idle extends TaskComponent
 {
-	private IGoal[] goals;
+	private IGoal[] goals = new IGoal[0];
 
 
-	public IGoal[] IGoal()
+	public IGoal[] getGoals()
 	{
 		return goals;
 	}

@@ -8,8 +8,8 @@ public class PositionDebugSprite extends Pane
 {
 	public PositionDebugSprite()
 	{
-		final Circle circle = new Circle(0, 0, 15, Color.WHITE);
-		circle.setStroke(Color.web("#000"));
+		final Circle circle = new Circle(0, 0, 15, Color.color(0, 1f, 0, 0.3f));
+		//circle.setStroke(Color.web("#000"));
 		circle.setStrokeWidth(2f);
 		
 		getChildren().add(circle);
