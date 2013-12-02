@@ -25,10 +25,9 @@ import experiments.artemis.components.behaviours.BehaviorComponent;
 import experiments.artemis.components.behaviours.Idle;
 import experiments.artemis.components.tasks.MoveTo;
 import experiments.artemis.components.tasks.TaskComponent;
-import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.DebugEntitySystem;
 import experiments.artemis.systems.NavigationSystem;
-import experiments.artemis.systems.TaskSystem;
+import experiments.artemis.systems.BehaviourSystem;
 
 
 public class ArtemisExperiment implements IExperimentManager
@@ -59,8 +58,8 @@ public class ArtemisExperiment implements IExperimentManager
 		world = new World();
 
 		world.setSystem(new NavigationSystem((IMetric) metric), true);
-		world.setSystem(new BehaviourSystem());
-		world.setSystem(new TaskSystem(new StrategyPlanner()));
+		//world.setSystem(new BehaviourSystem());
+		world.setSystem(new BehaviourSystem(new StrategyPlanner()));
 		world.setSystem(new DebugEntitySystem(view));
 
 		world.initialize();
