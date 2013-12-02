@@ -1,5 +1,5 @@
 
-package experiments.artemis.componentsbehaviours;
+package experiments.artemis.components.behaviours;
 
 import com.artemis.Component;
 import com.artemis.Entity;

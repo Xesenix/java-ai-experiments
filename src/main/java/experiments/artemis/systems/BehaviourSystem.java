@@ -9,10 +9,12 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.vividsolutions.jts.geomgraph.Position;
 
 import experiments.artemis.ai.behaviours.ITask;
+import experiments.artemis.components.PositionComponent;
+import experiments.artemis.components.behaviours.BehaviorComponent;
 import experiments.artemis.components.tasks.TaskComponent;
-import experiments.artemis.componentsbehaviours.BehaviorComponent;
 
 
 public class BehaviourSystem extends EntityProcessingSystem
@@ -36,7 +38,7 @@ public class BehaviourSystem extends EntityProcessingSystem
 
 	protected void process(Entity e)
 	{
-		log.debug("processing entity {}", e);
+		log.debug("processing entity {} {}", e, e.getComponent(PositionComponent.class));
 
 		BehaviorComponent behavior = bm.get(e); // get behavior for entity
 

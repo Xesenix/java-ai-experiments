@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ai.actors.IActor;
-import ai.world.navigation.IPosition;
+import ai.world.IPosition;
 
 
 @XmlRootElement

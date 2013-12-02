@@ -13,13 +13,16 @@ import experiments.IExperimentManager;
 import experiments.IExperimentView;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.behaviours.TaskSelector;
+import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.PositionGoal;
+import experiments.artemis.components.behaviours.BehaviorComponent;
+import experiments.artemis.components.behaviours.Idle;
 import experiments.artemis.components.tasks.MoveTo;
 import experiments.artemis.components.tasks.TaskComponent;
-import experiments.artemis.componentsbehaviours.BehaviorComponent;
-import experiments.artemis.componentsbehaviours.Idle;
 import experiments.artemis.systems.BehaviourSystem;
+import experiments.artemis.systems.DebugEntityPositionSystem;
+import experiments.artemis.systems.NavigationSystem;
 import experiments.artemis.systems.TaskSystem;
 
 
@@ -42,22 +45,22 @@ public class ArtemisExperiment implements IExperimentManager
 	private World world;
 
 
-	private BehaviourSystem behaviourSystem;
-
-
 	public void initialize()
 	{
 		world = new World();
 
+		world.setSystem(new NavigationSystem());
 		world.setSystem(new BehaviourSystem());
 		world.setSystem(new TaskSystem(new StrategyPlanner()));
+		world.setSystem(new DebugEntityPositionSystem(view));
 
 		world.initialize();
 
 		Entity e = world.createEntity();
 
+		Position[] positions = new Position[] { new Position(100, 50), new Position(100, 200), new Position(300, 500)};
 		TaskComponent[] tasks = new TaskComponent[] { new MoveTo(), new MoveTo(), new Idle() };
-		PositionGoal[] goals = new PositionGoal[] { new PositionGoal(10, 20), new PositionGoal(30, 50), };
+		PositionGoal[] goals = new PositionGoal[] { new PositionGoal(positions[1]), new PositionGoal(positions[2]), };
 
 		int j = -1;
 
@@ -80,7 +83,7 @@ public class ArtemisExperiment implements IExperimentManager
 		TaskSelector selector = new TaskSelector();
 		selector.setBehaviours(tasks[0], tasks[1], tasks[2]);
 
-		e.addComponent(new PositionComponent(0, 0));
+		e.addComponent(new PositionComponent(positions[0]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addToWorld();
 	}

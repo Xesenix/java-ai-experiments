@@ -8,13 +8,13 @@ import ai.AI;
 import ai.actions.MoveTo;
 import ai.actors.NPC;
 import ai.behaviour.Scene;
+import ai.world.IPosition;
 import ai.world.IWorld;
 import ai.world.IWorldDescriptor;
 import ai.world.World;
 import ai.world.World.WorldDescriptor;
-import ai.world.navigation.IPosition;
-import ai.world.navigation.PositionXY;
 import ai.world.navigation.Target;
+import ai.world2d.Position;
 
 import com.google.inject.AbstractModule;
 
@@ -34,7 +34,7 @@ public class BaseModule extends AbstractModule
 		bind(AI.class);
 		bind(IWorld.class).to(World.class);
 		bind(IWorldDescriptor.class).to(WorldDescriptor.class);
-		bind(IPosition.class).to(PositionXY.class);
+		bind(IPosition.class).to(Position.class);
 
 		try
 		{
@@ -43,7 +43,7 @@ public class BaseModule extends AbstractModule
 				World.WorldDescriptor.class,
 				World.WorldObjectDescriptor.class,
 				Target.class,
-				PositionXY.class,
+				Position.class,
 				NPC.class,
 				Scene.class));
 		}

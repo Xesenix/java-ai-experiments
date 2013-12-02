@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import xml.IReferenceable;
-import ai.world.navigation.IPosition;
+import ai.world.IPosition;
 
 
 @XmlRootElement

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
@@ -15,6 +16,8 @@ import pl.xesenix.javafx.animation.FixedStepAnimationTimer;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import experiments.ui.PositionDebugSprite;
 
 
 @Singleton
@@ -62,6 +65,9 @@ public class UIController implements IExperimentView
 
 	@FXML
 	private TextArea worldXmlSource;
+
+
+	private Group debugPointLayer;
 
 
 	@FXML
@@ -146,6 +152,10 @@ public class UIController implements IExperimentView
 		assert worldJsonSource != null : "fx:id=\"worldJsonSource\" was not injected: check your FXML file 'app.fxml'.";
 		assert worldXmlSource != null : "fx:id=\"worldXmlSource\" was not injected: check your FXML file 'app.fxml'.";
 
+		debugPointLayer = new Group();
+		
+		viewport.addNodeToCanvas(debugPointLayer);
+		
 		experiment.initialize();
 
 		AnimationTimer animator = new FixedStepAnimationTimer(10) {
@@ -163,5 +173,15 @@ public class UIController implements IExperimentView
 		};
 
 		animator.start();
+	}
+
+
+	public PositionDebugSprite createPositionDebugSprite()
+	{
+		PositionDebugSprite sprite = new PositionDebugSprite();
+		
+		debugPointLayer.getChildren().add(sprite);
+		
+		return sprite;
 	}
 }

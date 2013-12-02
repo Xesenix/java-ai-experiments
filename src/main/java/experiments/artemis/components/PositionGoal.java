@@ -1,21 +1,38 @@
 
 package experiments.artemis.components;
 
-import ai.behaviour.IGoal;
+import com.artemis.Entity;
+import com.artemis.World;
+
+import ai.world.IPosition;
+import experiments.artemis.ai.behaviours.IPositionGoal;
+import experiments.artemis.systems.NavigationSystem;
 
 
-public class PositionGoal extends PositionComponent implements IGoal
+public class PositionGoal extends PositionComponent implements IPositionGoal
 {
-	public PositionGoal(double x, double y)
+	public PositionGoal(IPosition position)
 	{
-		super(x, y);
+		super(position);
 	}
 
 
 	public boolean achived()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+
+	public IPosition getTarget()
+	{
+		return getPosition();
+	}
+
+
+	public boolean achived(World world, Entity e)
+	{
+		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
+		
+		return navigation.nearPoint(getTarget(), e);
+	}
 }

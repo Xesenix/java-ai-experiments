@@ -3,13 +3,12 @@ package experiments.artemis.components.tasks;
 
 import java.util.Collection;
 
-import ai.behaviour.IGoal;
-import experiments.artemis.components.PositionGoal;
-
+import experiments.artemis.ai.behaviours.IGoal;
+import experiments.artemis.ai.behaviours.IPositionGoal;
 
 public class MoveTo extends TaskComponent
 {
-	private IGoal[] goals = new IGoal[1];
+	private IPositionGoal[] goals = new IPositionGoal[1];
 
 
 	public IGoal[] getGoals()
@@ -22,9 +21,9 @@ public class MoveTo extends TaskComponent
 	{
 		for (IGoal goal : goals)
 		{
-			if (goal instanceof PositionGoal)
+			if (goal instanceof IPositionGoal)
 			{
-				this.setTarget((PositionGoal) goals);
+				this.setTarget((IPositionGoal) goals);
 
 				return;
 			}
@@ -32,7 +31,7 @@ public class MoveTo extends TaskComponent
 	}
 
 
-	public void setTarget(PositionGoal target)
+	public void setTarget(IPositionGoal target)
 	{
 		this.goals[0] = target;
 	}

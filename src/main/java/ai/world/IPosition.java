@@ -1,5 +1,5 @@
 
-package ai.world.navigation;
+package ai.world;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 

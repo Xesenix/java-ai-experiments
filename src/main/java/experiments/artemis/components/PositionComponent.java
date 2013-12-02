@@ -1,49 +1,30 @@
 
 package experiments.artemis.components;
 
+import ai.world.IPosition;
+
 import com.artemis.Component;
 
 
 public class PositionComponent extends Component
 {
-	private double x;
+	private IPosition position;
 
 
-	private double y;
-
-
-	public PositionComponent()
+	public PositionComponent(IPosition position)
 	{
+		this.setPosition(position);
 	}
 
 
-	public PositionComponent(double x, double y)
+	public IPosition getPosition()
 	{
-		this.setX(x);
-		this.setY(y);
+		return position;
 	}
 
 
-	public double getX()
+	public void setPosition(IPosition position)
 	{
-		return x;
-	}
-
-
-	public void setX(double x)
-	{
-		this.x = x;
-	}
-
-
-	public double getY()
-	{
-		return y;
-	}
-
-
-	public void setY(double y)
-	{
-		this.y = y;
+		this.position = position;
 	}
 }

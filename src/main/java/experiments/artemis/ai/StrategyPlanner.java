@@ -1,12 +1,11 @@
 
 package experiments.artemis.ai;
 
-import ai.behaviour.IGoal;
-
 import com.artemis.Entity;
 
+import experiments.artemis.ai.behaviours.IGoal;
+import experiments.artemis.ai.strategy.IStrategy;
 import experiments.artemis.ai.strategy.Translate;
-import experiments.artemis.components.IStrategy;
 import experiments.artemis.components.PositionGoal;
 
 

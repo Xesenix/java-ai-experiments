@@ -22,8 +22,8 @@ import ai.actors.NPC;
 import ai.behaviour.IBehaviour;
 import ai.world.IWorld;
 import ai.world.World;
-import ai.world.navigation.PositionXY;
 import ai.world.navigation.Target;
+import ai.world2d.Position;
 
 import com.badlogic.gdx.utils.Json;
 import com.google.inject.Inject;
@@ -78,10 +78,10 @@ public class BaseExperiment implements IExperimentManager
 		MoveTo move;
 
 		move = world.createMoveAction();
-		move.setTarget(new PositionXY(2f, 3f));
+		move.setTarget(new Position(2f, 3f));
 
 		move = world.createMoveAction();
-		move.setTarget(new PositionXY(5f, 3f));
+		move.setTarget(new Position(5f, 3f));
 
 		world.createMoveAction();
 
@@ -95,7 +95,7 @@ public class BaseExperiment implements IExperimentManager
 		npcC.setName("Ceron");
 
 		Target targetA = world.createTarget("strategyATarget");
-		targetA.setPosition(new PositionXY(3f, 3f));
+		targetA.setPosition(new Position(3f, 3f));
 
 		Target targetB = world.createTarget("strategyBTarget");
 

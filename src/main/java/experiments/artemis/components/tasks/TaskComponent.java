@@ -3,21 +3,17 @@ package experiments.artemis.components.tasks;
 
 import java.util.Collection;
 
-import ai.behaviour.IGoal;
-
 import com.artemis.Entity;
 import com.artemis.World;
 
+import experiments.artemis.ai.behaviours.IGoal;
 import experiments.artemis.ai.behaviours.ITask;
-import experiments.artemis.componentsbehaviours.BehaviorComponent;
+import experiments.artemis.components.behaviours.BehaviorComponent;
 
 
 public class TaskComponent extends BehaviorComponent implements ITask
 {
 	private ITask task;
-
-
-	private IGoal currentGoal;
 
 
 	public TaskComponent()
@@ -54,18 +50,6 @@ public class TaskComponent extends BehaviorComponent implements ITask
 	public final ITask chooseTask(World world, Entity e)
 	{
 		return this;
-	}
-
-
-	public void setCurrentGoal(IGoal goal)
-	{
-		this.currentGoal = goal;
-	}
-
-
-	public IGoal getCurrentGoal()
-	{
-		return currentGoal;
 	}
 
 

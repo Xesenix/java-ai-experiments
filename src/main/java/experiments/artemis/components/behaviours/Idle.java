@@ -1,9 +1,9 @@
 
-package experiments.artemis.componentsbehaviours;
+package experiments.artemis.components.behaviours;
 
 import java.util.Collection;
 
-import ai.behaviour.IGoal;
+import experiments.artemis.ai.behaviours.IGoal;
 import experiments.artemis.components.tasks.TaskComponent;
 
 

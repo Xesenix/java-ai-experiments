@@ -1,15 +1,17 @@
 
-package ai.world.navigation;
+package ai.world2d;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ai.world.IPosition;
+
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PositionXY implements IPosition
+public class Position implements IPosition
 {
 	@XmlAttribute
 	private double x;
@@ -19,12 +21,18 @@ public class PositionXY implements IPosition
 	private double y;
 
 
-	public PositionXY()
+	public Position()
 	{
 	}
 
 
-	public PositionXY(double x, double y)
+	public Position(double x, double y)
+	{
+		set(x, y);
+	}
+	
+	
+	public void set(double x, double y)
 	{
 		this.x = x;
 		this.y = y;

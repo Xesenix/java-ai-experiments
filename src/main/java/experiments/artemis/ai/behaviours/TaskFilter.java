@@ -5,7 +5,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 
 import conditions.ICondition;
-import experiments.artemis.componentsbehaviours.BehaviorComponent;
+import experiments.artemis.components.behaviours.BehaviorComponent;
 
 
 public class TaskFilter extends BehaviorComponent implements ICondition

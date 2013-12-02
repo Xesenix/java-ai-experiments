@@ -3,8 +3,6 @@ package experiments.artemis.ai.behaviours;
 
 import java.util.Collection;
 
-import ai.behaviour.IGoal;
-
 
 /**
  * Task its leaf node in behavior tree. Task has goals to achieve.

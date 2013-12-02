@@ -4,18 +4,19 @@ package experiments.artemis.systems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ai.behaviour.IGoal;
-
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.utils.Bag;
 
 import experiments.artemis.ai.StrategyPlanner;
-import experiments.artemis.components.IStrategy;
-import experiments.artemis.components.strategies.StrategyComponent;
+import experiments.artemis.ai.behaviours.IGoal;
+import experiments.artemis.ai.strategy.IStrategy;
+
 import experiments.artemis.components.tasks.TaskComponent;
+import experiments.ui.PositionDebugSprite;
 
 
 public class TaskSystem extends EntityProcessingSystem
@@ -25,10 +26,12 @@ public class TaskSystem extends EntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<TaskComponent> tm;
-
-
-	@Mapper
-	ComponentMapper<StrategyComponent> sm;
+	
+	
+	private Bag<IGoal> goalsByEntity = new Bag<IGoal>();
+	
+	
+	private Bag<IStrategy> strategiesByEntity = new Bag<IStrategy>();
 
 
 	private StrategyPlanner planner;
@@ -37,6 +40,7 @@ public class TaskSystem extends EntityProcessingSystem
 	public TaskSystem(StrategyPlanner planner)
 	{
 		super(Aspect.getAspectForOne(TaskComponent.class));
+		
 		this.planner = planner;
 	}
 
@@ -45,75 +49,85 @@ public class TaskSystem extends EntityProcessingSystem
 	{
 		log.debug("processing entity {}", e);
 
-		StrategyComponent chosenStrategy = sm.get(e);
+		IStrategy chosenStrategy = strategiesByEntity.get(e.getId());
 		TaskComponent task = tm.get(e); // get entity task
-
+		
 		log.debug("task {}", task);
 		log.debug("current strategy {}", chosenStrategy);
 
 		if (chosenStrategy == null && planner != null)
 		{
-			IGoal[] goals = task.getGoals();
-			IGoal goal = null;
-			IStrategy strategy = null;
-
-			log.debug("goals {}", goals);
-
-			for (int i = 0; i < goals.length; i++)
+			// choosing strategy
+			
+			IGoal goal = goalsByEntity.get(e.getId());
+			
+			if (goal == null || goal.achived(world, e))
 			{
-				goal = goals[i];
-
-				if (!goal.achived())
+				// choosing goal
+				
+				IGoal[] goals = task.getGoals();
+				
+				log.debug("goals {}", goals);
+				
+				IStrategy strategy = null;
+				
+				for (int i = 0; i < goals.length; i++)
 				{
-					// find strategy to achieve goal
-					IStrategy[] strategies = planner.findStrategies(goal, e);
-
-					for (int j = 0; j < strategies.length; j++)
+					goal = goals[i];
+	
+					if (!goal.achived(world, e))
 					{
-						strategy = strategies[j];
-						log.debug("checking strategy {}", strategy);
-						if (strategy.canPerform(world, e, goal))
+						// find strategy to achieve goal
+						
+						IStrategy[] strategies = planner.findStrategies(goal, e);
+	
+						for (int j = 0; j < strategies.length; j++)
 						{
-							chosenStrategy = new StrategyComponent(strategy);
-							break;
-						}
-						else
-						{
-							log.debug("can`t perform strategy {}", strategy);
+							strategy = strategies[j];
+							
+							log.debug("checking strategy {}", strategy);
+							
+							if (strategy.canPerform(world, e, goal))
+							{
+								chosenStrategy = strategy;
+								break;
+							}
 						}
 					}
-				}
-
-				if (chosenStrategy != null)
-				{
-					break;
+	
+					if (chosenStrategy != null)
+					{
+						strategiesByEntity.set(e.getId(), chosenStrategy);
+						break;
+					}
 				}
 			}
-
-			if (goal != null)
-			{
-				task.setCurrentGoal(goal);
-			}
+			
+			goalsByEntity.set(e.getId(), goal);
 		}
 
 		log.debug("new strategy {}", chosenStrategy);
 
 		if (chosenStrategy != null)
 		{
-			if (chosenStrategy.canPerform(world, e, task.getCurrentGoal()))
+			// check is strategy can be performed
+			
+			IGoal goal = goalsByEntity.get(e.getId());
+			
+			if (chosenStrategy.canPerform(world, e, goal))
 			{
-				boolean finished = chosenStrategy.perform(world, e, task.getCurrentGoal());
+				// performing strategy
+				
+				boolean finished = chosenStrategy.perform(world, e, goal);
 
 				log.debug("strategy performed {}", finished);
+				
+				e.changedInWorld();
 
 				if (finished)
 				{
-					e.removeComponent(chosenStrategy);
+					strategiesByEntity.remove(e.getId());
 					chosenStrategy = null;
-				}
-				else if (!sm.has(e))
-				{
-					e.addComponent(chosenStrategy);
 				}
 			}
 			else
@@ -121,13 +135,15 @@ public class TaskSystem extends EntityProcessingSystem
 				chosenStrategy = null;
 			}
 		}
+		
+		// 
+		strategiesByEntity.set(e.getId(), chosenStrategy);
 
 		if (chosenStrategy == null)
 		{
 			e.removeComponent(task);
+			e.changedInWorld();
 		}
-
-		e.changedInWorld();
 	}
 
 }
