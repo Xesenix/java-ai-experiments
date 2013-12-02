@@ -40,9 +40,15 @@ public class Decorator implements IBehavior
 	}
 
 
-	public boolean isRunning()
+	public boolean isRunning(World world, Entity e)
 	{
-		return task.isRunning();
+		return task.isRunning(world, e);
+	}
+
+
+	public void reset(World world, Entity e)
+	{
+		task.reset(world, e);
 	}
 
 

@@ -9,7 +9,9 @@ public interface IBehavior
 {
 	ITask chooseTask(World world, Entity e);
 
-	void setCompleted(World world, Entity e, boolean completed);
 
-	boolean isRunning();
+	boolean isRunning(World world, Entity e);
+	
+	
+	void reset(World world, Entity e);
 }

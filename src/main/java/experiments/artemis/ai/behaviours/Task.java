@@ -12,9 +12,6 @@ import experiments.artemis.components.BehaviorComponent;
 
 public class Task implements ITask
 {
-	private boolean completed;
-	
-	
 	private Bag<Boolean> taskCompletedByEntity = new Bag<Boolean>();
 
 
@@ -61,12 +58,6 @@ public class Task implements ITask
 	}
 
 
-	public String toString()
-	{
-		return String.format("[%s@%x]", getClass().getSimpleName(), hashCode());
-	}
-
-
 	public boolean isCompleted(World world, Entity e)
 	{
 		Boolean result = taskCompletedByEntity.get(e.getId());
@@ -86,8 +77,20 @@ public class Task implements ITask
 	}
 
 
-	public boolean isRunning()
+	public boolean isRunning(World world, Entity e)
 	{
-		return false;
+		return !isCompleted(world, e);
+	}
+
+
+	public void reset(World world, Entity e)
+	{
+		setCompleted(world, e, false);
+	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x]", getClass().getSimpleName(), hashCode());
 	}
 }

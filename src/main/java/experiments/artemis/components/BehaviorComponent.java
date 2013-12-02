@@ -37,20 +37,20 @@ public class BehaviorComponent extends Component implements IBehavior
 	}
 
 
+	public boolean isRunning(World world, Entity e)
+	{
+		return this.root.isRunning(world, e);
+	}
+
+
+	public void reset(World world, Entity e)
+	{
+		this.root.reset(world, e);
+	}
+
+
 	public String toString()
 	{
 		return String.format("[%s@%x, {behavior: %s}]", getClass().getSimpleName(), hashCode(), root);
-	}
-
-
-	public void setCompleted(World world, Entity e, boolean completed)
-	{
-		this.root.setCompleted(world, e, completed);
-	}
-
-
-	public boolean isRunning()
-	{
-		return this.root.isRunning();
 	}
 }

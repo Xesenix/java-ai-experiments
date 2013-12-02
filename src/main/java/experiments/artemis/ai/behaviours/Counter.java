@@ -20,6 +20,20 @@ public class Counter extends Filter
 		
 		this.count = count;
 	}
+	
+	
+	public ITask chooseTask(World world, Entity e)
+	{
+		ITask task =  super.chooseTask(world, e);
+		
+		if (task != null && task.isCompleted(world, e))
+		{
+			int countForEntity = getCountFor(e);
+			counters.set(e.getId(), -- countForEntity);
+		}
+		
+		return task;
+	}
 
 
 	public boolean isTrue(World world, Entity e)

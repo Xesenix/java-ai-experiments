@@ -61,8 +61,9 @@ public class BehaviourSystem extends EntityProcessingSystem
 		
 		ITask task = taskByEntity.get(e.getId());
 		
-		if (task == null)
+		//if (task == null)
 		{
+			behavior.reset(world, e);
 			task = behavior.chooseTask(world, e);
 			
 			log.debug("entity new task {}", task);
@@ -103,6 +104,8 @@ public class BehaviourSystem extends EntityProcessingSystem
 		runningStrategy = strategyByEntity.get(e.getId());
 
 		log.debug("chosen strategy: {}", runningStrategy);
+		
+		boolean finished = false;
 
 		if (runningStrategy != null)
 		{
@@ -115,7 +118,7 @@ public class BehaviourSystem extends EntityProcessingSystem
 				// performing strategy
 				log.info("performing chosen strategy");
 				
-				boolean finished = runningStrategy.perform(world, e, goal);
+				finished = runningStrategy.perform(world, e, goal);
 
 				log.debug("strategy finished: {}", finished);
 				
@@ -139,6 +142,10 @@ public class BehaviourSystem extends EntityProcessingSystem
 					strategyByEntity.remove(e.getId());
 					runningStrategy = null;
 				}
+				else
+				{
+					task.setCompleted(world, e, false);
+				}
 			}
 			else
 			{
@@ -147,7 +154,7 @@ public class BehaviourSystem extends EntityProcessingSystem
 			}
 		}
 		
-		if (task.finished(world, e))
+		if (finished && task.finished(world, e))
 		{
 			log.info("task completed");
 			task.setCompleted(world, e, true);

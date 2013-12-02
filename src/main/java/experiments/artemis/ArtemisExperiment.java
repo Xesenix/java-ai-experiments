@@ -89,7 +89,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		Entity e = world.createEntity();
 		TaskSelector selector = new TaskSelector();
-		selector.setBehaviours(new Counter(tasks[0], 4), tasks[1], tasks[2]);
+		selector.setBehaviours(new Counter(tasks[0], 2), tasks[1], tasks[2]);
 		
 		e.addComponent(new PositionComponent(positions[0]));
 		e.addComponent(new BehaviorComponent(selector));
