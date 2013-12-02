@@ -49,7 +49,7 @@ public class NavigationSystem extends VoidEntitySystem
 	}
 
 
-	public boolean nearPoint(IPosition target, Entity e)
+	public boolean nearPoint(Entity e, IPosition target)
 	{
 		PositionComponent worldPosition = pm.get(e);
 		NearDistanceComponent nearDistance = dm.get(e);
@@ -98,6 +98,8 @@ public class NavigationSystem extends VoidEntitySystem
 				if (max <= 0 || distance < max)
 				{
 					((Position) position).set(((Position) target).getX(), ((Position) target).getY());
+					
+					return true;
 				}
 				else
 				{

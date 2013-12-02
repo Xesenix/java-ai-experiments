@@ -3,6 +3,7 @@ package experiments.artemis.systems;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -50,7 +51,7 @@ public class BehaviourSystem extends EntityProcessingSystem
 
 		// decide what to do
 
-		task = decide(behavior, e);
+		task = decide(e, behavior);
 
 		log.debug("entity new task {}", task);
 
@@ -59,7 +60,7 @@ public class BehaviourSystem extends EntityProcessingSystem
 	}
 
 
-	private ITask decide(BehaviorComponent behavior, Entity e)
+	private ITask decide(Entity e, BehaviorComponent behavior)
 	{
 		return behavior.chooseTask(world, e);
 	}

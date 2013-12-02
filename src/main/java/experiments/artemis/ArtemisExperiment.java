@@ -64,7 +64,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		world.initialize();
 
-		Position[] positions = new Position[] { new Position(100, 50), new Position(100, 200), new Position(300, 500)};
+		Position[] positions = new Position[] { new Position(100, 50), new Position(100, 200), new Position(300, 500), new Position(200, 300), new Position(300, 100)};
 		TaskComponent[] tasks = new TaskComponent[] { new MoveTo(), new MoveTo(), new Idle() };
 		PositionGoal[] goals = new PositionGoal[] { new PositionGoal(positions[1]), new PositionGoal(positions[2]), };
 
@@ -92,14 +92,14 @@ public class ArtemisExperiment implements IExperimentManager
 		
 		e.addComponent(new PositionComponent(positions[0]));
 		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(10f));
+		e.addComponent(new MovementSpeedComponent(40f));
 		e.addToWorld();
 		
-		e = world.createEntity();
+		/*e = world.createEntity();
 		selector = new TaskSelector();
 		selector.setBehaviours(tasks[1], tasks[0], tasks[2]);
 
-		e.addComponent(new PositionComponent(positions[2]));
+		e.addComponent(new PositionComponent(positions[1]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(20f));
 		e.addToWorld();
@@ -108,7 +108,7 @@ public class ArtemisExperiment implements IExperimentManager
 		selector = new TaskSelector();
 		selector.setBehaviours(tasks[2], tasks[1], tasks[0]);
 
-		e.addComponent(new PositionComponent(positions[1]));
+		e.addComponent(new PositionComponent(positions[2]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(30f));
 		e.addToWorld();
@@ -117,19 +117,19 @@ public class ArtemisExperiment implements IExperimentManager
 		selector = new TaskSelector();
 		selector.setBehaviours(tasks[2], tasks[0], tasks[0]);
 
-		e.addComponent(new PositionComponent(positions[1]));
+		e.addComponent(new PositionComponent(positions[3]));
 		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(30f));
+		e.addComponent(new MovementSpeedComponent(20f));
 		e.addToWorld();
 		
 		e = world.createEntity();
 		selector = new TaskSelector();
 		selector.setBehaviours(tasks[0], tasks[2], tasks[1]);
 
-		e.addComponent(new PositionComponent(positions[2]));
+		e.addComponent(new PositionComponent(positions[4]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(30f));
-		e.addToWorld();
+		e.addToWorld();*/
 	}
 
 

@@ -33,6 +33,6 @@ public class PositionGoal extends PositionComponent implements IPositionGoal
 	{
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 		
-		return navigation.nearPoint(getTarget(), e);
+		return navigation.nearPoint(e, getTarget());
 	}
 }

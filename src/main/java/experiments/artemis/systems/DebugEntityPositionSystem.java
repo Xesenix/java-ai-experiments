@@ -41,7 +41,7 @@ public class DebugEntityPositionSystem extends EntityProcessingSystem
 
 	protected void process(Entity e)
 	{
-		log.debug("debugging: {}", e);
+		// log.debug("debugging: {}", e);
 		
 		PositionComponent position = pm.get(e);
 		
@@ -49,7 +49,7 @@ public class DebugEntityPositionSystem extends EntityProcessingSystem
 		{
 			IPosition coordinates = position.getPosition();
 			
-			log.debug("coordinates: {}", coordinates);
+			// log.debug("coordinates: {}", coordinates);
 			
 			if (coordinates instanceof Position)
 			{
