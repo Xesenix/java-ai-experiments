@@ -18,7 +18,7 @@ import com.artemis.utils.ImmutableBag;
 
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.behaviours.IPositionGoal;
-import experiments.artemis.ai.strategy.Translate;
+import experiments.artemis.ai.strategy.TranslateTo;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
@@ -72,6 +72,8 @@ public class NavigationSystem extends VoidEntitySystem
 		if (worldPosition != null)
 		{
 			IPosition position = worldPosition.getPosition();
+			
+			log.debug("entity: {} target: {}", position, target);
 
 			if (position instanceof Position && target instanceof Position)
 			{
@@ -139,16 +141,54 @@ public class NavigationSystem extends VoidEntitySystem
 	}
 
 
+	/**
+	 * 
+	 * @param e
+	 * @param target
+	 * @param max - max distance to move towards target
+	 * @return
+	 */
+	public boolean translateFrom(Entity e, IPosition target, double max)
+	{
+		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
+		
+		log.info("translateFrom entity {}", e);
+		log.info("retriving entity state..");
+		
+		PositionComponent worldPosition = pm.get(e);
+		
+		log.debug("worldPosition: {}", worldPosition);
+		
+		if (worldPosition != null)
+		{
+			IPosition position = worldPosition.getPosition();
+			
+			log.debug("coordinates: {}", position);
+
+			if (position instanceof Position && target instanceof Position)
+			{
+				double step = max;
+				
+				// TODO get world navigation space position closest to position on path between current position and target position
+				// simplified:
+				double dx = (((Position) position).getX() - ((Position) target).getX()) * max + ((Position) position).getX();
+				double dy = (((Position) position).getY() - ((Position) target).getY()) * max + ((Position) position).getY();
+				
+				((Position) position).set(dx, dy);
+			}
+		}
+		
+		return false;
+	}
+
+
 	protected boolean checkProcessing()
 	{
 		return false;
 	}
 
 
-	@Override
 	protected void processSystem()
 	{
-		// TODO Auto-generated method stub
-
 	}
 }

@@ -9,9 +9,9 @@ import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.systems.NavigationSystem;
 
 
-public class PositionGoal extends PositionComponent implements IPositionGoal
+public class NearPositionGoal extends PositionComponent implements IPositionGoal
 {
-	public PositionGoal(IPosition position)
+	public NearPositionGoal(IPosition position)
 	{
 		super(position);
 	}

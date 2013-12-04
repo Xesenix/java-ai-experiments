@@ -1,6 +1,8 @@
 
 package experiments.artemis.systems;
 
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +20,7 @@ import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.strategy.IStrategy;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
-import experiments.artemis.components.PositionGoal;
+import experiments.artemis.components.NearPositionGoal;
 
 
 public class BehaviourSystem extends EntityProcessingSystem
@@ -179,7 +181,7 @@ public class BehaviourSystem extends EntityProcessingSystem
 		IGoal[] goals = task.getGoals();
 		IGoal goal;
 		
-		log.debug("avaliable goals {}", goals);
+		log.debug("avaliable goals {}", Arrays.deepToString(goals));
 		
 		IStrategy strategy;
 		boolean strategyExists = false;
