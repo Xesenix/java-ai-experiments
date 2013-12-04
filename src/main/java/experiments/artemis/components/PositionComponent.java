@@ -27,4 +27,10 @@ public class PositionComponent extends Component
 	{
 		this.position = position;
 	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x {position: %s}]", getClass().getSimpleName(), hashCode(), position);
+	}
 }

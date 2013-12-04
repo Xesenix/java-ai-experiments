@@ -14,9 +14,6 @@ import experiments.artemis.ai.behaviours.ITask;
 public class BehaviorComponent extends Component implements IBehavior
 {
 	private IBehavior root;
-	
-	
-	private Stack<IBehavior> parents;
 
 
 	public BehaviorComponent()
@@ -32,7 +29,7 @@ public class BehaviorComponent extends Component implements IBehavior
 
 	public ITask chooseTask(World world, Entity e)
 	{
-		
+
 		return this.root.chooseTask(world, e);
 	}
 
@@ -51,6 +48,6 @@ public class BehaviorComponent extends Component implements IBehavior
 
 	public String toString()
 	{
-		return String.format("[%s@%x, {behavior: %s}]", getClass().getSimpleName(), hashCode(), root);
+		return String.format("[%s@%x {behavior: %s}]", getClass().getSimpleName(), hashCode(), root);
 	}
 }

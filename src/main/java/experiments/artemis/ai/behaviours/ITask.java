@@ -21,16 +21,24 @@ public interface ITask extends IBehavior
 
 
 	/**
-	 * All goals achived.
+	 * All goals achieved.
+	 * 
 	 * @param world
 	 * @param e
-	 * @return true if achived all goals
+	 * @return true if achieved all goals
 	 */
-	boolean finished(World world, Entity e);
+	boolean isSuccess(World world, Entity e);
 
 
 	void setCompleted(World world, Entity e, boolean completed);
 
 
+	/**
+	 * Strategy finished execution.
+	 * 
+	 * @param world
+	 * @param e
+	 * @return
+	 */
 	boolean isCompleted(World world, Entity e);
 }

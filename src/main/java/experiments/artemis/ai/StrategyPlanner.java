@@ -4,29 +4,23 @@ package experiments.artemis.ai;
 import com.artemis.Entity;
 import com.artemis.World;
 
-import experiments.artemis.ai.behaviours.IGoal;
 import experiments.artemis.ai.behaviours.ITask;
-import experiments.artemis.ai.behaviours.Task;
+import experiments.artemis.ai.behaviours.PositionTask;
 import experiments.artemis.ai.strategy.IStrategy;
-import experiments.artemis.ai.strategy.TranslateFrom;
-import experiments.artemis.ai.strategy.TranslateTo;
-import experiments.artemis.components.NearPositionGoal;
+import experiments.artemis.ai.strategy.TranslateToCenterOfMassSpeedAvare;
 
 
 public class StrategyPlanner
 {
 
-	private IStrategy[] moveToStrategies = new IStrategy[] { new TranslateTo() };
-	
-	
-	private IStrategy[] moveAwayStrategies = new IStrategy[] { new TranslateFrom() };
+	private IStrategy positionStrategy = new TranslateToCenterOfMassSpeedAvare();
 
 
-	public IStrategy[] findStrategies(World world, Entity e, IGoal goal)
+	public IStrategy bestStrategyFor(World world, Entity e, ITask task)
 	{
-		if (goal instanceof NearPositionGoal)
+		if (task instanceof PositionTask)
 		{
-			return moveToStrategies;
+			return positionStrategy;
 		}
 
 		return null;

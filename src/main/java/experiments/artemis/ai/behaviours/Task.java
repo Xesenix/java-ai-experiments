@@ -7,8 +7,6 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.utils.Bag;
 
-import experiments.artemis.components.BehaviorComponent;
-
 
 public class Task implements ITask
 {
@@ -37,7 +35,7 @@ public class Task implements ITask
 	}
 
 
-	public boolean finished(World world, Entity e)
+	public boolean isSuccess(World world, Entity e)
 	{
 		if (isCompleted(world, e))
 		{
@@ -61,12 +59,12 @@ public class Task implements ITask
 	public boolean isCompleted(World world, Entity e)
 	{
 		Boolean result = taskCompletedByEntity.get(e.getId());
-		
+
 		if (result == null)
 		{
 			return false;
 		}
-		
+
 		return result;
 	}
 

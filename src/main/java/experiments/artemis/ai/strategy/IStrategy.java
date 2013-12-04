@@ -4,13 +4,13 @@ package experiments.artemis.ai.strategy;
 import com.artemis.Entity;
 import com.artemis.World;
 
-import experiments.artemis.ai.behaviours.IGoal;
+import experiments.artemis.ai.behaviours.ITask;
 
 
 public interface IStrategy
 {
-	boolean canPerform(World world, Entity e, IGoal goal);
+	boolean canPerform(World world, Entity e, ITask task);
 
 
-	boolean perform(World world, Entity e, IGoal goal);
+	boolean perform(World world, Entity e, ITask task);
 }

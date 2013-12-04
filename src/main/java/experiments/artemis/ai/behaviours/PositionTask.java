@@ -3,6 +3,7 @@ package experiments.artemis.ai.behaviours;
 
 import java.util.Collection;
 
+
 public class PositionTask extends Task
 {
 	private IPositionGoal[] goals;
@@ -14,7 +15,7 @@ public class PositionTask extends Task
 	}
 
 
-	public IGoal[] getGoals()
+	public IPositionGoal[] getGoals()
 	{
 		return goals;
 	}
@@ -22,38 +23,18 @@ public class PositionTask extends Task
 
 	public void setGoals(Collection<IGoal> goals)
 	{
-		setGoals(goals.toArray(new IGoal[goals.size()]));
+		setGoals(goals.toArray(new IPositionGoal[goals.size()]));
 	}
 
 
-	public void setGoals(IGoal... goals)
+	public void setGoals(IPositionGoal... goals)
 	{
-		int size = 0;
-		
-		for (IGoal goal : goals)
-		{
-			if (goal instanceof IPositionGoal)
-			{
-				size ++;
-			}
-		}
-		
-		this.goals = new IPositionGoal[size];
-		
-		int index = 0;
-		
-		for (IGoal goal : goals)
-		{
-			if (goal instanceof IPositionGoal)
-			{
-				this.goals[index++] = (IPositionGoal) goal;
-			}
-		}
+		this.goals = goals;
 	}
-	
-	
+
+
 	public String toString()
 	{
-		return String.format("[%s@%x, {goal: %s}]", getClass().getSimpleName(), hashCode(), this.goals);
+		return String.format("[%s@%x {targets: %s}]", getClass().getSimpleName(), hashCode(), this.goals);
 	}
 }

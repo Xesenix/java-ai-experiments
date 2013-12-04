@@ -1,6 +1,5 @@
+
 package ai.world;
-
-
 
 public interface IMetric
 {

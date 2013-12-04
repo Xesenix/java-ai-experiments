@@ -11,22 +11,29 @@ import com.artemis.utils.Bag;
 public class TaskSelector implements IBehavior
 {
 	private IBehavior behaviors[];
-	
-	
+
+
 	private transient Bag<Integer> indexForEntity = new Bag<Integer>();
+	
+	
+	public TaskSelector(IBehavior... behaviors)
+	{
+		setBehaviors(behaviors);
+	}
 
 
 	public ITask chooseTask(World world, Entity e)
 	{
 		ITask task;
-		
+
 		for (int i = getIndexForEntity(world, e); i < behaviors.length; i++)
 		{
 			task = behaviors[i].chooseTask(world, e);
-			
+
 			if (task != null && !task.isCompleted(world, e))
 			{
 				indexForEntity.set(e.getId(), i);
+				
 				return task;
 			}
 		}
@@ -44,7 +51,7 @@ public class TaskSelector implements IBehavior
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -54,25 +61,25 @@ public class TaskSelector implements IBehavior
 		if (!isRunning(world, e))
 		{
 			indexForEntity.set(e.getId(), 0);
-			
+
 			for (int i = 0; i < behaviors.length; i++)
 			{
 				behaviors[i].reset(world, e);
 			}
 		}
 	}
-	
-	
+
+
 	private int getIndexForEntity(World world, Entity e)
 	{
 		Integer index = indexForEntity.get(e.getId());
-		
+
 		if (index == null)
 		{
 			index = 0;
 			indexForEntity.set(e.getId(), index);
 		}
-		
+
 		return index;
 	}
 
@@ -83,13 +90,13 @@ public class TaskSelector implements IBehavior
 	}
 
 
-	public void setBehaviours(IBehavior... behaviours)
+	public void setBehaviors(IBehavior... behaviours)
 	{
 		this.behaviors = behaviours;
 	}
 
 
-	public void setBehaviours(List<IBehavior> behavioursList)
+	public void setBehaviors(List<IBehavior> behavioursList)
 	{
 		this.behaviors = behavioursList.toArray(new IBehavior[0]);
 	}

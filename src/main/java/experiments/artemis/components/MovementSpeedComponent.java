@@ -7,8 +7,8 @@ import com.artemis.Component;
 public class MovementSpeedComponent extends Component
 {
 	private double speed = 0;
-	
-	
+
+
 	public MovementSpeedComponent(double speed)
 	{
 		this.speed = speed;

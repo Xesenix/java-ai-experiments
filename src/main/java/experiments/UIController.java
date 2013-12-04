@@ -21,7 +21,6 @@ import com.google.inject.Singleton;
 
 import experiments.ui.DebugSpriteMediator;
 import experiments.ui.IDebugSprite;
-import experiments.ui.PositionDebugSprite;
 
 
 @Singleton
@@ -29,8 +28,8 @@ public class UIController implements IExperimentView
 {
 	@Inject
 	Injector inject;
-	
-	
+
+
 	@Inject
 	IExperimentManager experiment;
 
@@ -161,9 +160,9 @@ public class UIController implements IExperimentView
 		assert worldXmlSource != null : "fx:id=\"worldXmlSource\" was not injected: check your FXML file 'app.fxml'.";
 
 		debugPointLayer = new Group();
-		
+
 		viewport.addNodeToCanvas(debugPointLayer);
-		
+
 		experiment.initialize();
 
 		AnimationTimer animator = new FixedStepAnimationTimer(10) {
@@ -187,12 +186,12 @@ public class UIController implements IExperimentView
 	public DebugSpriteMediator createPositionDebugSprite()
 	{
 		IDebugSprite sprite = inject.getInstance(IDebugSprite.class);
-		
+
 		debugPointLayer.getChildren().add((Node) sprite);
-		
+
 		DebugSpriteMediator mediator = inject.getInstance(DebugSpriteMediator.class);
 		mediator.setView(sprite);
-		
+
 		return mediator;
 	}
 }

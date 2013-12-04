@@ -1,10 +1,11 @@
 
 package experiments.artemis.components;
 
+import ai.world.IPosition;
+
 import com.artemis.Entity;
 import com.artemis.World;
 
-import ai.world.IPosition;
 import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.systems.NavigationSystem;
 
@@ -17,7 +18,7 @@ public class NearPositionGoal extends PositionComponent implements IPositionGoal
 	}
 
 
-	public IPosition getTarget()
+	public IPosition getTarget(World world, Entity e)
 	{
 		return getPosition();
 	}
@@ -26,7 +27,7 @@ public class NearPositionGoal extends PositionComponent implements IPositionGoal
 	public boolean achived(World world, Entity e)
 	{
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
-		
-		return navigation.nearPoint(e, getTarget());
+
+		return navigation.nearPoint(e, getTarget(world, e));
 	}
 }

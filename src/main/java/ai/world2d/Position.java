@@ -30,8 +30,8 @@ public class Position implements IPosition
 	{
 		set(x, y);
 	}
-	
-	
+
+
 	public void set(double x, double y)
 	{
 		this.x = x;

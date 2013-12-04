@@ -8,8 +8,8 @@ import com.artemis.World;
 public class Decorator implements IBehavior
 {
 	private ITask task;
-	
-	
+
+
 	public Decorator(ITask task)
 	{
 		this.task = task;

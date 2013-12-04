@@ -11,7 +11,7 @@ public interface IBehavior
 
 
 	boolean isRunning(World world, Entity e);
-	
-	
+
+
 	void reset(World world, Entity e);
 }
