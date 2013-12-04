@@ -16,6 +16,7 @@ import experiments.IExperimentView;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.behaviours.Counter;
 import experiments.artemis.ai.behaviours.IPositionGoal;
+import experiments.artemis.ai.behaviours.NearPositionGoal;
 import experiments.artemis.ai.behaviours.PositionTask;
 import experiments.artemis.ai.behaviours.Task;
 import experiments.artemis.ai.behaviours.TaskSelector;
@@ -23,12 +24,13 @@ import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
+import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
-import experiments.artemis.components.NearPositionGoal;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.DebugEntitySystem;
+import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
 
 
@@ -58,9 +60,10 @@ public class ArtemisExperiment implements IExperimentManager
 	public void initialize()
 	{
 		world = new World();
-
-		world.setSystem(new NavigationSystem((IMetric) metric), true);
+		
 		world.setSystem(new BehaviourSystem(new StrategyPlanner()));
+		world.setSystem(new NavigationSystem((IMetric) metric));
+		world.setSystem(new MovementSystem());
 		world.setSystem(new DebugEntitySystem(view));
 
 		world.initialize();
@@ -82,11 +85,11 @@ public class ArtemisExperiment implements IExperimentManager
 		};
 
 		IPositionGoal[] goals = new NearPositionGoal[] {
-			new NearPositionGoal(targtPositions[0]),
-			new NearPositionGoal(targtPositions[1]),
-			new NearPositionGoal(targtPositions[2]),
-			new NearPositionGoal(targtPositions[3]),
-			new NearPositionGoal(targtPositions[4]),
+			new NearPositionGoal(targtPositions[0], 20),
+			new NearPositionGoal(targtPositions[1], 30),
+			new NearPositionGoal(targtPositions[2], 40),
+			new NearPositionGoal(targtPositions[3], 50),
+			new NearPositionGoal(targtPositions[4], 60),
 		};
 
 		Task[] tasks = new Task[] {
@@ -94,7 +97,7 @@ public class ArtemisExperiment implements IExperimentManager
 			new PositionTask(goals[1]),
 			new PositionTask(goals[2]),
 			new PositionTask(goals[3]),
-			new PositionTask(goals[4]),
+			new PositionTask(goals[4], goals[2]),
 		};
 
 		// Actors
@@ -103,13 +106,15 @@ public class ArtemisExperiment implements IExperimentManager
 			new Counter(tasks[0], 2),
 			tasks[1],
 			tasks[2],
+			new Counter(tasks[3], 2),
 			new Counter(tasks[3], 2)
 		);
 
 		e.addComponent(new ConsoleDebugComponent());
 		e.addComponent(new PositionComponent(positions[0]));
 		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(200f));
+		e.addComponent(new MovementSpeedComponent(200f, 0, 200));
+		e.addComponent(new MovementDirectionComponent());
 		e.addComponent(new NearDistanceComponent(60f));
 		e.addToWorld();
 

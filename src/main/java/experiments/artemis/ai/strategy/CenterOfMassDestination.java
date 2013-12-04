@@ -8,7 +8,6 @@ import ai.world.IPosition;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.utils.Bag;
 
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.behaviours.IPositionGoal;
@@ -16,17 +15,14 @@ import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.behaviours.PositionTask;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
-import experiments.artemis.components.MovementSpeedComponent;
+import experiments.artemis.components.DesiredPositionComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.NavigationSystem;
 
 
-public class TranslateToCenterOfMassSpeedAvare implements IStrategy
+public class CenterOfMassDestination implements IStrategy
 {
-	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(TranslateToCenterOfMassSpeedAvare.class));
-	
-	
-	private Bag<Position> targetForEntity = new Bag<Position>();
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(CenterOfMassDestination.class));
 
 
 	public boolean canPerform(World world, Entity e, ITask task)
@@ -43,18 +39,10 @@ public class TranslateToCenterOfMassSpeedAvare implements IStrategy
 	{
 		log.setActive(e.getComponent(ConsoleDebugComponent.class) != null && e.getComponent(ConsoleDebugComponent.class).strategy);
 
-		ComponentMapper<MovementSpeedComponent> msm = world.getMapper(MovementSpeedComponent.class);
-
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 
 		if (task instanceof PositionTask)
 		{
-			MovementSpeedComponent movementSpeed = msm.get(e);
-
-			double speed = movementSpeed != null ? movementSpeed.getSpeed() : 0;
-
-			log.debug("speed: {}, delta: {}", speed, world.delta);
-
 			double x = 0, y = 0;
 			int n = 0;
 
@@ -72,20 +60,38 @@ public class TranslateToCenterOfMassSpeedAvare implements IStrategy
 
 			if (n > 0)
 			{
-				Position target = targetForEntity.get(e.getId());
 				
-				if (target == null)
+				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
+				DesiredPositionComponent targetComponent = dpm.get(e);
+				Position target = null;
+				
+				if (targetComponent == null)
+				{
+					log.debug("new desired position");
+					
+					target = new Position();
+					targetComponent = new DesiredPositionComponent(target);
+					e.addComponent(targetComponent);
+					e.changedInWorld();
+				}
+				
+				if (!(targetComponent.getPosition() instanceof Position))
 				{
 					target = new Position();
-					targetForEntity.set(e.getId(), target);
+					targetComponent.setPosition(target);
+				}
+				else
+				{
+					target = (Position) targetComponent.getPosition();
 				}
 				
 				target.set(x / (double) n, y / (double) n);
-
-				if (!navigation.atPoint(e, target, null))
+				
+				log.debug("target position {}", target);
+				log.debug("entity desired position {}", e.getComponent(DesiredPositionComponent.class));
+				
+				if (!navigation.atPoint(e, target, null) && !task.isSuccess(world, e))
 				{
-					navigation.translateTo(e, target, speed * world.delta);
-					
 					return false;
 				}
 			}

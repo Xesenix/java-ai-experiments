@@ -1,20 +1,30 @@
 
-package experiments.artemis.components;
+package experiments.artemis.ai.behaviours;
 
 import ai.world.IPosition;
 
 import com.artemis.Entity;
 import com.artemis.World;
 
-import experiments.artemis.ai.behaviours.IPositionGoal;
+import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.NavigationSystem;
 
 
 public class NearPositionGoal extends PositionComponent implements IPositionGoal
 {
+	private double distance;
+
+
 	public NearPositionGoal(IPosition position)
 	{
+		this(position, 0);
+	}
+
+
+	public NearPositionGoal(IPosition position, double distance)
+	{
 		super(position);
+		this.distance = distance;
 	}
 
 
@@ -28,6 +38,6 @@ public class NearPositionGoal extends PositionComponent implements IPositionGoal
 	{
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 
-		return navigation.nearPoint(e, getTarget(world, e));
+		return navigation.atPoint(e, getTarget(world, e), distance);
 	}
 }

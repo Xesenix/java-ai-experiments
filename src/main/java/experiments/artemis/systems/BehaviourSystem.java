@@ -63,90 +63,81 @@ public class BehaviourSystem extends EntityProcessingSystem
 
 		// decide what to do
 
-		ITask task = taskByEntity.get(e.getId());
+		ITask previousTask = taskByEntity.get(e.getId());
+		
+		log.debug("previous task {}", previousTask);
 
-		// if (task == null)
-		{
-			behavior.reset(world, e);
-			task = behavior.chooseTask(world, e);
+		behavior.reset(world, e);
+		ITask task = behavior.chooseTask(world, e);
 
-			log.debug("entity new task {}", task);
-		}
+		log.debug("entity new task {}", task);
 
 		if (task == null)
 		{
 			return;
 		}
-
-		IStrategy runningStrategy = strategyByEntity.get(e.getId());
-
-		log.debug("current task {}", task);
-		log.debug("current running strategy {}", runningStrategy);
-
-		// TODO break strategy if is not valid for current task
-
-		do
+		
+		IStrategy runningStrategy;
+		
+		if (task != previousTask)
 		{
-			// check if there is already an strategy running
+			log.info("choosing new strategy");
+			
+			runningStrategy = strategyPlanner.bestStrategyFor(world, e, task);
+		}
+		else
+		{
+			log.info("continuing old strategy");
+			
 			runningStrategy = strategyByEntity.get(e.getId());
+		}
+		
+		log.debug("current running strategy {}", runningStrategy);
+		
+		if (runningStrategy != null)
+		{
+			finished = false;
 
-			if (runningStrategy != null)
+			// check is strategy can be performed
+
+			if (runningStrategy.canPerform(world, e, task))
 			{
-				// if so continue execution
-				log.debug("running strategy: {}", runningStrategy);
+				// performing strategy
+				log.info("performing chosen strategy");
 
-				finished = false;
+				finished = runningStrategy.perform(world, e, task);
 
-				// check is strategy can be performed
+				log.debug("strategy finished: {}", finished);
 
-				if (runningStrategy.canPerform(world, e, task))
+				if (finished)
 				{
-					// performing strategy
-					log.info("performing chosen strategy");
+					log.info("finished performing chosen strategy");
 
-					finished = runningStrategy.perform(world, e, task);
-
-					log.debug("strategy finished: {}", finished);
-
-					if (finished)
+					if (task.isSuccess(world, e))
 					{
-						log.info("finished performing chosen strategy");
-
-						if (task.isSuccess(world, e))
-						{
-							log.info("goal achived");
-							// TODO strategy successful modify priority so it would be used more often
-						}
-						else
-						{
-							log.info("goal not achived");
-							// TODO strategy unsuccessful modify priority so it would be used less frequent
-						}
-
-						strategyByEntity.remove(e.getId());
-						runningStrategy = null;
+						log.info("goal achived");
+						// TODO strategy successful modify priority so it would be used more often
 					}
 					else
 					{
-						task.setCompleted(world, e, false);
+						log.info("goal not achived");
+						// TODO strategy unsuccessful modify priority so it would be used less frequent
 					}
+
+					strategyByEntity.remove(e.getId());
+					runningStrategy = null;
 				}
 				else
 				{
-					log.info("can`t perform chosen strategy");
-					runningStrategy = null;
+					task.setCompleted(world, e, false);
 				}
 			}
-
-			if (finished)
+			else
 			{
-				// choosing new strategy
-				log.info("choosing new strategy");
-
-				runningStrategy = strategyPlanner.bestStrategyFor(world, e, task);
+				log.info("can`t perform chosen strategy");
+				runningStrategy = null;
 			}
 		}
-		while (runningStrategy == null);
 
 		if (finished && task.isSuccess(world, e))
 		{
