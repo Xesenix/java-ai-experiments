@@ -62,7 +62,7 @@ public class ArtemisExperiment implements IExperimentManager
 		world = new World();
 		
 		world.setSystem(new BehaviourSystem(new StrategyPlanner()));
-		world.setSystem(new NavigationSystem((IMetric) metric));
+		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
 		world.setSystem(new DebugEntitySystem(view));
 
@@ -88,8 +88,8 @@ public class ArtemisExperiment implements IExperimentManager
 			new NearPositionGoal(targtPositions[0], 20),
 			new NearPositionGoal(targtPositions[1], 30),
 			new NearPositionGoal(targtPositions[2], 40),
-			new NearPositionGoal(targtPositions[3], 50),
-			new NearPositionGoal(targtPositions[4], 60),
+			new NearPositionGoal(targtPositions[3]),
+			new NearPositionGoal(targtPositions[4], 80),
 		};
 
 		Task[] tasks = new Task[] {
@@ -107,14 +107,14 @@ public class ArtemisExperiment implements IExperimentManager
 			tasks[1],
 			tasks[2],
 			new Counter(tasks[3], 2),
-			new Counter(tasks[3], 2)
+			new Counter(tasks[4], 2)
 		);
 
 		e.addComponent(new ConsoleDebugComponent());
 		e.addComponent(new PositionComponent(positions[0]));
 		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(200f, 0, 200));
-		e.addComponent(new MovementDirectionComponent());
+		e.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
+		e.addComponent(new MovementDirectionComponent(0, 0.2 * Math.PI));
 		e.addComponent(new NearDistanceComponent(60f));
 		e.addToWorld();
 

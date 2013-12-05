@@ -15,6 +15,12 @@ public class MovementSpeedComponent extends Component
 	private double min = 0;
 
 
+	private double acceleration = 0;
+
+
+	private double decceleration = 0;
+
+
 	public MovementSpeedComponent()
 	{
 		this(0, 0, 0);
@@ -39,6 +45,20 @@ public class MovementSpeedComponent extends Component
 	}
 
 
+	public MovementSpeedComponent(double speed, double min, double max, double acceleration)
+	{
+		set(speed, min, max);
+		setAcceleration(acceleration, acceleration);
+	}
+
+
+	public MovementSpeedComponent(double speed, double min, double max, double acceleration, double deceleration)
+	{
+		set(speed, min, max);
+		setAcceleration(acceleration, deceleration);
+	}
+
+
 	public void set(double speed, double min, double max)
 	{
 		setMax(max);
@@ -51,6 +71,13 @@ public class MovementSpeedComponent extends Component
 	{
 		setMax(max);
 		setMin(min);
+	}
+
+
+	public void setAcceleration(double acceleration, double deceleration)
+	{
+		setAcceleration(acceleration);
+		setDecceleration(deceleration);
 	}
 
 
@@ -70,10 +97,22 @@ public class MovementSpeedComponent extends Component
 		{
 			this.speed = max;
 		}
-		
-		if (min < speed && speed < max)
+		else
 		{
 			this.speed = speed;
+		}
+	}
+	
+	
+	public void changeSpeed(double newSpeed, double time)
+	{
+		if (newSpeed > speed)
+		{
+			setSpeed(Math.min(newSpeed, speed + acceleration * time));
+		}
+		else
+		{
+			setSpeed(Math.max(newSpeed, speed - decceleration * time));
 		}
 	}
 
@@ -105,6 +144,30 @@ public class MovementSpeedComponent extends Component
 		{
 			this.min = min;
 		}
+	}
+
+
+	public double getAcceleration()
+	{
+		return acceleration;
+	}
+
+
+	public void setAcceleration(double acceleration)
+	{
+		this.acceleration = acceleration;
+	}
+
+
+	public double getDecceleration()
+	{
+		return decceleration;
+	}
+
+
+	public void setDecceleration(double decceleration)
+	{
+		this.decceleration = decceleration;
 	}
 
 

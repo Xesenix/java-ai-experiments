@@ -77,19 +77,17 @@ public class BehaviourSystem extends EntityProcessingSystem
 			return;
 		}
 		
-		IStrategy runningStrategy;
+		IStrategy runningStrategy = strategyByEntity.get(e.getId());
 		
-		if (task != previousTask)
+		if (task == previousTask && runningStrategy != null)
+		{
+			log.info("continuing old strategy");
+		}
+		else
 		{
 			log.info("choosing new strategy");
 			
 			runningStrategy = strategyPlanner.bestStrategyFor(world, e, task);
-		}
-		else
-		{
-			log.info("continuing old strategy");
-			
-			runningStrategy = strategyByEntity.get(e.getId());
 		}
 		
 		log.debug("current running strategy {}", runningStrategy);

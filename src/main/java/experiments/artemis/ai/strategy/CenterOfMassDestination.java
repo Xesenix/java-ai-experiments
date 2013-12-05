@@ -90,7 +90,7 @@ public class CenterOfMassDestination implements IStrategy
 				log.debug("target position {}", target);
 				log.debug("entity desired position {}", e.getComponent(DesiredPositionComponent.class));
 				
-				if (!navigation.atPoint(e, target, null) && !task.isSuccess(world, e))
+				if (!navigation.atPoint(e, target, null))
 				{
 					return false;
 				}

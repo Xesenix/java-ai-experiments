@@ -64,8 +64,8 @@ public class MovementSystem extends EntityProcessingSystem
 			log.info("speed: {}", speed);
 			log.info("direction: {}", direction);
 			
-			double dx = Math.cos(direction.getRotation()) * speed.getSpeed() * world.getDelta();
-			double dy = Math.sin(direction.getRotation()) * speed.getSpeed() * world.getDelta();
+			double dx = Math.cos(direction.getDirection()) * speed.getSpeed() * world.getDelta();
+			double dy = Math.sin(direction.getDirection()) * speed.getSpeed() * world.getDelta();
 			
 			position.set(position.getX() + dx, position.getY() + dy);
 		}

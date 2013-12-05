@@ -11,6 +11,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.systems.IntervalEntityProcessingSystem;
 import com.artemis.systems.VoidEntitySystem;
 
 import experiments.artemis.ActiveLogger;
@@ -23,7 +24,7 @@ import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 
 
-public class NavigationSystem extends EntityProcessingSystem
+public class NavigationSystem extends IntervalEntityProcessingSystem
 {
 	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(NavigationSystem.class));
 
@@ -58,9 +59,9 @@ public class NavigationSystem extends EntityProcessingSystem
 	private IMetric metric;
 
 
-	public NavigationSystem(IMetric metric)
+	public NavigationSystem(IMetric metric, float interval)
 	{
-		super(Aspect.getAspectForAll(DesiredPositionComponent.class));
+		super(Aspect.getAspectForAll(DesiredPositionComponent.class), interval);
 		
 		this.metric = metric;
 	}
@@ -100,8 +101,12 @@ public class NavigationSystem extends EntityProcessingSystem
 			double dx = ((Position) target).getX() - ((Position) position).getX();
 			double dy = ((Position) target).getY() - ((Position) position).getY();
 			
-			direction.setRotation(Math.atan2(dy, dx));
-			speed.setSpeed(Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)));
+			direction.changeDirection(Math.atan2(dy, dx), world.getDelta());
+			
+			// good place for placing some learning algorithm
+			double castLength = dx * Math.cos(direction.getDirection()) + dy * Math.sin(direction.getDirection());
+			
+			speed.changeSpeed(castLength, world.getDelta());
 		}
 	}
 
@@ -116,7 +121,7 @@ public class NavigationSystem extends EntityProcessingSystem
 		PositionComponent worldPosition = pm.get(e);
 		NearDistanceComponent nearDistance = dm.get(e);
 
-		double near = nearDistance != null ? nearDistance.getNear() : PRECISION;
+		double near = Math.max(nearDistance != null ? nearDistance.getNear() : PRECISION, PRECISION);
 
 		log.debug("near {}", near);
 
@@ -145,7 +150,7 @@ public class NavigationSystem extends EntityProcessingSystem
 
 		PositionComponent worldPosition = pm.get(e);
 
-		double near = precision != null ? precision : PRECISION;
+		double near = Math.max(precision != null ? precision : PRECISION, PRECISION);
 
 		log.debug("near {}", near);
 
@@ -158,103 +163,6 @@ public class NavigationSystem extends EntityProcessingSystem
 			if (position instanceof Position && target instanceof Position)
 			{
 				return metric.distance(position, target) <= near;
-			}
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * 
-	 * @param e
-	 * @param target
-	 * @param max - max distance to move towards target
-	 * @return
-	 */
-	public boolean translateTo(Entity e, IPosition target, double max)
-	{
-		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
-
-		log.info("translateTo entity {}", e);
-		log.info("retriving entity state..");
-
-		PositionComponent worldPosition = pm.get(e);
-
-		log.debug("worldPosition: {}", worldPosition);
-
-		if (worldPosition != null)
-		{
-			IPosition position = worldPosition.getPosition();
-
-			log.debug("coordinates: {}", position);
-
-			if (position instanceof Position && target instanceof Position)
-			{
-				double distance = metric.distance(position, target);
-
-				log.debug("distance: {}/{}", distance, max);
-
-				if (max <= 0 || distance < max)
-				{
-					((Position) position).set(((Position) target).getX(), ((Position) target).getY());
-
-					return true;
-				}
-				else
-				{
-					double step = max / distance;
-
-					log.debug("step: {}", step);
-
-					// TODO get world navigation space position closest to position on path between current position and target position
-					// simplified:
-					double dx = (((Position) target).getX() - ((Position) position).getX()) * step + ((Position) position).getX();
-					double dy = (((Position) target).getY() - ((Position) position).getY()) * step + ((Position) position).getY();
-
-					((Position) position).set(dx, dy);
-				}
-			}
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * 
-	 * @param e
-	 * @param target
-	 * @param max - max distance to move towards target
-	 * @return
-	 */
-	public boolean translateFrom(Entity e, IPosition target, double max)
-	{
-		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
-
-		log.info("translateFrom entity {}", e);
-		log.info("retriving entity state..");
-
-		PositionComponent worldPosition = pm.get(e);
-
-		log.debug("worldPosition: {}", worldPosition);
-
-		if (worldPosition != null)
-		{
-			IPosition position = worldPosition.getPosition();
-
-			log.debug("coordinates: {}", position);
-
-			if (position instanceof Position && target instanceof Position)
-			{
-				double step = max;
-
-				// TODO get world navigation space position closest to position on path between current position and target position
-				// simplified:
-				double dx = (((Position) position).getX() - ((Position) target).getX()) * max + ((Position) position).getX();
-				double dy = (((Position) position).getY() - ((Position) target).getY()) * max + ((Position) position).getY();
-
-				((Position) position).set(dx, dy);
 			}
 		}
 
