@@ -17,6 +17,8 @@ import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
+import experiments.artemis.components.MovementDirectionComponent;
+import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.ui.DebugSpriteMediator;
@@ -37,6 +39,14 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<ColorComponent> cm;
+
+
+	@Mapper
+	ComponentMapper<MovementDirectionComponent> mdm;
+
+
+	@Mapper
+	ComponentMapper<MovementSpeedComponent> msm;
 
 
 	@Mapper
@@ -96,6 +106,20 @@ public class DebugEntitySystem extends EntityProcessingSystem
 		if (color != null)
 		{
 			mediator.setRangeColor(color.getColor());
+		}
+		
+		MovementSpeedComponent speed = msm.get(e);
+
+		if (speed != null)
+		{
+			mediator.setSpeed(speed.getSpeed());
+		}
+		
+		MovementDirectionComponent direction = mdm.get(e);
+
+		if (direction != null)
+		{
+			mediator.setDirection(direction.getDirection());
 		}
 	}
 }

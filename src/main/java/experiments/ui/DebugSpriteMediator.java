@@ -37,6 +37,18 @@ public class DebugSpriteMediator
 	}
 
 
+	public void setSpeed(double speed)
+	{
+		this.sprite.setSpeed(speed);
+	}
+
+
+	public void setDirection(double direction)
+	{
+		this.sprite.setDirection(direction);
+	}
+
+
 	public void setView(IDebugSprite sprite)
 	{
 		this.sprite = sprite;

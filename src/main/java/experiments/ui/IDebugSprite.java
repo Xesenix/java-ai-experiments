@@ -18,4 +18,10 @@ public interface IDebugSprite
 
 
 	void setRangeColor(Color color);
+
+
+	void setSpeed(double speed);
+
+
+	void setDirection(double direction);
 }

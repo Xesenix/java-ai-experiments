@@ -64,7 +64,7 @@ public class ArtemisExperiment implements IExperimentManager
 	{
 		world = new World();
 		
-		world.setSystem(new BehaviourSystem(new StrategyPlanner()));
+		world.setSystem(new BehaviourSystem(new StrategyPlanner(), 0.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
 		world.setSystem(new DebugEntitySystem(view));

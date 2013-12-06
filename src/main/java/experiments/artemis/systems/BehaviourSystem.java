@@ -8,6 +8,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.systems.IntervalEntityProcessingSystem;
 import com.artemis.utils.Bag;
 
 import experiments.artemis.ActiveLogger;
@@ -18,7 +19,7 @@ import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
 
 
-public class BehaviourSystem extends EntityProcessingSystem
+public class BehaviourSystem extends IntervalEntityProcessingSystem
 {
 	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(BehaviourSystem.class));
 
@@ -40,9 +41,9 @@ public class BehaviourSystem extends EntityProcessingSystem
 	private StrategyPlanner strategyPlanner;
 
 
-	public BehaviourSystem(StrategyPlanner strategyPlanner)
+	public BehaviourSystem(StrategyPlanner strategyPlanner, float interval)
 	{
-		super(Aspect.getAspectForOne(BehaviorComponent.class));
+		super(Aspect.getAspectForOne(BehaviorComponent.class), interval);
 
 		this.strategyPlanner = strategyPlanner;
 	}
