@@ -8,6 +8,7 @@ import ai.world.IPosition;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.utils.Bag;
 
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.behaviours.IPositionGoal;
@@ -60,7 +61,6 @@ public class CenterOfMassDestination implements IStrategy
 
 			if (n > 0)
 			{
-				
 				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
 				DesiredPositionComponent targetComponent = dpm.get(e);
 				Position target = null;
@@ -90,10 +90,12 @@ public class CenterOfMassDestination implements IStrategy
 				log.debug("target position {}", target);
 				log.debug("entity desired position {}", e.getComponent(DesiredPositionComponent.class));
 				
-				if (!navigation.atPoint(e, target, null))
+				if (task.isSuccess(world, e))
 				{
-					return false;
+					return true;
 				}
+				
+				return navigation.atPoint(e, target, null);
 			}
 		}
 

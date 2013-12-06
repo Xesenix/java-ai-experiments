@@ -15,6 +15,7 @@ import com.artemis.utils.Bag;
 import experiments.IExperimentView;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.world2d.Position;
+import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
@@ -32,6 +33,10 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<NearDistanceComponent> ndm;
+
+
+	@Mapper
+	ComponentMapper<ColorComponent> cm;
 
 
 	@Mapper
@@ -84,6 +89,13 @@ public class DebugEntitySystem extends EntityProcessingSystem
 		if (nearDistance != null)
 		{
 			mediator.setCloseSightRange(nearDistance.getNear());
+		}
+
+		ColorComponent color = cm.get(e);
+
+		if (color != null)
+		{
+			mediator.setRangeColor(color.getColor());
 		}
 	}
 }

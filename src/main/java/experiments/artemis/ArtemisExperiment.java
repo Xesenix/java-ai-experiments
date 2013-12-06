@@ -1,6 +1,8 @@
 
 package experiments.artemis;
 
+import javafx.scene.paint.Color;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +25,7 @@ import experiments.artemis.ai.behaviours.TaskSelector;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.BehaviorComponent;
+import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
@@ -81,14 +84,14 @@ public class ArtemisExperiment implements IExperimentManager
 			new Position(100, 200),
 			new Position(300, 100),
 			new Position(400, 100),
-			new Position(300, 100),
+			new Position(300, 200),
 		};
 
 		IPositionGoal[] goals = new NearPositionGoal[] {
-			new NearPositionGoal(targtPositions[0], 20),
-			new NearPositionGoal(targtPositions[1], 30),
-			new NearPositionGoal(targtPositions[2], 40),
-			new NearPositionGoal(targtPositions[3]),
+			new NearPositionGoal(targtPositions[0], 10),
+			new NearPositionGoal(targtPositions[1], 20),
+			new NearPositionGoal(targtPositions[2], 30),
+			new NearPositionGoal(targtPositions[3], 5),
 			new NearPositionGoal(targtPositions[4], 80),
 		};
 
@@ -118,51 +121,74 @@ public class ArtemisExperiment implements IExperimentManager
 		e.addComponent(new NearDistanceComponent(60f));
 		e.addToWorld();
 
-		/*e = world.createEntity();
-		selector = new TaskSelector();
-		selector.setBehaviours(tasks[1], tasks[0], tasks[2]);
+		e = world.createEntity();
+		selector = new TaskSelector(
+			tasks[1],
+			tasks[0],
+			tasks[2]
+		);
 
 		e.addComponent(new PositionComponent(positions[1]));
 		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(50f));
+		e.addComponent(new MovementSpeedComponent(50f, 50f));
+		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(30f));
 		e.addToWorld();
 
 		e = world.createEntity();
-		selector = new TaskSelector();
-		selector.setBehaviours(tasks[2], tasks[1], tasks[0]);
+		selector = new TaskSelector(
+			tasks[2],
+			tasks[1],
+			tasks[0]
+		);
 
 		e.addComponent(new PositionComponent(positions[2]));
 		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(130f));
+		e.addComponent(new MovementSpeedComponent(130f, 200f));
+		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(50f));
 		e.addToWorld();
 
 		e = world.createEntity();
-		selector = new TaskSelector();
-		selector.setBehaviours(tasks[2], tasks[3], tasks[4]);
+		selector = new TaskSelector(
+			tasks[2],
+			tasks[3],
+			tasks[4]
+		);
 
 		e.addComponent(new PositionComponent(positions[3]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(120f));
+		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(50f));
 		e.addToWorld();
 
 		e = world.createEntity();
-		selector = new TaskSelector();
-		selector.setBehaviours(tasks[4], tasks[2], tasks[1]);
+		selector = new TaskSelector(
+			tasks[4],
+			tasks[2],
+			tasks[1]
+		);
 
 		e.addComponent(new PositionComponent(positions[4]));
 		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(80f));
+		e.addComponent(new MovementDirectionComponent(0, 1.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(50f));
-		e.addToWorld();*/
+		e.addToWorld();
 
 		// Landmarks
 		for (int i = 0; i < targtPositions.length; i++)
 		{
 			e = world.createEntity();
 			e.addComponent(new PositionComponent(targtPositions[i]));
+			
+			if (goals[i] instanceof NearPositionGoal)
+			{
+				e.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision()));
+				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
+			}
+			
 			e.addToWorld();
 		}
 	}

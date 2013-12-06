@@ -1,6 +1,8 @@
 
 package experiments.ui;
 
+import javafx.scene.paint.Color;
+
 public interface IDebugSprite
 {
 	void setPosition(double x, double y);
@@ -13,4 +15,7 @@ public interface IDebugSprite
 
 
 	void setCloseFarSighRange(double range);
+
+
+	void setRangeColor(Color color);
 }

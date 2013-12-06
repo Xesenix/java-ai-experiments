@@ -23,32 +23,34 @@ public class MovementSpeedComponent extends Component
 
 	public MovementSpeedComponent()
 	{
-		this(0, 0, 0);
+		set(0, 0, 0);
 	}
 
 
-	public MovementSpeedComponent(double speed)
+	public MovementSpeedComponent(double max)
 	{
-		this(speed, speed, speed);
+		set(max, 0, max);
 	}
 
 
-	public MovementSpeedComponent(double speed, double max)
+	public MovementSpeedComponent(double max, double acceleration)
 	{
-		this(speed, speed, max);
-	}
-
-
-	public MovementSpeedComponent(double speed, double min, double max)
-	{
-		set(speed, min, max);
-	}
-
-
-	public MovementSpeedComponent(double speed, double min, double max, double acceleration)
-	{
-		set(speed, min, max);
+		set(0, 0, max);
 		setAcceleration(acceleration, acceleration);
+	}
+
+
+	public MovementSpeedComponent(double min, double max, double acceleration)
+	{
+		set(0, min, max);
+		setAcceleration(acceleration, acceleration);
+	}
+
+
+	public MovementSpeedComponent(double min, double max, double acceleration, double deceleration)
+	{
+		set(0, min, max);
+		setAcceleration(acceleration, deceleration);
 	}
 
 

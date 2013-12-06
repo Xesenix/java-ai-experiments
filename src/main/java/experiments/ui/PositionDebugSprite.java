@@ -55,4 +55,10 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 	{
 		farShight.setRadius(range);
 	}
+
+
+	public void setRangeColor(Color color)
+	{
+		closeSight.setFill(color);
+	}
 }

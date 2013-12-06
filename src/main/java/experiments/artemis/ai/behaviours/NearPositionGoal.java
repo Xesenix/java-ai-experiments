@@ -12,7 +12,7 @@ import experiments.artemis.systems.NavigationSystem;
 
 public class NearPositionGoal extends PositionComponent implements IPositionGoal
 {
-	private double distance;
+	private double precision;
 
 
 	public NearPositionGoal(IPosition position)
@@ -21,10 +21,10 @@ public class NearPositionGoal extends PositionComponent implements IPositionGoal
 	}
 
 
-	public NearPositionGoal(IPosition position, double distance)
+	public NearPositionGoal(IPosition position, double precision)
 	{
 		super(position);
-		this.distance = distance;
+		this.precision = precision;
 	}
 
 
@@ -34,10 +34,16 @@ public class NearPositionGoal extends PositionComponent implements IPositionGoal
 	}
 
 
+	public double getPrecision()
+	{
+		return precision;
+	}
+
+
 	public boolean achived(World world, Entity e)
 	{
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 
-		return navigation.atPoint(e, getTarget(world, e), distance);
+		return navigation.atPoint(e, getTarget(world, e), precision);
 	}
 }

@@ -1,6 +1,8 @@
 
 package experiments.ui;
 
+import javafx.scene.paint.Color;
+
 public class DebugSpriteMediator
 {
 	private IDebugSprite sprite;
@@ -26,6 +28,12 @@ public class DebugSpriteMediator
 	public void setCloseFarSighRange(double range)
 	{
 		this.sprite.setCloseFarSighRange(range);
+	}
+
+
+	public void setRangeColor(Color color)
+	{
+		this.sprite.setRangeColor(color);
 	}
 
 
