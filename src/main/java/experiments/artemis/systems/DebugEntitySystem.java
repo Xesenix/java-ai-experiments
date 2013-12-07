@@ -10,8 +10,10 @@ import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.GroupManager;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.Bag;
+import com.artemis.utils.ImmutableBag;
 
 import experiments.IExperimentView;
 import experiments.artemis.ActiveLogger;
@@ -158,7 +160,6 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	private String getEntityDescription(Entity e)
 	{
 		StringBuilder entityComponentsDescription = new StringBuilder();
-		
 		Bag<Component> entityComponents = e.getComponents(new Bag<Component>());
 		
 		for (Component component : entityComponents)
@@ -167,6 +168,15 @@ public class DebugEntitySystem extends EntityProcessingSystem
 			entityComponentsDescription.append(component);
 		}
 		
-		return String.format("entity: %s\ncomponents:%s", e.getId(), entityComponentsDescription);
+		StringBuilder entityGroupsDescription = new StringBuilder();
+		ImmutableBag<String> groups = world.getManager(GroupManager.class).getGroups(e);
+		
+		for (String group : groups)
+		{
+			entityGroupsDescription.append("\n- ");
+			entityGroupsDescription.append(group);
+		}
+		
+		return String.format("entity: %s\ncomponents:%s\ngroups:%s", e.getId(), entityComponentsDescription, entityGroupsDescription);
 	}
 }

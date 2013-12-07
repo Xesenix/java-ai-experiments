@@ -1,6 +1,12 @@
 
 package experiments.artemis;
 
+import java.io.StringWriter;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import javafx.scene.paint.Color;
 
 import org.slf4j.Logger;
@@ -10,6 +16,8 @@ import ai.world.IMetric;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.managers.GroupManager;
+import com.badlogic.gdx.utils.Json;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -35,6 +43,7 @@ import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.DebugEntitySystem;
 import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
+import experiments.artemis.world.WorldMarshaller;
 
 
 public class ArtemisExperiment implements IExperimentManager
@@ -54,6 +63,18 @@ public class ArtemisExperiment implements IExperimentManager
 	protected EuclideanMetric2D metric;
 
 
+	@Inject
+	private WorldMarshaller worldMarshaller;
+
+
+	@Inject
+	private Json json;
+
+
+	@Inject
+	private JAXBContext jaxbContext;
+
+
 	private boolean isAiRunning = false;
 
 
@@ -68,6 +89,8 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
 		world.setSystem(new DebugEntitySystem(view));
+		
+		world.setManager(new GroupManager());
 
 		world.initialize();
 
@@ -105,6 +128,9 @@ public class ArtemisExperiment implements IExperimentManager
 
 		// Actors
 		Entity e = world.createEntity();
+		
+		world.getManager(GroupManager.class).add(e, "actors");
+		
 		TaskSelector selector = new TaskSelector(
 			new Counter(tasks[0], 2),
 			tasks[1],
@@ -181,6 +207,9 @@ public class ArtemisExperiment implements IExperimentManager
 		for (int i = 0; i < targtPositions.length; i++)
 		{
 			e = world.createEntity();
+			
+			world.getManager(GroupManager.class).add(e, "targets");
+			
 			e.addComponent(new PositionComponent(targtPositions[i]));
 			
 			if (goals[i] instanceof NearPositionGoal)
@@ -244,7 +273,25 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public String getWorldAsXmlString()
 	{
-		return null;
+		StringWriter xmlWriter = new StringWriter();
+
+		Marshaller jaxbMarshaller;
+		try
+		{
+			jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(worldMarshaller.marshall(world), xmlWriter);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+
+		String result = xmlWriter.toString();
+
+		log.debug("serialized - XML World: {}", result);
+
+		return result;
 	}
 
 
@@ -266,7 +313,11 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public String getWorldAsJsonString()
 	{
-		return null;
+		String result = json.prettyPrint(worldMarshaller.marshall(world));
+
+		log.debug("serialized - Json World: {}", result);
+
+		return result;
 	}
 
 
