@@ -25,12 +25,15 @@ import experiments.IExperimentManager;
 import experiments.IExperimentView;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.behaviours.Counter;
+import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.behaviours.IPositionGoal;
+import experiments.artemis.ai.behaviours.KeepInAreaGoal;
 import experiments.artemis.ai.behaviours.NearPositionGoal;
 import experiments.artemis.ai.behaviours.PositionTask;
 import experiments.artemis.ai.behaviours.Task;
 import experiments.artemis.ai.behaviours.TaskSelector;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
+import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ColorComponent;
@@ -39,6 +42,7 @@ import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
+import experiments.artemis.components.ShapeComponent;
 import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.DebugEntitySystem;
 import experiments.artemis.systems.MovementSystem;
@@ -108,15 +112,26 @@ public class ArtemisExperiment implements IExperimentManager
 			new Position(300, 100),
 			new Position(400, 100),
 			new Position(300, 200),
+			new Position(0, 0),
 		};
 
-		IPositionGoal[] goals = new NearPositionGoal[] {
-			new NearPositionGoal(targtPositions[0], 10),
-			new NearPositionGoal(targtPositions[1], 20),
-			new NearPositionGoal(targtPositions[2], 50),
-			new NearPositionGoal(targtPositions[3], 5),
-			new NearPositionGoal(targtPositions[4], 80),
-		};
+		IPositionGoal[] goals = null;
+		
+		try
+		{
+			goals = new IPositionGoal[] {
+				new NearPositionGoal(targtPositions[0], 10),
+				new NearPositionGoal(targtPositions[1], 20),
+				new NearPositionGoal(targtPositions[2], 50),
+				new NearPositionGoal(targtPositions[3], 5),
+				new NearPositionGoal(targtPositions[4], 80),
+				new KeepInAreaGoal(0, 0, 300, 0, 500, 300, 0, 500),
+			};
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
 
 		Task[] tasks = new Task[] {
 			new PositionTask(goals[0]),
@@ -124,7 +139,15 @@ public class ArtemisExperiment implements IExperimentManager
 			new PositionTask(goals[2]),
 			new PositionTask(goals[3]),
 			new PositionTask(goals[4], goals[2]),
+			new PositionTask(goals[5]),
 		};
+		
+		IBehavior crowdBehavior = null;
+		
+		crowdBehavior = new TaskSelector(
+			tasks[5]
+		);
+		
 
 		// Actors
 		Entity e = world.createEntity();
@@ -141,27 +164,22 @@ public class ArtemisExperiment implements IExperimentManager
 
 		e.addComponent(new ConsoleDebugComponent());
 		e.addComponent(new PositionComponent(positions[0]));
-		e.addComponent(new BehaviorComponent(selector));
+		e.addComponent(new BehaviorComponent(crowdBehavior));
 		e.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
 		e.addComponent(new MovementDirectionComponent(0, 0.2 * Math.PI));
 		e.addComponent(new NearDistanceComponent(60f));
 		e.addToWorld();
 
-		/*e = world.createEntity();
-		selector = new TaskSelector(
-			tasks[1],
-			tasks[0],
-			tasks[2]
-		);
+		e = world.createEntity();
 
 		e.addComponent(new PositionComponent(positions[1]));
-		e.addComponent(new BehaviorComponent(selector));
+		e.addComponent(new BehaviorComponent(crowdBehavior));
 		e.addComponent(new MovementSpeedComponent(50f, 50f));
 		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(30f));
 		e.addToWorld();
 
-		e = world.createEntity();
+		/*e = world.createEntity();
 		selector = new TaskSelector(
 			tasks[2],
 			tasks[1],
@@ -219,6 +237,12 @@ public class ArtemisExperiment implements IExperimentManager
 
 				e.addComponent(new MovementSpeedComponent(5f));
 				e.addComponent(new MovementDirectionComponent());
+			}
+			
+			if (goals[i] instanceof KeepInAreaGoal)
+			{
+				e.addComponent(new ShapeComponent((Polygon) ((KeepInAreaGoal) goals[i]).getTarget(world, e)));
+				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
 			}
 			
 			e.addToWorld();

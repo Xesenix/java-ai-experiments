@@ -1,6 +1,9 @@
 
 package experiments.ui;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import javafx.event.EventHandler;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -8,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 
 
 public class PositionDebugSprite extends Pane implements IDebugSprite
@@ -45,6 +49,9 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 	private Circle target;
 
 
+	private Polygon spriteShape;
+
+
 	public PositionDebugSprite()
 	{
 		// transparent to mouse
@@ -52,6 +59,12 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 		
 		spritePosition = new Circle(0, 0, 5, Color.BLACK);
 		spritePosition.setMouseTransparent(false);
+		
+		spriteShape = new Polygon();
+		spriteShape.setMouseTransparent(true);
+		spriteShape.setFill(Color.color(0, 0, 0, 0.1f));
+		spriteShape.setStrokeWidth(1);
+		spriteShape.setStroke(Color.BLACK);
 		
 		closeSight = new Circle(0, 0, 5, Color.color(0, 1f, 0, 0.3f));
 		closeSight.setMouseTransparent(true);
@@ -76,6 +89,7 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 		getChildren().add(target);
 		getChildren().add(velocity);
 		getChildren().add(targetVector);
+		getChildren().add(spriteShape);
 		getChildren().add(spritePosition);
 		
 		tip = new Tooltip("debug");
@@ -102,6 +116,19 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 	public void setLabel(String string)
 	{
 		tip.setText(string);
+	}
+
+
+	public void setShape(double[] vertices)
+	{
+		Double[] list = new Double[vertices.length];
+		
+		for (int i = 0; i < list.length; i++)
+		{
+			list[i] = new Double(vertices[i]);
+		}
+		
+		spriteShape.getPoints().setAll(list);
 	}
 
 

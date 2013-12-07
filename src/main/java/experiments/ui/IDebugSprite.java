@@ -39,4 +39,7 @@ public interface IDebugSprite
 
 
 	void setTargetPositionPrecision(double precision);
+
+
+	void setShape(double[] vertices);
 }

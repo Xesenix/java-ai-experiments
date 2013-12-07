@@ -123,7 +123,7 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 						// TODO strategy unsuccessful modify priority so it would be used less frequent
 					}
 
-					strategyByEntity.remove(e.getId());
+					strategyByEntity.set(e.getId(), null);
 					runningStrategy = null;
 				}
 				else

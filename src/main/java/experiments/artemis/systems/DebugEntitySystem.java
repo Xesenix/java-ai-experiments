@@ -17,6 +17,7 @@ import com.artemis.utils.ImmutableBag;
 
 import experiments.IExperimentView;
 import experiments.artemis.ActiveLogger;
+import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
@@ -25,6 +26,7 @@ import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
+import experiments.artemis.components.ShapeComponent;
 import experiments.ui.DebugSpriteMediator;
 
 
@@ -43,6 +45,10 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<NearDistanceComponent> ndm;
+
+
+	@Mapper
+	ComponentMapper<ShapeComponent> sm;
 
 
 	@Mapper
@@ -125,6 +131,18 @@ public class DebugEntitySystem extends EntityProcessingSystem
 		else
 		{
 			mediator.hideTargetPosition();
+		}
+		
+		ShapeComponent shapeComponent = sm.get(e);
+		
+		if (shapeComponent != null)
+		{
+			IPosition coordinates = shapeComponent.getShape();
+
+			if (coordinates instanceof Polygon)
+			{
+				mediator.setShape(((Polygon) coordinates).getVertices());
+			}
 		}
 
 		NearDistanceComponent nearDistance = ndm.get(e);

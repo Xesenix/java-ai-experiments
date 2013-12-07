@@ -14,6 +14,7 @@ import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.behaviours.PositionTask;
+import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
@@ -69,6 +70,19 @@ public class NearCenterOfMassDestination implements IStrategy
 					x += ((Position) pos).getX();
 					y += ((Position) pos).getY();
 					n ++;
+				}
+				
+				if (pos instanceof Polygon)
+				{
+					double[] vertices = ((Polygon) pos).getVertices();
+					int count = vertices.length / 2;
+					
+					for (int i = 0; i < count; i++)
+					{
+						x += vertices[2 * i];
+						y += vertices[2 * i + 1];
+						n ++;
+					}
 				}
 			}
 

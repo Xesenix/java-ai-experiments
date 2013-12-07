@@ -84,4 +84,10 @@ public class DebugSpriteMediator
 	{
 		this.sprite.hideTargetPosition();
 	}
+
+
+	public void setShape(double[] vertices)
+	{
+		this.sprite.setShape(vertices);
+	}
 }
