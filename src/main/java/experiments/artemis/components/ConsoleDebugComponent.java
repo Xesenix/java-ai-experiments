@@ -16,4 +16,16 @@ public class ConsoleDebugComponent extends Component
 
 
 	public boolean strategy = true;
+
+
+	public boolean behavior = true;
+
+
+	public boolean movement = false;
+	
+	
+	public String toString()
+	{
+		return String.format("[%s@%x]", getClass().getSimpleName(), hashCode());
+	}
 }

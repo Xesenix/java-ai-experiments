@@ -61,6 +61,8 @@ public class CenterOfMassDestination implements IStrategy
 
 			if (n > 0)
 			{
+				boolean result = false;
+				
 				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
 				DesiredPositionComponent targetComponent = dpm.get(e);
 				Position target = null;
@@ -69,7 +71,7 @@ public class CenterOfMassDestination implements IStrategy
 				{
 					log.debug("new desired position");
 					
-					target = new Position();
+					target = new Position(x / (double) n, y / (double) n);
 					targetComponent = new DesiredPositionComponent(target);
 					e.addComponent(targetComponent);
 					e.changedInWorld();
@@ -85,21 +87,48 @@ public class CenterOfMassDestination implements IStrategy
 					target = (Position) targetComponent.getPosition();
 				}
 				
-				target.set(x / (double) n, y / (double) n);
+				ComponentMapper<PositionComponent> pm = world.getMapper(PositionComponent.class);
+				PositionComponent worldPosition = pm.get(e);
+				Position position = null;
 				
-				log.debug("target position {}", target);
-				log.debug("entity desired position {}", e.getComponent(DesiredPositionComponent.class));
+				if (worldPosition.getPosition() instanceof Position)
+				{
+					position = (Position) targetComponent.getPosition();
+				}
 				
 				if (task.isSuccess(world, e))
 				{
+					e.removeComponent(targetComponent);
+					e.changedInWorld();
+					
 					return true;
 				}
 				
-				return navigation.atPoint(e, target, null);
+				targetComponent.setPrecision(Math.hypot(target.getX() - x / (double) n, target.getY() - y / (double) n) / world.getDelta());
+				
+				if (navigation.atPoint(e, target, targetComponent.getPrecision()))
+				{
+					// finished strategy step
+					result = true;
+				}
+				
+				
+				target.set(x / (double) n, y / (double) n);
+				
+				log.debug("position {}", e.getComponent(PositionComponent.class));
+				log.debug("entity desired position {}", targetComponent);
+				
+				return result;
 			}
 		}
 
 		return true;
+	}
+
+	
+	public String toString()
+	{
+		return String.format("[%s@%x]", getClass().getSimpleName(), hashCode());
 	}
 
 }

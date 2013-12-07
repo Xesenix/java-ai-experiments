@@ -8,6 +8,15 @@ public interface IDebugSprite
 	void setPosition(double x, double y);
 
 
+	void setTargetPosition(double x, double y);
+
+
+	void showTargetPosition();
+
+
+	void hideTargetPosition();
+
+
 	void setMediator(DebugSpriteMediator mediator);
 
 
@@ -24,4 +33,10 @@ public interface IDebugSprite
 
 
 	void setDirection(double direction);
+
+
+	void setLabel(String string);
+
+
+	void setTargetPositionPrecision(double precision);
 }

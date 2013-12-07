@@ -25,4 +25,10 @@ public class NearDistanceComponent extends Component
 	{
 		this.near = near;
 	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x {near: %.2f}]", getClass().getSimpleName(), hashCode(), near);
+	}
 }

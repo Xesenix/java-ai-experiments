@@ -53,7 +53,7 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 	{
 		boolean finished = true;
 
-		log.setActive(cdm.get(e) != null);
+		log.setActive(cdm.get(e) != null && cdm.get(e).behavior);
 
 		log.info("processing entity {}", e);
 		log.info("retriving entity state..");

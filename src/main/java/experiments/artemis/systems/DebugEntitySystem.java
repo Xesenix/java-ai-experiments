@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import ai.world.IPosition;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
@@ -17,6 +18,7 @@ import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
+import experiments.artemis.components.DesiredPositionComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
@@ -31,6 +33,10 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<PositionComponent> pm;
+
+
+	@Mapper
+	ComponentMapper<DesiredPositionComponent> dpm;
 
 
 	@Mapper
@@ -81,6 +87,8 @@ public class DebugEntitySystem extends EntityProcessingSystem
 			mediator = view.createPositionDebugSprite();
 			mediatorByEntity.set(e.getId(), mediator);
 		}
+		
+		mediator.setLabel(getEntityDescription(e));
 
 		PositionComponent position = pm.get(e);
 
@@ -92,6 +100,29 @@ public class DebugEntitySystem extends EntityProcessingSystem
 			{
 				mediator.setPosition(((Position) coordinates).getX(), ((Position) coordinates).getY());
 			}
+		}
+		
+		DesiredPositionComponent targetPosition = dpm.get(e);
+		
+		if (targetPosition != null)
+		{
+			IPosition coordinates = targetPosition.getPosition();
+
+			if (coordinates instanceof Position)
+			{
+				mediator.showTargetPosition();
+				mediator.setTargetPosition(((Position) coordinates).getX(), ((Position) coordinates).getY());
+			}
+			else
+			{
+				mediator.hideTargetPosition();
+			}
+			
+			mediator.setTargetPositionPrecision(targetPosition.getPrecision());
+		}
+		else
+		{
+			mediator.hideTargetPosition();
 		}
 
 		NearDistanceComponent nearDistance = ndm.get(e);
@@ -121,5 +152,21 @@ public class DebugEntitySystem extends EntityProcessingSystem
 		{
 			mediator.setDirection(direction.getDirection());
 		}
+	}
+
+
+	private String getEntityDescription(Entity e)
+	{
+		StringBuilder entityComponentsDescription = new StringBuilder();
+		
+		Bag<Component> entityComponents = e.getComponents(new Bag<Component>());
+		
+		for (Component component : entityComponents)
+		{
+			entityComponentsDescription.append("\n- ");
+			entityComponentsDescription.append(component);
+		}
+		
+		return String.format("entity: %s\ncomponents:%s", e.getId(), entityComponentsDescription);
 	}
 }

@@ -71,6 +71,6 @@ public class MovementDirectionComponent extends Component
 
 	public String toString()
 	{
-		return String.format("[%s@%x {rotation: %f}]", getClass().getSimpleName(), hashCode(), direction);
+		return String.format("[%s@%x {rotation: %.2f°}]", getClass().getSimpleName(), hashCode(), Math.toDegrees(direction));
 	}
 }

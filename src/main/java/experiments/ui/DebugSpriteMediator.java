@@ -13,9 +13,27 @@ public class DebugSpriteMediator
 	}
 
 
+	public void setLabel(String string)
+	{
+		this.sprite.setLabel(string);
+	}
+
+
 	public void setPosition(double x, double y)
 	{
 		this.sprite.setPosition(x, y);
+	}
+
+
+	public void setTargetPosition(double x, double y)
+	{
+		this.sprite.setTargetPosition(x, y);
+	}
+
+
+	public void setTargetPositionPrecision(double precision)
+	{
+		this.sprite.setTargetPositionPrecision(precision);
 	}
 
 
@@ -53,5 +71,17 @@ public class DebugSpriteMediator
 	{
 		this.sprite = sprite;
 		this.sprite.setMediator(this);
+	}
+
+
+	public void showTargetPosition()
+	{
+		this.sprite.showTargetPosition();
+	}
+
+
+	public void hideTargetPosition()
+	{
+		this.sprite.hideTargetPosition();
 	}
 }

@@ -45,7 +45,7 @@ public class MovementSystem extends EntityProcessingSystem
 	
 	protected void process(Entity e)
 	{
-		log.setActive(cdm.get(e) != null);
+		log.setActive(cdm.get(e) != null && cdm.get(e).movement);
 
 		log.info("process entity {}", e);
 		log.info("retriving entity state..");

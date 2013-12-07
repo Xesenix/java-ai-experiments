@@ -25,4 +25,10 @@ public class ColorComponent extends Component
 	{
 		this.color = color;
 	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x {color: %s}]", getClass().getSimpleName(), hashCode(), color);
+	}
 }

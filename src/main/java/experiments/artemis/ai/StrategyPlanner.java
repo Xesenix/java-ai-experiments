@@ -17,9 +17,9 @@ public class StrategyPlanner
 
 	private IStrategy[] positionStrategies = new IStrategy[] {
 		new CenterOfMassDestination(),
-		new NearCenterOfMassDestination(60, 5),
-		new NearCenterOfMassDestination(60, 10),
-		new NearCenterOfMassDestination(60, 15),
+		new NearCenterOfMassDestination(30, 5),
+		new NearCenterOfMassDestination(30, 10),
+		new NearCenterOfMassDestination(30, 15),
 	};
 	
 	

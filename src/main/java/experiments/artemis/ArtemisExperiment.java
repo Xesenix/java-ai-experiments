@@ -64,7 +64,7 @@ public class ArtemisExperiment implements IExperimentManager
 	{
 		world = new World();
 		
-		world.setSystem(new BehaviourSystem(new StrategyPlanner(), 0.5f));
+		world.setSystem(new BehaviourSystem(new StrategyPlanner(), 2.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
 		world.setSystem(new DebugEntitySystem(view));
@@ -90,7 +90,7 @@ public class ArtemisExperiment implements IExperimentManager
 		IPositionGoal[] goals = new NearPositionGoal[] {
 			new NearPositionGoal(targtPositions[0], 10),
 			new NearPositionGoal(targtPositions[1], 20),
-			new NearPositionGoal(targtPositions[2], 30),
+			new NearPositionGoal(targtPositions[2], 50),
 			new NearPositionGoal(targtPositions[3], 5),
 			new NearPositionGoal(targtPositions[4], 80),
 		};
@@ -121,7 +121,7 @@ public class ArtemisExperiment implements IExperimentManager
 		e.addComponent(new NearDistanceComponent(60f));
 		e.addToWorld();
 
-		e = world.createEntity();
+		/*e = world.createEntity();
 		selector = new TaskSelector(
 			tasks[1],
 			tasks[0],
@@ -175,7 +175,7 @@ public class ArtemisExperiment implements IExperimentManager
 		e.addComponent(new MovementSpeedComponent(80f));
 		e.addComponent(new MovementDirectionComponent(0, 1.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(50f));
-		e.addToWorld();
+		e.addToWorld();*/
 
 		// Landmarks
 		for (int i = 0; i < targtPositions.length; i++)
@@ -187,6 +187,9 @@ public class ArtemisExperiment implements IExperimentManager
 			{
 				e.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision()));
 				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
+
+				e.addComponent(new MovementSpeedComponent(5f));
+				e.addComponent(new MovementDirectionComponent());
 			}
 			
 			e.addToWorld();

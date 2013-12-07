@@ -102,29 +102,35 @@ public class NearCenterOfMassDestination implements IStrategy
 				}
 				
 				
+				if (task.isSuccess(world, e))
+				{
+					e.removeComponent(targetComponent);
+					e.changedInWorld();
+					
+					return true;
+				}
+				
+				if (navigation.atPoint(e, target, precision))
+				{
+					// finished strategy step
+				}
+				
+				targetComponent.setPrecision(precision);
+				target.set(x / (double) n + (0.5 - Math.random()) * near, y / (double) n + (0.5 - Math.random()) * near);
 				
 				log.debug("target position {}", target);
 				log.debug("entity desired position {}", targetComponent);
 				
-				if (task.isSuccess(world, e))
-				{
-					return true;
-				}
-				
-				if (!navigation.atPoint(e, target, precision))
-				{
-					return false;
-				}
-				else
-				{
-					target.set(x / (double) n + (0.5 - Math.random()) * near, y / (double) n + (0.5 - Math.random()) * near);
-					
-					return true;
-				}
+				return false;
 			}
 		}
 
 		return true;
 	}
 
+	
+	public String toString()
+	{
+		return String.format("[%s@%x {precision: %s}]", getClass().getSimpleName(), hashCode(), precision);
+	}
 }

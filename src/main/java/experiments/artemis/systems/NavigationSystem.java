@@ -69,7 +69,7 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 
 	protected void process(Entity e)
 	{
-		log.setActive(cdm.get(e) != null);
+		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
 
 		log.info("process entity {}", e);
 		log.info("retriving entity state..");
@@ -113,7 +113,7 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 
 	public boolean nearPoint(Entity e, IPosition target)
 	{
-		log.setActive(cdm.get(e) != null);
+		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
 
 		log.info("nearPoint entity {}", e);
 		log.info("retriving entity state..");
@@ -143,7 +143,7 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 
 	public boolean atPoint(Entity e, IPosition target, Double precision)
 	{
-		log.setActive(cdm.get(e) != null);
+		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
 
 		log.info("atPoint entity {}", e);
 		log.info("retriving entity state..");
