@@ -14,46 +14,48 @@ public class Counter extends Filter
 	private Bag<Integer> counters = new Bag<Integer>();
 
 
-	public Counter(ITask task, int count)
+	public Counter(IBehavior behavior, int count)
 	{
-		super(task);
+		super(behavior);
 
 		this.count = count;
 	}
-	
-	
+
+
+	public boolean isRunning(World world, Entity e)
+	{
+		return getCountFor(e) != 0 && super.isRunning(world, e);
+	}
+
+
 	public boolean isCompleted(World world, Entity e)
 	{
-		int countForEntity = getCountFor(e);
-
-		return countForEntity == 0 || super.isCompleted(world, e);
+		return getCountFor(e) == 0 || super.isCompleted(world, e);
 	}
-	
-	
+
+
 	public boolean isSuccess(World world, Entity e)
 	{
-		int countForEntity = getCountFor(e);
-
-		return countForEntity == 0 || super.isSuccess(world, e);
+		return getCountFor(e) == 0 || super.isSuccess(world, e);
 	}
-	
-	
+
+
 	public void reset(World world, Entity e)
 	{
-		if (isCompleted(world, e) && isTrue(world, e))
+		if (isCompleted(world, e) && filterCondition(world, e))
 		{
 			int countForEntity = getCountFor(e);
 			counters.set(e.getId(), --countForEntity);
-			
+
 			System.out.println("counter");
 			System.out.println(countForEntity);
-			
+
 			super.reset(world, e);
 		}
 	}
 
 
-	public boolean isTrue(World world, Entity e)
+	public boolean filterCondition(World world, Entity e)
 	{
 		int countForEntity = getCountFor(e);
 

@@ -42,7 +42,7 @@ public class Polygon implements IPosition
 			{
 				if (v[(2 * (i + 1) + 1) % v.length] > y)
 				{
-					if (isLeft(v[2 * i + 1], v[2 * i + 1], v[(2 * (i + 1))  % v.length], v[(2 * (i + 1) + 1) % v.length], x, y) > 0)
+					if (isLeft(v[2 * i], v[2 * i + 1], v[(2 * (i + 1))  % v.length], v[(2 * (i + 1) + 1) % v.length], x, y) > 0)
 					{
 						++wn;
 					}
@@ -52,7 +52,7 @@ public class Polygon implements IPosition
 			{
 				if (v[(2 * (i + 1) + 1) % v.length] <= y)
 				{
-					if (isLeft(v[2 * i + 1], v[2 * i + 1], v[(2 * (i + 1))  % v.length], v[(2 * (i + 1) + 1) % v.length], x, y) < 0)
+					if (isLeft(v[2 * i], v[2 * i + 1], v[(2 * (i + 1))  % v.length], v[(2 * (i + 1) + 1) % v.length], x, y) < 0)
 					{
 						--wn;
 					}

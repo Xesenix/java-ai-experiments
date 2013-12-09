@@ -7,65 +7,65 @@ import com.artemis.World;
 
 public class Decorator implements IBehavior
 {
-	private ITask task;
+	private IBehavior behavior;
 
 
-	public Decorator(ITask task)
+	public Decorator(IBehavior behavior)
 	{
-		this.task = task;
+		this.behavior = behavior;
 	}
 
 
 	public boolean run(World world, Entity e)
 	{
-		return task.run(world, e);
+		return behavior.run(world, e);
 	}
 
 
-	public ITask getTask()
+	public IBehavior getBehavior()
 	{
-		return task;
+		return behavior;
 	}
 
 
-	public void setTask(ITask task)
+	public void setBehavior(IBehavior task)
 	{
-		this.task = task;
+		this.behavior = task;
 	}
 
 
 	public boolean isReady(World world, Entity e)
 	{
-		return task.isReady(world, e);
+		return behavior.isReady(world, e);
 	}
 
 
 	public boolean isRunning(World world, Entity e)
 	{
-		return task.isRunning(world, e);
+		return behavior.isRunning(world, e);
 	}
 
 
 	public boolean isSuccess(World world, Entity e)
 	{
-		return task.isSuccess(world, e);
+		return behavior.isSuccess(world, e);
 	}
 
 
 	public boolean isCompleted(World world, Entity e)
 	{
-		return task.isCompleted(world, e);
+		return behavior.isCompleted(world, e);
 	}
 
 
 	public void reset(World world, Entity e)
 	{
-		task.reset(world, e);
+		behavior.reset(world, e);
 	}
 
 
 	public String toString()
 	{
-		return String.format("[%s@%x, {task: %s}]", getClass().getSimpleName(), hashCode(), task);
+		return String.format("[%s@%x, {behavior: %s}]", getClass().getSimpleName(), hashCode(), behavior);
 	}
 }

@@ -29,10 +29,12 @@ import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.ai.behaviours.KeepInAreaGoal;
 import experiments.artemis.ai.behaviours.NearPositionGoal;
+import experiments.artemis.ai.behaviours.Not;
 import experiments.artemis.ai.behaviours.PositionGoal;
 import experiments.artemis.ai.behaviours.PositionTask;
+import experiments.artemis.ai.behaviours.PrioritySelector;
+import experiments.artemis.ai.behaviours.SequenceSelector;
 import experiments.artemis.ai.behaviours.Task;
-import experiments.artemis.ai.behaviours.TaskSelector;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
@@ -145,14 +147,9 @@ public class ArtemisExperiment implements IExperimentManager
 			new PositionTask("keep in area", goals[5]),
 		};
 		
-		IBehavior crowdBehavior = null;
-		
-		crowdBehavior = new TaskSelector(
-			new TaskSelector(
-				//new Not(new PositionCondition(goals[5])),
-				tasks[5]
-			),
-			new Counter(tasks[0], 2)
+		IBehavior keepInAreaBehavior = new SequenceSelector(
+			new Not(goals[5]),
+			tasks[5]
 		);
 		
 
@@ -161,17 +158,22 @@ public class ArtemisExperiment implements IExperimentManager
 		
 		world.getManager(GroupManager.class).add(e, "actors");
 		
-		TaskSelector selector = new TaskSelector(
-			new Counter(tasks[0], 2),
+		SequenceSelector quests = new SequenceSelector(
+			new Counter(tasks[0], 3),
 			tasks[1],
 			tasks[2],
 			new Counter(tasks[3], 2),
-			new Counter(tasks[4], 2)
+			new Counter(tasks[4], 4)
+		);
+		
+		IBehavior crowdBehavior = new PrioritySelector(
+			new Counter(keepInAreaBehavior, 2),
+			quests
 		);
 
 		e.addComponent(new ConsoleDebugComponent());
 		e.addComponent(new PositionComponent(positions[0]));
-		e.addComponent(new BehaviorComponent(selector));
+		e.addComponent(new BehaviorComponent(crowdBehavior));
 		e.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
 		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(60f));
@@ -248,7 +250,7 @@ public class ArtemisExperiment implements IExperimentManager
 			
 			if (goals[i] instanceof KeepInAreaGoal)
 			{
-				e.addComponent(new ShapeComponent((Polygon) ((KeepInAreaGoal) goals[i]).getTarget(world, e)));
+				e.addComponent(new ShapeComponent((Polygon) ((KeepInAreaGoal) goals[i]).getArea()));
 				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
 			}
 			

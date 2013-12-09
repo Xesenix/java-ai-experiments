@@ -7,24 +7,20 @@ import com.artemis.World;
 
 public class Not extends Condition
 {
-
-	private Condition condition;
-
-
-	public Not(Condition condition)
+	public Not(IGoal goals)
 	{
-		this.condition = condition;
+		super(goals);
 	}
-
-
-	public boolean isCompleted(World world, Entity e)
+	
+	
+	public boolean run(World world, Entity e)
 	{
-		return !condition.isCompleted(world, e);
+		return !super.run(world, e);
 	}
 	
 	
 	public boolean isSuccess(World world, Entity e)
 	{
-		return !condition.isSuccess(world, e);
+		return !super.isSuccess(world, e);
 	}
 }

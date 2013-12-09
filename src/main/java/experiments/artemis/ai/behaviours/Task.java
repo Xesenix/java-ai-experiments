@@ -50,24 +50,6 @@ public class Task implements ITask
 		TasksSystem system = world.getSystem(TasksSystem.class);
 		
 		return system.runTask(e, this);
-		
-		/*if (getState(world, e) == TaskState.READY)
-		{
-			ComponentMapper<TasksComponent> tm = world.getMapper(TasksComponent.class);
-			TasksComponent tasks = tm.get(e);
-			
-			if (tasks == null)
-			{
-				tasks = new TasksComponent();
-				
-				e.addComponent(tasks);
-				e.changedInWorld();
-			}
-			
-			tasks.addTask(this);
-		}
-		
-		return true;*/
 	}
 
 

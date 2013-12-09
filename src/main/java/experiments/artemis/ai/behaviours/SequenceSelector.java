@@ -8,7 +8,7 @@ import com.artemis.World;
 import com.artemis.utils.Bag;
 
 
-public class TaskSelector implements IBehavior
+public class SequenceSelector implements IBehavior
 {
 	private IBehavior behaviors[];
 
@@ -16,7 +16,7 @@ public class TaskSelector implements IBehavior
 	private transient Bag<Integer> indexForEntity = new Bag<Integer>();
 	
 	
-	public TaskSelector(IBehavior... behaviors)
+	public SequenceSelector(IBehavior... behaviors)
 	{
 		setBehaviors(behaviors);
 	}
@@ -26,8 +26,6 @@ public class TaskSelector implements IBehavior
 	{
 		for (int i = getIndexForEntity(world, e); i < behaviors.length; i++)
 		{
-			System.out.println("list");
-			System.out.println(i);
 			indexForEntity.set(e.getId(), i);
 			
 			if (behaviors[i].isSuccess(world, e))
@@ -35,18 +33,13 @@ public class TaskSelector implements IBehavior
 				continue;
 			}
 			
-			if (behaviors[i].run(world, e))
+			if (!behaviors[i].run(world, e))
 			{
-				if (behaviors[i].isRunning(world, e))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				//indexForEntity.set(e.getId(), 0);
-				
 				return false;
+			}
+			else if (behaviors[i].isRunning(world, e))
+			{
+				return true;
 			}
 		}
 		
@@ -88,11 +81,8 @@ public class TaskSelector implements IBehavior
 
 	public void reset(World world, Entity e)
 	{
-		System.out.println("reset?");
 		if (!isRunning(world, e))
 		{
-			System.out.println("reset");
-			
 			indexForEntity.set(e.getId(), 0);
 
 			for (int i = 0; i < behaviors.length; i++)
@@ -109,12 +99,9 @@ public class TaskSelector implements IBehavior
 
 		if (index == null)
 		{
-			System.out.println("new index");
 			index = 0;
 			indexForEntity.set(e.getId(), index);
 		}
-		
-		System.out.println(index);
 
 		return index;
 	}

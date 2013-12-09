@@ -53,11 +53,27 @@ public class KeepInAreaGoal implements IPositionGoal
 		
 		return Polygon.insidePolygon(position.getX(), position.getY(), polygon.getVertices());
 	}
+	
+	
+	public Polygon getArea()
+	{
+		return polygon;
+	}
 
 
 	public IPosition getTarget(World world, Entity e)
 	{
-		return polygon;
+		double x = 0, y = 0;
+		double[] vertices = polygon.getVertices();
+		int n = vertices.length / 2;
+		
+		for (int i = 0; i < n; i++)
+		{
+			x += vertices[2 * i];
+			y += vertices[2 * i + 1];
+		}
+		
+		return new Position(x / (double) n, y / (double) n);
 	}
 
 }

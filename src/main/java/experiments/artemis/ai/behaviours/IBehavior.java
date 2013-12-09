@@ -7,20 +7,47 @@ import com.artemis.World;
 
 public interface IBehavior
 {
+	/**
+	 * False if errors or failure
+	 * 
+	 * @param world
+	 * @param e
+	 * @return
+	 */
 	boolean run(World world, Entity e);
 
 
+	/**
+	 * True if not yet started.
+	 * 
+	 * @param world
+	 * @param e
+	 * @return
+	 */
 	boolean isReady(World world, Entity e);
 
 
+	/**
+	 * True if behavior still running.
+	 * 
+	 * @param world
+	 * @param e
+	 * @return
+	 */
 	boolean isRunning(World world, Entity e);
 
 
+	/**
+	 * Reset state of behavior.
+	 * 
+	 * @param world
+	 * @param e
+	 */
 	void reset(World world, Entity e);
 
 
 	/**
-	 * All goals achieved.
+	 * True if goals achived.
 	 * 
 	 * @param world
 	 * @param e
@@ -29,11 +56,8 @@ public interface IBehavior
 	boolean isSuccess(World world, Entity e);
 
 
-
-
-
 	/**
-	 * Strategy finished execution.
+	 * Strategy finished execution eighter success or failure.
 	 * 
 	 * @param world
 	 * @param e

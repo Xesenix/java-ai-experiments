@@ -7,15 +7,15 @@ import com.artemis.World;
 
 abstract public class Filter extends Decorator
 {
-	public Filter(ITask task)
+	public Filter(IBehavior behavior)
 	{
-		super(task);
+		super(behavior);
 	}
 
 
 	public boolean run(World world, Entity e)
 	{
-		if (this.isTrue(world, e))
+		if (this.filterCondition(world, e))
 		{
 			return super.run(world, e);
 		}
@@ -24,5 +24,5 @@ abstract public class Filter extends Decorator
 	}
 
 
-	abstract public boolean isTrue(World world, Entity e);
+	abstract public boolean filterCondition(World world, Entity e);
 }

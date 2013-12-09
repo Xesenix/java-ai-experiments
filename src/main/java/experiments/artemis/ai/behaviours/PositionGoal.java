@@ -58,18 +58,7 @@ public class PositionGoal extends Goal implements IPositionGoal
 				n ++;
 			}
 			
-			if (pos instanceof Polygon && !Polygon.insidePolygon(position.getX(), position.getY(), ((Polygon) pos).getVertices()))
-			{
-				double[] vertices = ((Polygon) pos).getVertices();
-				int count = vertices.length / 2;
-				
-				for (int i = 0; i < count; i++)
-				{
-					x += vertices[2 * i];
-					y += vertices[2 * i + 1];
-					n ++;
-				}
-			}
+			
 		}
 		
 		if (n > 0)
