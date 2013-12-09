@@ -7,16 +7,12 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
-import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.systems.IntervalEntityProcessingSystem;
-import com.artemis.utils.Bag;
 
 import experiments.artemis.ActiveLogger;
-import experiments.artemis.ai.StrategyPlanner;
-import experiments.artemis.ai.behaviours.ITask;
-import experiments.artemis.ai.strategy.IStrategy;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
+import experiments.artemis.components.TasksComponent;
 
 
 public class BehaviourSystem extends IntervalEntityProcessingSystem
@@ -29,29 +25,22 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 
 
 	@Mapper
+	ComponentMapper<TasksComponent> tm;
+	
+
+	@Mapper
 	ComponentMapper<ConsoleDebugComponent> cdm;
 
 
-	private Bag<ITask> taskByEntity = new Bag<ITask>();
-
-
-	private Bag<IStrategy> strategyByEntity = new Bag<IStrategy>();
-
-
-	private StrategyPlanner strategyPlanner;
-
-
-	public BehaviourSystem(StrategyPlanner strategyPlanner, float interval)
+	public BehaviourSystem(float interval)
 	{
 		super(Aspect.getAspectForOne(BehaviorComponent.class), interval);
-
-		this.strategyPlanner = strategyPlanner;
 	}
 
 
 	protected void process(Entity e)
 	{
-		boolean finished = true;
+		//boolean finished = true;
 
 		log.setActive(cdm.get(e) != null && cdm.get(e).behavior);
 
@@ -62,90 +51,20 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 
 		log.debug("entity behavior {}", behavior);
 
+		// clean task list
+		TasksComponent tasksComponent = tm.get(e);
+		
+		if (tasksComponent == null)
+		{
+			tasksComponent = new TasksComponent();
+			e.addComponent(tasksComponent);
+			e.changedInWorld();
+		}
+		
 		// decide what to do
-
-		ITask previousTask = taskByEntity.get(e.getId());
-		
-		log.debug("previous task {}", previousTask);
-
 		behavior.reset(world, e);
-		ITask task = behavior.chooseTask(world, e);
-
-		log.debug("entity new task {}", task);
-
-		if (task == null)
-		{
-			return;
-		}
+		behavior.choose(world, e);
 		
-		IStrategy runningStrategy = strategyByEntity.get(e.getId());
-		
-		if (task == previousTask && runningStrategy != null)
-		{
-			log.info("continuing old strategy");
-		}
-		else
-		{
-			log.info("choosing new strategy");
-			
-			runningStrategy = strategyPlanner.bestStrategyFor(world, e, task);
-		}
-		
-		log.debug("current running strategy {}", runningStrategy);
-		
-		if (runningStrategy != null)
-		{
-			finished = false;
-
-			// check is strategy can be performed
-
-			if (runningStrategy.canPerform(world, e, task))
-			{
-				// performing strategy
-				log.info("performing chosen strategy");
-
-				finished = runningStrategy.perform(world, e, task);
-
-				log.debug("strategy finished: {}", finished);
-
-				if (finished)
-				{
-					log.info("finished performing chosen strategy");
-
-					if (task.isSuccess(world, e))
-					{
-						log.info("goal achived");
-						// TODO strategy successful modify priority so it would be used more often
-					}
-					else
-					{
-						log.info("goal not achived");
-						// TODO strategy unsuccessful modify priority so it would be used less frequent
-					}
-
-					strategyByEntity.set(e.getId(), null);
-					runningStrategy = null;
-				}
-				else
-				{
-					task.setCompleted(world, e, false);
-				}
-			}
-			else
-			{
-				log.info("can`t perform chosen strategy");
-				runningStrategy = null;
-			}
-		}
-
-		if (finished && task.isSuccess(world, e))
-		{
-			log.info("task completed");
-			task.setCompleted(world, e, true);
-			task = null;
-		}
-
-		strategyByEntity.set(e.getId(), runningStrategy);
-		taskByEntity.set(e.getId(), task);
+		log.info("entity tasks {}", tasksComponent);
 	}
 }

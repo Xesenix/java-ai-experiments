@@ -23,6 +23,12 @@ public class Position implements IPosition
 	}
 
 
+	public Position(Position target)
+	{
+		this.set(target.getX(), target.getY());
+	}
+
+
 	public void set(double x, double y)
 	{
 		this.x = x;

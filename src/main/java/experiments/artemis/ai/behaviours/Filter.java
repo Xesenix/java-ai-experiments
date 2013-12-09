@@ -13,14 +13,14 @@ abstract public class Filter extends Decorator
 	}
 
 
-	public ITask chooseTask(World world, Entity e)
+	public boolean run(World world, Entity e)
 	{
 		if (this.isTrue(world, e))
 		{
-			return super.chooseTask(world, e);
+			return super.run(world, e);
 		}
 
-		return null;
+		return false;
 	}
 
 

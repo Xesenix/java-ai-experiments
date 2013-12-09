@@ -16,9 +16,9 @@ public class Decorator implements IBehavior
 	}
 
 
-	public ITask chooseTask(World world, Entity e)
+	public boolean run(World world, Entity e)
 	{
-		return task.chooseTask(world, e);
+		return task.run(world, e);
 	}
 
 
@@ -34,15 +34,27 @@ public class Decorator implements IBehavior
 	}
 
 
-	public void setCompleted(World world, Entity e, boolean ready)
+	public boolean isReady(World world, Entity e)
 	{
-		task.setCompleted(world, e, ready);
+		return task.isReady(world, e);
 	}
 
 
 	public boolean isRunning(World world, Entity e)
 	{
 		return task.isRunning(world, e);
+	}
+
+
+	public boolean isSuccess(World world, Entity e)
+	{
+		return task.isSuccess(world, e);
+	}
+
+
+	public boolean isCompleted(World world, Entity e)
+	{
+		return task.isCompleted(world, e);
 	}
 
 

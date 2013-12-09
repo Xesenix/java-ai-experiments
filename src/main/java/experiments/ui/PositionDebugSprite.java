@@ -1,9 +1,6 @@
 
 package experiments.ui;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import javafx.event.EventHandler;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;

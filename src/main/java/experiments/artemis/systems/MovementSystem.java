@@ -13,7 +13,6 @@ import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
-import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 
 public class MovementSystem extends EntityProcessingSystem

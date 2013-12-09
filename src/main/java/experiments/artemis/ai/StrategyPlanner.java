@@ -7,9 +7,8 @@ import com.artemis.utils.Bag;
 
 import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.behaviours.PositionTask;
-import experiments.artemis.ai.strategy.IStrategy;
 import experiments.artemis.ai.strategy.CenterOfMassDestination;
-import experiments.artemis.ai.strategy.NearCenterOfMassDestination;
+import experiments.artemis.ai.strategy.IStrategy;
 
 
 public class StrategyPlanner
@@ -17,9 +16,9 @@ public class StrategyPlanner
 
 	private IStrategy[] positionStrategies = new IStrategy[] {
 		new CenterOfMassDestination(),
-		new NearCenterOfMassDestination(30, 5),
-		new NearCenterOfMassDestination(30, 10),
-		new NearCenterOfMassDestination(30, 15),
+		// new NearCenterOfMassDestination(30, 5),
+		// new NearCenterOfMassDestination(30, 10),
+		// new NearCenterOfMassDestination(30, 15),
 	};
 	
 	

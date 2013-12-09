@@ -22,44 +22,77 @@ public class TaskSelector implements IBehavior
 	}
 
 
-	public ITask chooseTask(World world, Entity e)
+	public boolean run(World world, Entity e)
 	{
-		ITask task;
-
 		for (int i = getIndexForEntity(world, e); i < behaviors.length; i++)
 		{
-			task = behaviors[i].chooseTask(world, e);
-
-			if (task != null && !task.isCompleted(world, e))
+			System.out.println("list");
+			System.out.println(i);
+			indexForEntity.set(e.getId(), i);
+			
+			if (behaviors[i].isSuccess(world, e))
 			{
-				indexForEntity.set(e.getId(), i);
+				continue;
+			}
+			
+			if (behaviors[i].run(world, e))
+			{
+				if (behaviors[i].isRunning(world, e))
+				{
+					return true;
+				}
+			}
+			else
+			{
+				//indexForEntity.set(e.getId(), 0);
 				
-				return task;
+				return false;
 			}
 		}
+		
+		return true;
+	}
 
-		return null;
+
+	public boolean isReady(World world, Entity e)
+	{
+		int index = getIndexForEntity(world, e);
+		
+		return index == 0 && behaviors[index].isReady(world, e);
 	}
 
 
 	public boolean isRunning(World world, Entity e)
 	{
-		for (int i = getIndexForEntity(world, e); i < behaviors.length; i++)
-		{
-			if (behaviors[i].isRunning(world, e))
-			{
-				return true;
-			}
-		}
+		int index = getIndexForEntity(world, e);
+		
+		return behaviors[index].isRunning(world, e) || behaviors[index].isSuccess(world, e) && index < behaviors.length - 1;
+	}
 
-		return false;
+
+	public boolean isSuccess(World world, Entity e)
+	{
+		int index = getIndexForEntity(world, e);
+		
+		return index == behaviors.length - 1 && behaviors[index].isSuccess(world, e);
+	}
+
+
+	public boolean isCompleted(World world, Entity e)
+	{
+		int index = getIndexForEntity(world, e);
+		
+		return index == behaviors.length - 1 && behaviors[index].isCompleted(world, e);
 	}
 
 
 	public void reset(World world, Entity e)
 	{
+		System.out.println("reset?");
 		if (!isRunning(world, e))
 		{
+			System.out.println("reset");
+			
 			indexForEntity.set(e.getId(), 0);
 
 			for (int i = 0; i < behaviors.length; i++)
@@ -76,9 +109,12 @@ public class TaskSelector implements IBehavior
 
 		if (index == null)
 		{
+			System.out.println("new index");
 			index = 0;
 			indexForEntity.set(e.getId(), index);
 		}
+		
+		System.out.println(index);
 
 		return index;
 	}

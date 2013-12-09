@@ -20,19 +20,17 @@ public class Counter extends Filter
 
 		this.count = count;
 	}
-
-
-	public ITask chooseTask(World world, Entity e)
+	
+	
+	public void reset(World world, Entity e)
 	{
-		ITask task = super.chooseTask(world, e);
-
-		if (task != null && task.isCompleted(world, e))
+		if (isSuccess(world, e))
 		{
 			int countForEntity = getCountFor(e);
 			counters.set(e.getId(), --countForEntity);
+			
+			super.reset(world, e);
 		}
-
-		return task;
 	}
 
 
@@ -54,18 +52,6 @@ public class Counter extends Filter
 		}
 
 		return counter;
-	}
-
-
-	public void setCompleted(World world, Entity e, boolean completed)
-	{
-		if (completed)
-		{
-			int countForEntity = getCountFor(e);
-			counters.set(e.getId(), --countForEntity);
-		}
-
-		super.setCompleted(world, e, completed);
 	}
 
 

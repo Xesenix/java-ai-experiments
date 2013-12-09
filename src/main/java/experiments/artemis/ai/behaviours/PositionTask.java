@@ -1,33 +1,48 @@
 
 package experiments.artemis.ai.behaviours;
 
-import java.util.Collection;
 
 
 public class PositionTask extends Task
 {
-	private IPositionGoal[] goals;
+	private IPositionGoal goals;
+	
+	
+	private String name;
 
 
-	public PositionTask(IPositionGoal... goals)
+	public PositionTask(IPositionGoal goals)
 	{
 		this.goals = goals;
 	}
 
 
-	public IPositionGoal[] getGoals()
+	public PositionTask(String name, IPositionGoal goals)
+	{
+		this.setName(name);
+		this.setGoals(goals);
+	}
+
+
+	public String getName()
+	{
+		return name;
+	}
+
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+
+	public IPositionGoal getGoals()
 	{
 		return goals;
 	}
 
 
-	public void setGoals(Collection<IGoal> goals)
-	{
-		setGoals(goals.toArray(new IPositionGoal[goals.size()]));
-	}
-
-
-	public void setGoals(IPositionGoal... goals)
+	public void setGoals(IPositionGoal goals)
 	{
 		this.goals = goals;
 	}
@@ -35,6 +50,6 @@ public class PositionTask extends Task
 
 	public String toString()
 	{
-		return String.format("[%s@%x {targets: %s}]", getClass().getSimpleName(), hashCode(), this.goals);
+		return String.format("[%s@%x {name: %s, targets: %s}]", getClass().getSimpleName(), hashCode(), getName(), getGoals());
 	}
 }

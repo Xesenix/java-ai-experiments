@@ -1,16 +1,19 @@
 
 package experiments.artemis.ai.behaviours;
 
-import java.util.Collection;
-
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.utils.Bag;
 
+import experiments.artemis.systems.TasksSystem;
+
 
 public class Task implements ITask
 {
-	private Bag<Boolean> taskCompletedByEntity = new Bag<Boolean>();
+	private Bag<TaskState> stateByEntity = new Bag<TaskState>();
+	
+	
+	private IGoal goals;
 
 
 	public Task()
@@ -18,72 +21,85 @@ public class Task implements ITask
 	}
 
 
-	public IGoal[] getGoals()
+	public TaskState getState(World world, Entity e)
 	{
-		return new IGoal[0];
+		return stateByEntity.get(e.getId());
 	}
 
 
-	public void setGoals(Collection<IGoal> goals)
+	public void setState(World world, Entity e, TaskState state)
 	{
+		stateByEntity.set(e.getId(), state);
 	}
 
 
-	public final ITask chooseTask(World world, Entity e)
+	public IGoal getGoals()
 	{
-		return this;
+		return goals;
+	}
+
+
+	public void setGoals(IGoal goals)
+	{
+		this.goals = goals;
+	}
+
+
+	public boolean run(World world, Entity e)
+	{
+		TasksSystem system = world.getSystem(TasksSystem.class);
+		
+		return system.runTask(e, this);
+		
+		/*if (getState(world, e) == TaskState.READY)
+		{
+			ComponentMapper<TasksComponent> tm = world.getMapper(TasksComponent.class);
+			TasksComponent tasks = tm.get(e);
+			
+			if (tasks == null)
+			{
+				tasks = new TasksComponent();
+				
+				e.addComponent(tasks);
+				e.changedInWorld();
+			}
+			
+			tasks.addTask(this);
+		}
+		
+		return true;*/
+	}
+
+
+	public boolean isReady(World world, Entity e)
+	{
+		return getState(world, e) == TaskState.READY;
 	}
 
 
 	public boolean isSuccess(World world, Entity e)
 	{
-		if (isCompleted(world, e))
-		{
-			return true;
-		}
-
-		IGoal[] goals = getGoals();
-
-		for (int i = 0; i < goals.length; i++)
-		{
-			if (!goals[i].achived(world, e))
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return getState(world, e) == TaskState.SUCCESS;
 	}
 
 
 	public boolean isCompleted(World world, Entity e)
 	{
-		Boolean result = taskCompletedByEntity.get(e.getId());
+		TaskState state = getState(world, e);
 
-		if (result == null)
-		{
-			return false;
-		}
-
-		return result;
-	}
-
-
-	public void setCompleted(World world, Entity e, boolean completed)
-	{
-		taskCompletedByEntity.set(e.getId(), completed);
+		return state == TaskState.SUCCESS || state == TaskState.FAILURE;
 	}
 
 
 	public boolean isRunning(World world, Entity e)
 	{
-		return !isCompleted(world, e);
+		return getState(world, e) == TaskState.RUNNING;
 	}
 
 
 	public void reset(World world, Entity e)
 	{
-		setCompleted(world, e, false);
+		setState(world, e, TaskState.READY);
 	}
 
 

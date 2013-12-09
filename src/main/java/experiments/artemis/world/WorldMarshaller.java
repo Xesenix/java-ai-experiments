@@ -1,14 +1,12 @@
 package experiments.artemis.world;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import ai.world.IWorldDescriptor;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
-import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

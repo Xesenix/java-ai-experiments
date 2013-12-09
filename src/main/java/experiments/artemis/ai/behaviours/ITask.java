@@ -1,8 +1,6 @@
 
 package experiments.artemis.ai.behaviours;
 
-import java.util.Collection;
-
 import com.artemis.Entity;
 import com.artemis.World;
 
@@ -14,23 +12,10 @@ import com.artemis.World;
  */
 public interface ITask extends IBehavior
 {
-	IGoal[] getGoals();
+	IGoal getGoals();
 
 
-	void setGoals(Collection<IGoal> goals);
-
-
-	/**
-	 * All goals achieved.
-	 * 
-	 * @param world
-	 * @param e
-	 * @return true if achieved all goals
-	 */
-	boolean isSuccess(World world, Entity e);
-
-
-	void setCompleted(World world, Entity e, boolean completed);
+	void setGoals(IGoal goals);
 
 
 	/**
@@ -40,5 +25,8 @@ public interface ITask extends IBehavior
 	 * @param e
 	 * @return
 	 */
-	boolean isCompleted(World world, Entity e);
+	TaskState getState(World world, Entity e);
+
+
+	void setState(World world, Entity e, TaskState state);
 }

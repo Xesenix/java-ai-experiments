@@ -1,8 +1,6 @@
 
 package experiments.artemis.components;
 
-import ai.world.IPosition;
-
 import com.artemis.Component;
 
 import experiments.artemis.ai.world2d.Polygon;

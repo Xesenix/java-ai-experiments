@@ -7,12 +7,10 @@ import javax.xml.bind.JAXBException;
 import ai.AI;
 import ai.actions.MoveTo;
 import ai.actors.NPC;
-import ai.behaviour.Scene;
 import ai.world.IPosition;
 import ai.world.IWorld;
 import ai.world.IWorldDescriptor;
 import ai.world.World;
-import ai.world.navigation.Target;
 import ai.world2d.Position;
 
 import com.google.inject.AbstractModule;

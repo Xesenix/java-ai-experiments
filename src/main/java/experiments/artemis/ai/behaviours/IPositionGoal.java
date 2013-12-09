@@ -1,10 +1,10 @@
 
 package experiments.artemis.ai.behaviours;
 
+import ai.world.IPosition;
+
 import com.artemis.Entity;
 import com.artemis.World;
-
-import ai.world.IPosition;
 
 
 public interface IPositionGoal extends IGoal

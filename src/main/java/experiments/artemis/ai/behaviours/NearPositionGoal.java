@@ -6,35 +6,37 @@ import ai.world.IPosition;
 import com.artemis.Entity;
 import com.artemis.World;
 
-import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.NavigationSystem;
 
 
-public class NearPositionGoal extends PositionComponent implements IPositionGoal
+public class NearPositionGoal extends Goal implements IPositionGoal
 {
+	private IPosition target;
+	
+	
 	private double precision;
 
 
-	public NearPositionGoal(IPosition position)
+	public NearPositionGoal(IPosition target)
 	{
-		this(position, 0);
+		this(target, 0);
 	}
 
 
-	public NearPositionGoal(IPosition position, double precision)
+	public NearPositionGoal(IPosition target, double precision)
 	{
-		super(position);
+		this.target = target;
 		this.precision = precision;
 	}
 
 
 	public IPosition getTarget(World world, Entity e)
 	{
-		return getPosition();
+		return target;
 	}
 
 
-	public double getPrecision()
+	public double getPrecision(World world, Entity e)
 	{
 		return precision;
 	}
@@ -44,6 +46,6 @@ public class NearPositionGoal extends PositionComponent implements IPositionGoal
 	{
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 
-		return navigation.atPoint(e, getTarget(world, e), precision);
+		return navigation.atPoint(e, target, precision);
 	}
 }

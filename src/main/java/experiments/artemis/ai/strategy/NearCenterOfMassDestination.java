@@ -3,18 +3,13 @@ package experiments.artemis.ai.strategy;
 
 import org.slf4j.LoggerFactory;
 
-import ai.world.IPosition;
-
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.utils.Bag;
 
 import experiments.artemis.ActiveLogger;
-import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.behaviours.PositionTask;
-import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
@@ -61,7 +56,7 @@ public class NearCenterOfMassDestination implements IStrategy
 			double x = 0, y = 0;
 			int n = 0;
 
-			for (IPositionGoal goal : ((PositionTask) task).getGoals())
+			/*for (IPositionGoal goal : ((PositionTask) task).getGoals())
 			{
 				IPosition pos = goal.getTarget(world, e);
 
@@ -84,7 +79,7 @@ public class NearCenterOfMassDestination implements IStrategy
 						n ++;
 					}
 				}
-			}
+			}*/
 
 			if (n > 0)
 			{

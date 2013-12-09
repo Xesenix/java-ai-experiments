@@ -3,18 +3,14 @@ package experiments.artemis.ai.strategy;
 
 import org.slf4j.LoggerFactory;
 
-import ai.world.IPosition;
-
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.utils.Bag;
 
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.ai.behaviours.ITask;
 import experiments.artemis.ai.behaviours.PositionTask;
-import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
@@ -45,69 +41,40 @@ public class CenterOfMassDestination implements IStrategy
 
 		if (task instanceof PositionTask)
 		{
-			double x = 0, y = 0;
-			int n = 0;
-
-			for (IPositionGoal goal : ((PositionTask) task).getGoals())
-			{
-				IPosition pos = goal.getTarget(world, e);
-
-				if (pos instanceof Position)
-				{
-					x += ((Position) pos).getX();
-					y += ((Position) pos).getY();
-					n ++;
-				}
-				
-				if (pos instanceof Polygon)
-				{
-					double[] vertices = ((Polygon) pos).getVertices();
-					int count = vertices.length / 2;
-					
-					for (int i = 0; i < count; i++)
-					{
-						x += vertices[2 * i];
-						y += vertices[2 * i + 1];
-						n ++;
-					}
-				}
-			}
-
-			if (n > 0)
+			IPositionGoal goal = ((PositionTask) task).getGoals();
+			
+			log.debug("goal {}", goal);
+			
+			Position target = (Position) goal.getTarget(world, e);
+			
+			log.debug("goal target position {}", target);
+			
+			if (target != null)
 			{
 				boolean result = false;
 				
 				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
 				DesiredPositionComponent targetComponent = dpm.get(e);
-				Position target = null;
+				Position oldTarget = null;
 				
 				if (targetComponent == null)
 				{
 					log.debug("new desired position");
 					
-					target = new Position(x / (double) n, y / (double) n);
-					targetComponent = new DesiredPositionComponent(target);
+					oldTarget = new Position(target);
+					targetComponent = new DesiredPositionComponent(oldTarget);
 					e.addComponent(targetComponent);
 					e.changedInWorld();
 				}
 				
 				if (!(targetComponent.getPosition() instanceof Position))
 				{
-					target = new Position();
-					targetComponent.setPosition(target);
+					oldTarget = new Position();
+					targetComponent.setPosition(oldTarget);
 				}
 				else
 				{
-					target = (Position) targetComponent.getPosition();
-				}
-				
-				ComponentMapper<PositionComponent> pm = world.getMapper(PositionComponent.class);
-				PositionComponent worldPosition = pm.get(e);
-				Position position = null;
-				
-				if (worldPosition.getPosition() instanceof Position)
-				{
-					position = (Position) targetComponent.getPosition();
+					oldTarget = (Position) targetComponent.getPosition();
 				}
 				
 				if (task.isSuccess(world, e))
@@ -118,21 +85,14 @@ public class CenterOfMassDestination implements IStrategy
 					return true;
 				}
 				
-				targetComponent.setPrecision(Math.hypot(target.getX() - x / (double) n, target.getY() - y / (double) n) / world.getDelta());
+				//targetComponent.setPrecision(Math.hypot(target.getX() - x / (double) n, target.getY() - y / (double) n));
 				
-				if (navigation.atPoint(e, target, targetComponent.getPrecision()))
-				{
-					// finished strategy step
-					result = true;
-				}
-				
-				
-				target.set(x / (double) n, y / (double) n);
+				oldTarget.set(target.getX(), target.getY());
 				
 				log.debug("position {}", e.getComponent(PositionComponent.class));
 				log.debug("entity desired position {}", targetComponent);
 				
-				return result;
+				return navigation.atPoint(e, oldTarget, targetComponent.getPrecision());
 			}
 		}
 

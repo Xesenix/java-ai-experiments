@@ -3,11 +3,11 @@ package experiments.artemis;
 
 import java.io.StringWriter;
 
+import javafx.scene.paint.Color;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
-import javafx.scene.paint.Color;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +29,7 @@ import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.behaviours.IPositionGoal;
 import experiments.artemis.ai.behaviours.KeepInAreaGoal;
 import experiments.artemis.ai.behaviours.NearPositionGoal;
+import experiments.artemis.ai.behaviours.PositionGoal;
 import experiments.artemis.ai.behaviours.PositionTask;
 import experiments.artemis.ai.behaviours.Task;
 import experiments.artemis.ai.behaviours.TaskSelector;
@@ -47,6 +48,7 @@ import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.DebugEntitySystem;
 import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
+import experiments.artemis.systems.TasksSystem;
 import experiments.artemis.world.WorldMarshaller;
 
 
@@ -89,7 +91,8 @@ public class ArtemisExperiment implements IExperimentManager
 	{
 		world = new World();
 		
-		world.setSystem(new BehaviourSystem(new StrategyPlanner(), 2.5f));
+		world.setSystem(new BehaviourSystem(2.5f));
+		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
 		world.setSystem(new DebugEntitySystem(view));
@@ -134,18 +137,22 @@ public class ArtemisExperiment implements IExperimentManager
 		}
 
 		Task[] tasks = new Task[] {
-			new PositionTask(goals[0]),
-			new PositionTask(goals[1]),
-			new PositionTask(goals[2]),
-			new PositionTask(goals[3]),
-			new PositionTask(goals[4], goals[2]),
-			new PositionTask(goals[5]),
+			new PositionTask("simple target 0", goals[0]),
+			new PositionTask("simple target 1", goals[1]),
+			new PositionTask("simple target 2", goals[2]),
+			new PositionTask("simple target 3", goals[3]),
+			new PositionTask("near 2 points", new PositionGoal(goals[4], goals[2])),
+			new PositionTask("keep in area", goals[5]),
 		};
 		
 		IBehavior crowdBehavior = null;
 		
 		crowdBehavior = new TaskSelector(
-			tasks[5]
+			new TaskSelector(
+				//new Not(new PositionCondition(goals[5])),
+				tasks[5]
+			),
+			new Counter(tasks[0], 2)
 		);
 		
 
@@ -164,20 +171,20 @@ public class ArtemisExperiment implements IExperimentManager
 
 		e.addComponent(new ConsoleDebugComponent());
 		e.addComponent(new PositionComponent(positions[0]));
-		e.addComponent(new BehaviorComponent(crowdBehavior));
+		e.addComponent(new BehaviorComponent(selector));
 		e.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
-		e.addComponent(new MovementDirectionComponent(0, 0.2 * Math.PI));
+		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(60f));
 		e.addToWorld();
 
-		e = world.createEntity();
+		/*e = world.createEntity();
 
 		e.addComponent(new PositionComponent(positions[1]));
 		e.addComponent(new BehaviorComponent(crowdBehavior));
 		e.addComponent(new MovementSpeedComponent(50f, 50f));
 		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		e.addComponent(new NearDistanceComponent(30f));
-		e.addToWorld();
+		e.addToWorld();*/
 
 		/*e = world.createEntity();
 		selector = new TaskSelector(
@@ -232,10 +239,10 @@ public class ArtemisExperiment implements IExperimentManager
 			
 			if (goals[i] instanceof NearPositionGoal)
 			{
-				e.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision()));
+				e.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision(world, e)));
 				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
 
-				e.addComponent(new MovementSpeedComponent(5f));
+				// e.addComponent(new MovementSpeedComponent(5f));
 				e.addComponent(new MovementDirectionComponent());
 			}
 			

@@ -10,9 +10,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
-import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.systems.IntervalEntityProcessingSystem;
-import com.artemis.systems.VoidEntitySystem;
 
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.world2d.Position;

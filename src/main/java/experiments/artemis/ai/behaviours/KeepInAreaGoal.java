@@ -8,7 +8,6 @@ import com.artemis.World;
 
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
-import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.PositionComponent;
 
 public class KeepInAreaGoal implements IPositionGoal
