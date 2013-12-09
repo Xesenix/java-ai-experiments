@@ -17,10 +17,7 @@ public class Condition extends Task
 	}
 	
 	
-	public boolean run(World world, Entity e)
-	{
-		return getGoals().achived(world, e);
-	}
+	public void run(World world, Entity e) {}
 
 
 	public boolean isCompleted(World world, Entity e)

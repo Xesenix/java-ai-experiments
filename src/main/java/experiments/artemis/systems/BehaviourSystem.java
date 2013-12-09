@@ -63,7 +63,7 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 		
 		// decide what to do
 		behavior.reset(world, e);
-		behavior.choose(world, e);
+		behavior.run(world, e);
 		
 		log.info("entity tasks {}", tasksComponent);
 	}

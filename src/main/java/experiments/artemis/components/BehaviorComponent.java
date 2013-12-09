@@ -24,9 +24,9 @@ public class BehaviorComponent extends Component
 	}
 
 
-	public boolean choose(World world, Entity e)
+	public void run(World world, Entity e)
 	{
-		return root.run(world, e);
+		root.run(world, e);
 	}
 
 

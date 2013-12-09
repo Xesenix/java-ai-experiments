@@ -16,9 +16,9 @@ public class Decorator implements IBehavior
 	}
 
 
-	public boolean run(World world, Entity e)
+	public void run(World world, Entity e)
 	{
-		return behavior.run(world, e);
+		behavior.run(world, e);
 	}
 
 

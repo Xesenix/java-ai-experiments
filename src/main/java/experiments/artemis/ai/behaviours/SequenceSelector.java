@@ -22,7 +22,7 @@ public class SequenceSelector implements IBehavior
 	}
 
 
-	public boolean run(World world, Entity e)
+	public void run(World world, Entity e)
 	{
 		for (int i = getIndexForEntity(world, e); i < behaviors.length; i++)
 		{
@@ -33,17 +33,17 @@ public class SequenceSelector implements IBehavior
 				continue;
 			}
 			
-			if (!behaviors[i].run(world, e))
+			behaviors[i].run(world, e);
+			
+			if (!behaviors[i].isSuccess(world, e))
 			{
-				return false;
+				return;
 			}
 			else if (behaviors[i].isRunning(world, e))
 			{
-				return true;
+				return;
 			}
 		}
-		
-		return true;
 	}
 
 

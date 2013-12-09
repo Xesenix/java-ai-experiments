@@ -22,7 +22,7 @@ public class PrioritySelector implements IBehavior
 	}
 
 
-	public boolean run(World world, Entity e)
+	public void run(World world, Entity e)
 	{
 		for (int i = 0; i < behaviors.length; i++)
 		{
@@ -32,11 +32,9 @@ public class PrioritySelector implements IBehavior
 			
 			if (behaviors[i].isRunning(world, e))
 			{
-				return true;
+				return;
 			}
 		}
-		
-		return true;
 	}
 
 

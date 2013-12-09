@@ -82,7 +82,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 	}
 
 
-	public boolean runTask(Entity e, ITask task)
+	public void runTask(Entity e, ITask task)
 	{
 		boolean finished;
 		
@@ -119,7 +119,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					// TODO strategy successful modify priority so it would be used more often
 					task.setState(world, e, TaskState.SUCCESS);
 					
-					return true;
+					return;
 				}
 				else
 				{
@@ -129,11 +129,12 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					if (finished)
 					{
 						log.info("finished performing chosen strategy");
-						task.setState(world, e, TaskState.FAILURE);
 						
 						strategyByEntity.set(e.getId(), null);
 						
-						return false;
+						task.setState(world, e, TaskState.FAILURE);
+						
+						return;
 					}
 					else
 					{
@@ -141,7 +142,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 						TasksComponent tasksComponent = tm.get(e);
 						tasksComponent.addTask(task);
 						
-						return true;
+						return;
 					}
 				}
 			}
@@ -151,6 +152,6 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 			}
 		}
 		
-		return false;
+		task.setState(world, e, TaskState.FAILURE);
 	}
 }

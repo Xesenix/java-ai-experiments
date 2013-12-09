@@ -13,14 +13,12 @@ abstract public class Filter extends Decorator
 	}
 
 
-	public boolean run(World world, Entity e)
+	public void run(World world, Entity e)
 	{
 		if (this.filterCondition(world, e))
 		{
-			return super.run(world, e);
+			super.run(world, e);
 		}
-
-		return false;
 	}
 
 

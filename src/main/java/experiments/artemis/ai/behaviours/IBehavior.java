@@ -8,13 +8,12 @@ import com.artemis.World;
 public interface IBehavior
 {
 	/**
-	 * False if errors or failure
 	 * 
 	 * @param world
 	 * @param e
 	 * @return
 	 */
-	boolean run(World world, Entity e);
+	void run(World world, Entity e);
 
 
 	/**

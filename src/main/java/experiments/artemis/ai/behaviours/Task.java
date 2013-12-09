@@ -45,11 +45,11 @@ public class Task implements ITask
 	}
 
 
-	public boolean run(World world, Entity e)
+	public void run(World world, Entity e)
 	{
 		TasksSystem system = world.getSystem(TasksSystem.class);
 		
-		return system.runTask(e, this);
+		system.runTask(e, this);
 	}
 
 
