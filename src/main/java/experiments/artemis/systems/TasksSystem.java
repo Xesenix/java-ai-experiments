@@ -75,7 +75,10 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 			{
 				iter.remove();
 			}
+			
 		}
+		
+		log.info("tasks {}", tasksComponent);
 	}
 
 
@@ -135,6 +138,8 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					else
 					{
 						//task.setState(world, e, TaskState.RUNNING);
+						TasksComponent tasksComponent = tm.get(e);
+						tasksComponent.addTask(task);
 						
 						return true;
 					}

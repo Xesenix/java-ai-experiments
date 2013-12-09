@@ -22,12 +22,31 @@ public class Counter extends Filter
 	}
 	
 	
+	public boolean isCompleted(World world, Entity e)
+	{
+		int countForEntity = getCountFor(e);
+
+		return countForEntity == 0 || super.isCompleted(world, e);
+	}
+	
+	
+	public boolean isSuccess(World world, Entity e)
+	{
+		int countForEntity = getCountFor(e);
+
+		return countForEntity == 0 || super.isSuccess(world, e);
+	}
+	
+	
 	public void reset(World world, Entity e)
 	{
-		if (isSuccess(world, e))
+		if (isCompleted(world, e) && isTrue(world, e))
 		{
 			int countForEntity = getCountFor(e);
 			counters.set(e.getId(), --countForEntity);
+			
+			System.out.println("counter");
+			System.out.println(countForEntity);
 			
 			super.reset(world, e);
 		}
