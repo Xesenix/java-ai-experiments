@@ -5,7 +5,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 
 
-public interface IBehavior
+public interface IBehavior extends IContextAware
 {
 	/**
 	 * 
@@ -13,7 +13,16 @@ public interface IBehavior
 	 * @param e
 	 * @return
 	 */
-	void run(World world, Entity e);
+	void run();
+
+
+	/**
+	 * Reset state of behavior.
+	 * 
+	 * @param world
+	 * @param e
+	 */
+	void reset();
 
 
 	/**
@@ -23,7 +32,7 @@ public interface IBehavior
 	 * @param e
 	 * @return
 	 */
-	boolean isReady(World world, Entity e);
+	boolean isReady();
 
 
 	/**
@@ -33,34 +42,25 @@ public interface IBehavior
 	 * @param e
 	 * @return
 	 */
-	boolean isRunning(World world, Entity e);
+	boolean isRunning();
 
 
 	/**
-	 * Reset state of behavior.
-	 * 
-	 * @param world
-	 * @param e
-	 */
-	void reset(World world, Entity e);
-
-
-	/**
-	 * True if goals achived.
+	 * True if goals achieved.
 	 * 
 	 * @param world
 	 * @param e
 	 * @return true if achieved all goals
 	 */
-	boolean isSuccess(World world, Entity e);
+	boolean isSuccess();
 
 
 	/**
-	 * Strategy finished execution eighter success or failure.
+	 * Strategy finished execution either success or failure.
 	 * 
 	 * @param world
 	 * @param e
 	 * @return
 	 */
-	boolean isCompleted(World world, Entity e);
+	boolean isCompleted();
 }

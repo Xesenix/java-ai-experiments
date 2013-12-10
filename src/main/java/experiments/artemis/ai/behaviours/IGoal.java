@@ -1,11 +1,8 @@
 
 package experiments.artemis.ai.behaviours;
 
-import com.artemis.Entity;
-import com.artemis.World;
 
-
-public interface IGoal
+public interface IGoal extends IContextAware
 {
-	boolean achived(World world, Entity e);
+	boolean achived();
 }

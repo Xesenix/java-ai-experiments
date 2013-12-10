@@ -19,6 +19,12 @@ public class PositionGoal extends Goal implements IPositionGoal
 	{
 		setGoals(goals);
 	}
+	
+	
+	public IPositionGoal[] getGoals()
+	{
+		return goals;
+	}
 
 
 	public void setGoals(IPositionGoal... goals)
@@ -27,16 +33,10 @@ public class PositionGoal extends Goal implements IPositionGoal
 	}
 	
 	
-	public IPositionGoal[] getGoals()
-	{
-		return goals;
-	}
-	
-	
-	public IPosition getTarget(World world, Entity e)
+	public IPosition getTarget()
 	{
 		ComponentMapper<PositionComponent> pm = world.getMapper(PositionComponent.class);
-		PositionComponent worldPosition = pm.get(e);
+		PositionComponent worldPosition = pm.get(entity);
 		Position position = null;
 		
 		if (worldPosition.getPosition() instanceof Position)
@@ -49,7 +49,7 @@ public class PositionGoal extends Goal implements IPositionGoal
 		
 		for (IPositionGoal goal : getGoals())
 		{
-			IPosition pos = goal.getTarget(world, e);
+			IPosition pos = goal.getTarget();
 
 			if (pos instanceof Position)
 			{

@@ -11,16 +11,16 @@ public class Condition extends Task
 	}
 
 
-	public boolean isSuccess(World world, Entity e)
+	public boolean isSuccess()
 	{
-		return getGoals().achived(world, e);
+		return getGoals().achived();
 	}
 	
 	
-	public void run(World world, Entity e) {}
+	public void run() {}
 
 
-	public boolean isCompleted(World world, Entity e)
+	public boolean isCompleted()
 	{
 		return true;
 	}

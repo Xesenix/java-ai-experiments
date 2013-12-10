@@ -10,15 +10,59 @@ public class Decorator implements IBehavior
 	private IBehavior behavior;
 
 
+	protected World world;
+
+
+	protected Entity entity;
+
+
 	public Decorator(IBehavior behavior)
 	{
 		this.behavior = behavior;
 	}
 
 
-	public void run(World world, Entity e)
+	public void run()
 	{
-		behavior.run(world, e);
+		behavior.run();
+	}
+
+
+	public void reset()
+	{
+		behavior.reset();
+	}
+
+
+	public boolean isReady()
+	{
+		return behavior.isReady();
+	}
+
+
+	public boolean isRunning()
+	{
+		return behavior.isRunning();
+	}
+
+
+	public boolean isSuccess()
+	{
+		return behavior.isSuccess();
+	}
+
+
+	public boolean isCompleted()
+	{
+		return behavior.isCompleted();
+	}
+
+
+	public void setContext(World world, Entity entity)
+	{
+		this.world = world;
+		this.entity = entity;
+		behavior.setContext(world, entity);
 	}
 
 
@@ -31,36 +75,6 @@ public class Decorator implements IBehavior
 	public void setBehavior(IBehavior task)
 	{
 		this.behavior = task;
-	}
-
-
-	public boolean isReady(World world, Entity e)
-	{
-		return behavior.isReady(world, e);
-	}
-
-
-	public boolean isRunning(World world, Entity e)
-	{
-		return behavior.isRunning(world, e);
-	}
-
-
-	public boolean isSuccess(World world, Entity e)
-	{
-		return behavior.isSuccess(world, e);
-	}
-
-
-	public boolean isCompleted(World world, Entity e)
-	{
-		return behavior.isCompleted(world, e);
-	}
-
-
-	public void reset(World world, Entity e)
-	{
-		behavior.reset(world, e);
 	}
 
 

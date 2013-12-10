@@ -48,16 +48,16 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 	}
 
 
-	protected void process(Entity e)
+	protected void process(Entity entity)
 	{
 		boolean finished = true;
 
-		log.setActive(cdm.get(e) != null && cdm.get(e).behavior);
+		log.setActive(cdm.get(entity) != null && cdm.get(entity).behavior);
 
-		log.info("processing entity {}", e);
+		log.info("processing entity {}", entity);
 		log.info("retriving entity state..");
 
-		TasksComponent tasksComponent = tm.get(e); // get behavior for entity
+		TasksComponent tasksComponent = tm.get(entity); // get behavior for entity
 		
 		log.info("tasks {}", tasksComponent);
 
@@ -69,9 +69,9 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 		{
 			ITask task = iter.next();
 			
-			runTask(e, task);
+			runTask(entity, task);
 			
-			if (task.isCompleted(world, e))
+			if (task.isCompleted())
 			{
 				iter.remove();
 			}
@@ -82,17 +82,19 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 	}
 
 
-	public void runTask(Entity e, ITask task)
+	public void runTask(Entity entity, ITask task)
 	{
 		boolean finished;
 		
-		log.setActive(cdm.get(e) != null && cdm.get(e).behavior);
+		log.setActive(cdm.get(entity) != null && cdm.get(entity).behavior);
+		
+		task.setContext(world, entity);
 		
 		log.debug("running task {}", task);
 		
-		IStrategy runningStrategy = strategyByEntity.get(e.getId());
+		IStrategy runningStrategy = strategyByEntity.get(entity.getId());
 		
-		runningStrategy = strategyPlanner.bestStrategyFor(world, e, task);
+		runningStrategy = strategyPlanner.bestStrategyFor(world, entity, task);
 		
 		log.debug("current running strategy {}", runningStrategy);
 		
@@ -102,22 +104,22 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 
 			// check is strategy can be performed
 
-			if (runningStrategy.canPerform(world, e, task))
+			if (runningStrategy.canPerform(world, entity, task))
 			{
-				task.setState(world, e, TaskState.RUNNING);
+				task.setState(TaskState.RUNNING);
 				
 				// performing strategy
 				log.info("performing chosen strategy");
 
-				finished = runningStrategy.perform(world, e, task);
+				finished = runningStrategy.perform(world, entity, task);
 
 				log.debug("strategy finished: {}", finished);
 				
-				if (task.getGoals().achived(world, e))
+				if (task.getGoals().achived())
 				{
 					log.info("goal achived");
 					// TODO strategy successful modify priority so it would be used more often
-					task.setState(world, e, TaskState.SUCCESS);
+					task.setState(TaskState.SUCCESS);
 					
 					return;
 				}
@@ -130,16 +132,16 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					{
 						log.info("finished performing chosen strategy");
 						
-						strategyByEntity.set(e.getId(), null);
+						strategyByEntity.set(entity.getId(), null);
 						
-						task.setState(world, e, TaskState.FAILURE);
+						task.setState(TaskState.FAILURE);
 						
 						return;
 					}
 					else
 					{
 						//task.setState(world, e, TaskState.RUNNING);
-						TasksComponent tasksComponent = tm.get(e);
+						TasksComponent tasksComponent = tm.get(entity);
 						tasksComponent.addTask(task);
 						
 						return;
@@ -152,6 +154,6 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 			}
 		}
 		
-		task.setState(world, e, TaskState.FAILURE);
+		task.setState(TaskState.FAILURE);
 	}
 }

@@ -16,20 +16,78 @@ public class Task implements ITask
 	private IGoal goals;
 
 
+	private World world;
+
+
+	private Entity entity;
+
+
 	public Task()
 	{
 	}
 
 
-	public TaskState getState(World world, Entity e)
+	public void run()
 	{
-		return stateByEntity.get(e.getId());
+		TasksSystem system = world.getSystem(TasksSystem.class);
+		
+		system.runTask(entity, this);
 	}
 
 
-	public void setState(World world, Entity e, TaskState state)
+	public void reset()
 	{
-		stateByEntity.set(e.getId(), state);
+		setState(TaskState.READY);
+	}
+
+
+	public boolean isReady()
+	{
+		return getState() == TaskState.READY;
+	}
+
+
+	public boolean isRunning()
+	{
+		return getState() == TaskState.RUNNING;
+	}
+
+
+	public boolean isSuccess()
+	{
+		return getState() == TaskState.SUCCESS;
+	}
+
+
+	public boolean isCompleted()
+	{
+		TaskState state = getState();
+
+		return state == TaskState.SUCCESS || state == TaskState.FAILURE;
+	}
+
+
+	public void setContext(World world, Entity entity)
+	{
+		this.world = world;
+		this.entity = entity;
+		
+		if (getGoals() != null)
+		{
+			getGoals().setContext(world, entity);
+		}
+	}
+
+
+	public TaskState getState()
+	{
+		return stateByEntity.get(entity.getId());
+	}
+
+
+	public void setState(TaskState state)
+	{
+		stateByEntity.set(entity.getId(), state);
 	}
 
 
@@ -42,46 +100,11 @@ public class Task implements ITask
 	public void setGoals(IGoal goals)
 	{
 		this.goals = goals;
-	}
-
-
-	public void run(World world, Entity e)
-	{
-		TasksSystem system = world.getSystem(TasksSystem.class);
 		
-		system.runTask(e, this);
-	}
-
-
-	public boolean isReady(World world, Entity e)
-	{
-		return getState(world, e) == TaskState.READY;
-	}
-
-
-	public boolean isSuccess(World world, Entity e)
-	{
-		return getState(world, e) == TaskState.SUCCESS;
-	}
-
-
-	public boolean isCompleted(World world, Entity e)
-	{
-		TaskState state = getState(world, e);
-
-		return state == TaskState.SUCCESS || state == TaskState.FAILURE;
-	}
-
-
-	public boolean isRunning(World world, Entity e)
-	{
-		return getState(world, e) == TaskState.RUNNING;
-	}
-
-
-	public void reset(World world, Entity e)
-	{
-		setState(world, e, TaskState.READY);
+		if (this.goals != null)
+		{
+			this.goals.setContext(world, entity);
+		}
 	}
 
 

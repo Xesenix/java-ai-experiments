@@ -14,6 +14,12 @@ public class SequenceSelector implements IBehavior
 
 
 	private transient Bag<Integer> indexForEntity = new Bag<Integer>();
+
+
+	private World world;
+
+
+	private Entity entity;
 	
 	
 	public SequenceSelector(IBehavior... behaviors)
@@ -22,24 +28,24 @@ public class SequenceSelector implements IBehavior
 	}
 
 
-	public void run(World world, Entity e)
+	public void run()
 	{
-		for (int i = getIndexForEntity(world, e); i < behaviors.length; i++)
+		for (int i = getIndexForEntity(); i < behaviors.length; i++)
 		{
-			indexForEntity.set(e.getId(), i);
+			indexForEntity.set(entity.getId(), i);
 			
-			if (behaviors[i].isSuccess(world, e))
+			if (behaviors[i].isSuccess())
 			{
 				continue;
 			}
 			
-			behaviors[i].run(world, e);
+			behaviors[i].run();
 			
-			if (!behaviors[i].isSuccess(world, e))
+			if (!behaviors[i].isSuccess())
 			{
 				return;
 			}
-			else if (behaviors[i].isRunning(world, e))
+			else if (behaviors[i].isRunning())
 			{
 				return;
 			}
@@ -47,60 +53,72 @@ public class SequenceSelector implements IBehavior
 	}
 
 
-	public boolean isReady(World world, Entity e)
+	public void reset()
 	{
-		int index = getIndexForEntity(world, e);
-		
-		return index == 0 && behaviors[index].isReady(world, e);
-	}
-
-
-	public boolean isRunning(World world, Entity e)
-	{
-		int index = getIndexForEntity(world, e);
-		
-		return behaviors[index].isRunning(world, e) || behaviors[index].isSuccess(world, e) && index < behaviors.length - 1;
-	}
-
-
-	public boolean isSuccess(World world, Entity e)
-	{
-		int index = getIndexForEntity(world, e);
-		
-		return index == behaviors.length - 1 && behaviors[index].isSuccess(world, e);
-	}
-
-
-	public boolean isCompleted(World world, Entity e)
-	{
-		int index = getIndexForEntity(world, e);
-		
-		return index == behaviors.length - 1 && behaviors[index].isCompleted(world, e);
-	}
-
-
-	public void reset(World world, Entity e)
-	{
-		if (!isRunning(world, e))
+		if (!isRunning())
 		{
-			indexForEntity.set(e.getId(), 0);
+			indexForEntity.set(entity.getId(), 0);
 
 			for (int i = 0; i < behaviors.length; i++)
 			{
-				behaviors[i].reset(world, e);
+				behaviors[i].reset();
 			}
 		}
 	}
 
 
-	private int getIndexForEntity(World world, Entity e)
+	public boolean isReady()
 	{
-		Integer index = indexForEntity.get(e.getId());
+		int index = getIndexForEntity();
+		
+		return index == 0 && behaviors[index].isReady();
+	}
+
+
+	public boolean isRunning()
+	{
+		int index = getIndexForEntity();
+		
+		return behaviors[index].isRunning() || behaviors[index].isSuccess() && index < behaviors.length - 1;
+	}
+
+
+	public boolean isSuccess()
+	{
+		int index = getIndexForEntity();
+		
+		return index == behaviors.length - 1 && behaviors[index].isSuccess();
+	}
+
+
+	public boolean isCompleted()
+	{
+		int index = getIndexForEntity();
+		
+		return index == behaviors.length - 1 && behaviors[index].isCompleted();
+	}
+
+
+	public void setContext(World world, Entity entity)
+	{
+		this.world = world;
+		this.entity = entity;
+		
+		for (int i = 0; i < behaviors.length; i++)
+		{
+			behaviors[i].setContext(world, entity);
+		}
+	}
+
+
+	private int getIndexForEntity()
+	{
+		Integer index = indexForEntity.get(entity.getId());
 
 		if (index == null)
 		{
 			index = 0;
-			indexForEntity.set(e.getId(), index);
+			indexForEntity.set(entity.getId(), index);
 		}
 
 		return index;

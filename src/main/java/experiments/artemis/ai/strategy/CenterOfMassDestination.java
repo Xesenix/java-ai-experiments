@@ -33,11 +33,13 @@ public class CenterOfMassDestination implements IStrategy
 	}
 
 
-	public boolean perform(World world, Entity e, ITask task)
+	public boolean perform(World world, Entity entity, ITask task)
 	{
-		log.setActive(e.getComponent(ConsoleDebugComponent.class) != null && e.getComponent(ConsoleDebugComponent.class).strategy);
+		log.setActive(entity.getComponent(ConsoleDebugComponent.class) != null && entity.getComponent(ConsoleDebugComponent.class).strategy);
 
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
+		
+		task.setContext(world, entity);
 
 		if (task instanceof PositionTask)
 		{
@@ -45,7 +47,7 @@ public class CenterOfMassDestination implements IStrategy
 			
 			log.debug("goal {}", goal);
 			
-			Position target = (Position) goal.getTarget(world, e);
+			Position target = (Position) goal.getTarget();
 			
 			log.debug("goal target position {}", target);
 			
@@ -54,7 +56,7 @@ public class CenterOfMassDestination implements IStrategy
 				boolean result = false;
 				
 				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
-				DesiredPositionComponent targetComponent = dpm.get(e);
+				DesiredPositionComponent targetComponent = dpm.get(entity);
 				Position oldTarget = null;
 				
 				if (targetComponent == null)
@@ -63,8 +65,8 @@ public class CenterOfMassDestination implements IStrategy
 					
 					oldTarget = new Position(target);
 					targetComponent = new DesiredPositionComponent(oldTarget);
-					e.addComponent(targetComponent);
-					e.changedInWorld();
+					entity.addComponent(targetComponent);
+					entity.changedInWorld();
 				}
 				
 				if (!(targetComponent.getPosition() instanceof Position))
@@ -77,10 +79,10 @@ public class CenterOfMassDestination implements IStrategy
 					oldTarget = (Position) targetComponent.getPosition();
 				}
 				
-				if (task.isSuccess(world, e))
+				if (task.isSuccess())
 				{
-					e.removeComponent(targetComponent);
-					e.changedInWorld();
+					entity.removeComponent(targetComponent);
+					entity.changedInWorld();
 					
 					return true;
 				}
@@ -89,10 +91,10 @@ public class CenterOfMassDestination implements IStrategy
 				
 				oldTarget.set(target.getX(), target.getY());
 				
-				log.debug("position {}", e.getComponent(PositionComponent.class));
+				log.debug("position {}", entity.getComponent(PositionComponent.class));
 				log.debug("entity desired position {}", targetComponent);
 				
-				return navigation.atPoint(e, oldTarget, targetComponent.getPrecision());
+				return navigation.atPoint(entity, oldTarget, targetComponent.getPrecision());
 			}
 		}
 

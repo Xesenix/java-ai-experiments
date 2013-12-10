@@ -22,50 +22,50 @@ public class Counter extends Filter
 	}
 
 
-	public boolean isRunning(World world, Entity e)
+	public void reset()
 	{
-		return getCountFor(e) != 0 && super.isRunning(world, e);
-	}
-
-
-	public boolean isCompleted(World world, Entity e)
-	{
-		return getCountFor(e) == 0 || super.isCompleted(world, e);
-	}
-
-
-	public boolean isSuccess(World world, Entity e)
-	{
-		return getCountFor(e) == 0 || super.isSuccess(world, e);
-	}
-
-
-	public void reset(World world, Entity e)
-	{
-		if (isCompleted(world, e) && filterCondition(world, e))
+		if (isCompleted() && filterCondition())
 		{
-			int countForEntity = getCountFor(e);
-			counters.set(e.getId(), --countForEntity);
+			int countForEntity = getCounterForEntity();
+			counters.set(entity.getId(), -- countForEntity);
 
 			System.out.println("counter");
 			System.out.println(countForEntity);
 
-			super.reset(world, e);
+			super.reset();
 		}
 	}
 
 
-	public boolean filterCondition(World world, Entity e)
+	public boolean isRunning()
 	{
-		int countForEntity = getCountFor(e);
+		return getCounterForEntity() != 0 && super.isRunning();
+	}
+
+
+	public boolean isCompleted()
+	{
+		return getCounterForEntity() == 0 || super.isCompleted();
+	}
+
+
+	public boolean isSuccess()
+	{
+		return getCounterForEntity() == 0 || super.isSuccess();
+	}
+
+
+	public boolean filterCondition()
+	{
+		int countForEntity = getCounterForEntity();
 
 		return countForEntity > 0;
 	}
 
 
-	private int getCountFor(Entity e)
+	private int getCounterForEntity()
 	{
-		Integer counter = counters.get(e.getId());
+		Integer counter = counters.get(entity.getId());
 
 		if (counter == null)
 		{

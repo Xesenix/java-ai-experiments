@@ -6,9 +6,10 @@ import com.artemis.Entity;
 import com.artemis.World;
 
 import experiments.artemis.ai.behaviours.IBehavior;
+import experiments.artemis.ai.behaviours.IContextAware;
 
 
-public class BehaviorComponent extends Component
+public class BehaviorComponent extends Component implements IContextAware
 {
 	private IBehavior root;
 
@@ -24,21 +25,21 @@ public class BehaviorComponent extends Component
 	}
 
 
-	public void run(World world, Entity e)
+	public void run()
 	{
-		root.run(world, e);
+		root.run();
 	}
 
 
-	public boolean isRunning(World world, Entity e)
+	public void reset()
 	{
-		return root.isRunning(world, e);
+		root.reset();
 	}
 
 
-	public void reset(World world, Entity e)
+	public void setContext(World world, Entity entity)
 	{
-		root.reset(world, e);
+		root.setContext(world, entity);
 	}
 
 

@@ -111,7 +111,7 @@ public class NearCenterOfMassDestination implements IStrategy
 				}
 				
 				
-				if (task.isSuccess(world, e))
+				if (task.isSuccess())
 				{
 					e.removeComponent(targetComponent);
 					e.changedInWorld();

@@ -25,8 +25,8 @@ public interface ITask extends IBehavior
 	 * @param e
 	 * @return
 	 */
-	TaskState getState(World world, Entity e);
+	TaskState getState();
 
 
-	void setState(World world, Entity e, TaskState state);
+	void setState(TaskState state);
 }

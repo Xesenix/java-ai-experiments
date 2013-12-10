@@ -13,8 +13,8 @@ public class Not extends Condition
 	}
 	
 	
-	public boolean isSuccess(World world, Entity e)
+	public boolean isSuccess()
 	{
-		return !super.isSuccess(world, e);
+		return !super.isSuccess();
 	}
 }

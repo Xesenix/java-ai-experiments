@@ -241,7 +241,7 @@ public class ArtemisExperiment implements IExperimentManager
 			
 			if (goals[i] instanceof NearPositionGoal)
 			{
-				e.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision(world, e)));
+				e.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision()));
 				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
 
 				// e.addComponent(new MovementSpeedComponent(5f));
