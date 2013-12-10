@@ -175,6 +175,6 @@ public class MovementSpeedComponent extends Component
 
 	public String toString()
 	{
-		return String.format("[%s@%x {speed: %f, min: %f, max: %f}]", getClass().getSimpleName(), hashCode(), speed, min, max);
+		return String.format("[%s@%x {speed: %f, min: %f, max: %f, acceleration: %f, decceleration: %f}]", getClass().getSimpleName(), hashCode(), speed, min, max, acceleration, decceleration);
 	}
 }

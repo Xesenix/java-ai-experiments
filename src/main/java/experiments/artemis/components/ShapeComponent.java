@@ -26,4 +26,10 @@ public class ShapeComponent extends Component
 	{
 		return shape;
 	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x {shape: %s}]", getClass().getSimpleName(), hashCode(), shape);
+	}
 }

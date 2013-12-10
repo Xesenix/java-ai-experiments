@@ -36,35 +36,35 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 
 	@Mapper
-	ComponentMapper<PositionComponent> pm;
+	ComponentMapper<PositionComponent> positionMapper;
 
 
 	@Mapper
-	ComponentMapper<DesiredPositionComponent> dpm;
+	ComponentMapper<DesiredPositionComponent> desiredPositionMapper;
 
 
 	@Mapper
-	ComponentMapper<NearDistanceComponent> ndm;
+	ComponentMapper<NearDistanceComponent> nearDistanceMapper;
 
 
 	@Mapper
-	ComponentMapper<ShapeComponent> sm;
+	ComponentMapper<ShapeComponent> shapeMapper;
 
 
 	@Mapper
-	ComponentMapper<ColorComponent> cm;
+	ComponentMapper<ColorComponent> colorMapper;
 
 
 	@Mapper
-	ComponentMapper<MovementDirectionComponent> mdm;
+	ComponentMapper<MovementDirectionComponent> movementDirectionMapper;
 
 
 	@Mapper
-	ComponentMapper<MovementSpeedComponent> msm;
+	ComponentMapper<MovementSpeedComponent> movementSpeedMapper;
 
 
 	@Mapper
-	ComponentMapper<ConsoleDebugComponent> cdm;
+	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
 	private IExperimentView view;
@@ -81,41 +81,85 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	}
 
 
-	protected void process(Entity e)
+	protected void process(Entity entity)
 	{
-		log.setActive(cdm.get(e) != null && cdm.get(e).debug);
+		log.setActive(consoleDebugMapper.get(entity) != null && consoleDebugMapper.get(entity).debug);
 
-		log.info("processing entity {}", e);
+		log.info("processing entity {}", entity);
 		log.info("retriving entity state..");
 
-		DebugSpriteMediator mediator = mediatorByEntity.get(e.getId());
+		DebugSpriteMediator mediator = getMediatorForEntity(entity);
+
+		debugInfo(mediator, entity);
+		debugPosition(mediator, entity);
+		debugDesiredPosition(mediator, entity);
+		debugShape(mediator, entity);
+		debugNearDistance(mediator, entity);
+		debugColor(mediator, entity);
+		debugSpeed(mediator, entity);
+		debugDirection(mediator, entity);
+	}
+
+
+	/**
+	 * @param entity
+	 * @return
+	 */
+	public DebugSpriteMediator getMediatorForEntity(Entity entity)
+	{
+		DebugSpriteMediator mediator = mediatorByEntity.get(entity.getId());
 
 		if (mediator == null)
 		{
 			mediator = view.createPositionDebugSprite();
-			mediatorByEntity.set(e.getId(), mediator);
+			mediatorByEntity.set(entity.getId(), mediator);
 		}
-		
-		mediator.setLabel(getEntityDescription(e));
+		return mediator;
+	}
 
-		PositionComponent position = pm.get(e);
 
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugInfo(DebugSpriteMediator mediator, Entity entity)
+	{
+		mediator.setLabel(getEntityDescription(entity));
+	}
+
+
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugPosition(DebugSpriteMediator mediator, Entity entity)
+	{
+		PositionComponent position = positionMapper.get(entity);
+	
 		if (position != null)
 		{
 			IPosition coordinates = position.getPosition();
-
+	
 			if (coordinates instanceof Position)
 			{
 				mediator.setPosition(((Position) coordinates).getX(), ((Position) coordinates).getY());
 			}
 		}
-		
-		DesiredPositionComponent targetPosition = dpm.get(e);
-		
+	}
+
+
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugDesiredPosition(DebugSpriteMediator mediator, Entity entity)
+	{
+		DesiredPositionComponent targetPosition = desiredPositionMapper.get(entity);
+	
 		if (targetPosition != null)
 		{
 			IPosition coordinates = targetPosition.getPosition();
-
+	
 			if (coordinates instanceof Position)
 			{
 				mediator.showTargetPosition();
@@ -125,48 +169,88 @@ public class DebugEntitySystem extends EntityProcessingSystem
 			{
 				mediator.hideTargetPosition();
 			}
-			
+	
 			mediator.setTargetPositionPrecision(targetPosition.getPrecision());
 		}
 		else
 		{
 			mediator.hideTargetPosition();
 		}
-		
-		ShapeComponent shapeComponent = sm.get(e);
-		
+	}
+
+
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugShape(DebugSpriteMediator mediator, Entity entity)
+	{
+		ShapeComponent shapeComponent = shapeMapper.get(entity);
+	
 		if (shapeComponent != null)
 		{
 			IPosition coordinates = shapeComponent.getShape();
-
+	
 			if (coordinates instanceof Polygon)
 			{
 				mediator.setShape(((Polygon) coordinates).getVertices());
 			}
 		}
+	}
 
-		NearDistanceComponent nearDistance = ndm.get(e);
 
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugNearDistance(DebugSpriteMediator mediator, Entity entity)
+	{
+		NearDistanceComponent nearDistance = nearDistanceMapper.get(entity);
+	
 		if (nearDistance != null)
 		{
 			mediator.setCloseSightRange(nearDistance.getNear());
 		}
+	}
 
-		ColorComponent color = cm.get(e);
 
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugColor(DebugSpriteMediator mediator, Entity entity)
+	{
+		ColorComponent color = colorMapper.get(entity);
+	
 		if (color != null)
 		{
 			mediator.setRangeColor(color.getColor());
 		}
-		
-		MovementSpeedComponent speed = msm.get(e);
+	}
 
+
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugSpeed(DebugSpriteMediator mediator, Entity entity)
+	{
+		MovementSpeedComponent speed = movementSpeedMapper.get(entity);
+	
 		if (speed != null)
 		{
 			mediator.setSpeed(speed.getSpeed());
 		}
-		
-		MovementDirectionComponent direction = mdm.get(e);
+	}
+
+
+	/**
+	 * @param mediator
+	 * @param entity
+	 */
+	public void debugDirection(DebugSpriteMediator mediator, Entity entity)
+	{
+		MovementDirectionComponent direction = movementDirectionMapper.get(entity);
 
 		if (direction != null)
 		{
@@ -179,22 +263,22 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	{
 		StringBuilder entityComponentsDescription = new StringBuilder();
 		Bag<Component> entityComponents = e.getComponents(new Bag<Component>());
-		
+
 		for (Component component : entityComponents)
 		{
 			entityComponentsDescription.append("\n- ");
 			entityComponentsDescription.append(component);
 		}
-		
+
 		StringBuilder entityGroupsDescription = new StringBuilder();
 		ImmutableBag<String> groups = world.getManager(GroupManager.class).getGroups(e);
-		
+
 		for (String group : groups)
 		{
 			entityGroupsDescription.append("\n- ");
 			entityGroupsDescription.append(group);
 		}
-		
+
 		return String.format("entity: %s\ncomponents:%s\ngroups:%s", e.getId(), entityComponentsDescription, entityGroupsDescription);
 	}
 }

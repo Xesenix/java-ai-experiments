@@ -30,6 +30,14 @@ public class NearPositionGoal extends Goal implements IPositionGoal
 	}
 
 
+	public boolean achived()
+	{
+		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
+
+		return navigation.atPoint(entity, target, precision);
+	}
+
+
 	public IPosition getTarget()
 	{
 		return target;
@@ -42,10 +50,8 @@ public class NearPositionGoal extends Goal implements IPositionGoal
 	}
 
 
-	public boolean achived()
+	public String toString()
 	{
-		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
-
-		return navigation.atPoint(entity, target, precision);
+		return String.format("[%s@%x {target: %s, precision: %s}]", getClass().getSimpleName(), hashCode(), getTarget(), getPrecision());
 	}
 }
