@@ -1,6 +1,8 @@
 
 package experiments.artemis.systems;
 
+import java.util.HashMap;
+
 import org.slf4j.LoggerFactory;
 
 import com.artemis.Aspect;
@@ -10,6 +12,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.IntervalEntityProcessingSystem;
 
 import experiments.artemis.ActiveLogger;
+import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.TasksComponent;
@@ -30,6 +33,9 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<ConsoleDebugComponent> cdm;
+	
+	
+	HashMap<String, IBehavior> behaviorMap = new HashMap<String, IBehavior>();
 
 
 	public BehaviourSystem(float interval)
@@ -47,9 +53,9 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 		log.info("processing entity {}", entity);
 		log.info("retriving entity state..");
 
-		BehaviorComponent behavior = bm.get(entity); // get behavior for entity
+		BehaviorComponent behaviorComponent = bm.get(entity); // get behavior for entity
 
-		log.debug("entity behavior {}", behavior);
+		log.debug("entity behavior {}", behaviorComponent);
 
 		// clean task list
 		TasksComponent tasksComponent = tm.get(entity);
@@ -61,11 +67,23 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 			entity.changedInWorld();
 		}
 		
-		// decide what to do
-		behavior.setContext(world, entity);
-		behavior.reset();
-		behavior.run();
+		IBehavior behavior = behaviorMap.get(behaviorComponent.getName());
 		
-		log.info("entity tasks {}", tasksComponent);
+		if (behavior != null)
+		{
+			// decide what to do
+			behavior.setContext(world, entity);
+			behavior.reset();
+			behavior.run();
+			
+			log.info("entity tasks {}", tasksComponent);
+		}
+		
+	}
+
+
+	public void addBehavior(String key, IBehavior behavior)
+	{
+		behaviorMap.put(key, behavior);
 	}
 }

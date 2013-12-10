@@ -9,9 +9,9 @@ import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.behaviours.IContextAware;
 
 
-public class BehaviorComponent extends Component implements IContextAware
+public class BehaviorComponent extends Component
 {
-	private IBehavior root;
+	private String name;
 
 
 	public BehaviorComponent()
@@ -19,32 +19,26 @@ public class BehaviorComponent extends Component implements IContextAware
 	}
 
 
-	public BehaviorComponent(IBehavior behaviour)
+	public BehaviorComponent(String name)
 	{
-		root = behaviour;
+		setName(name);
 	}
 
 
-	public void run()
+	public String getName()
 	{
-		root.run();
+		return name;
 	}
 
 
-	public void reset()
+	public void setName(String name)
 	{
-		root.reset();
-	}
-
-
-	public void setContext(World world, Entity entity)
-	{
-		root.setContext(world, entity);
+		this.name = name;
 	}
 
 
 	public String toString()
 	{
-		return String.format("[%s@%x {behavior: %s}]", getClass().getSimpleName(), hashCode(), root);
+		return String.format("[%s@%x {behavior: %s}]", getClass().getSimpleName(), hashCode(), name);
 	}
 }

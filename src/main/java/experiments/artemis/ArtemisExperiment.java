@@ -93,7 +93,7 @@ public class ArtemisExperiment implements IExperimentManager
 	{
 		world = new World();
 		
-		world.setSystem(new BehaviourSystem(2.5f));
+		BehaviourSystem behaviorSystem = world.setSystem(new BehaviourSystem(2.5f));
 		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
@@ -152,12 +152,6 @@ public class ArtemisExperiment implements IExperimentManager
 			tasks[5]
 		);
 		
-
-		// Actors
-		Entity e = world.createEntity();
-		
-		world.getManager(GroupManager.class).add(e, "actors");
-		
 		SequenceSelector quests = new SequenceSelector(
 			new Counter(tasks[0], 3),
 			tasks[1],
@@ -170,91 +164,82 @@ public class ArtemisExperiment implements IExperimentManager
 			new Counter(keepInAreaBehavior, 2),
 			quests
 		);
+		
+		behaviorSystem.addBehavior("crowd", crowdBehavior);
 
-		e.addComponent(new ConsoleDebugComponent());
-		e.addComponent(new PositionComponent(positions[0]));
-		e.addComponent(new BehaviorComponent(crowdBehavior));
-		e.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
-		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
-		e.addComponent(new NearDistanceComponent(60f));
-		e.addToWorld();
+		// Actors
+		Entity entity = world.createEntity();
+		world.getManager(GroupManager.class).add(entity, "actors");
 
-		/*e = world.createEntity();
+		entity.addComponent(new ConsoleDebugComponent());
+		entity.addComponent(new PositionComponent(positions[0]));
+		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
+		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
+		entity.addComponent(new NearDistanceComponent(60f));
+		entity.addToWorld();
 
-		e.addComponent(new PositionComponent(positions[1]));
-		e.addComponent(new BehaviorComponent(crowdBehavior));
-		e.addComponent(new MovementSpeedComponent(50f, 50f));
-		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
-		e.addComponent(new NearDistanceComponent(30f));
-		e.addToWorld();*/
+		/*entity = world.createEntity();
 
-		/*e = world.createEntity();
-		selector = new TaskSelector(
-			tasks[2],
-			tasks[1],
-			tasks[0]
-		);
+		entity.addComponent(new PositionComponent(positions[1]));
+		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new MovementSpeedComponent(50f, 50f));
+		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
+		entity.addComponent(new NearDistanceComponent(30f));
+		entity.addToWorld();
 
-		e.addComponent(new PositionComponent(positions[2]));
-		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(130f, 200f));
-		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
-		e.addComponent(new NearDistanceComponent(50f));
-		e.addToWorld();
+		entity = world.createEntity();
 
-		e = world.createEntity();
-		selector = new TaskSelector(
-			tasks[2],
-			tasks[3],
-			tasks[4]
-		);
+		entity.addComponent(new PositionComponent(positions[2]));
+		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new MovementSpeedComponent(130f, 200f));
+		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
+		entity.addComponent(new NearDistanceComponent(50f));
+		entity.addToWorld();
 
-		e.addComponent(new PositionComponent(positions[3]));
-		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(120f));
-		e.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
-		e.addComponent(new NearDistanceComponent(50f));
-		e.addToWorld();
+		entity = world.createEntity();
 
-		e = world.createEntity();
-		selector = new TaskSelector(
-			tasks[4],
-			tasks[2],
-			tasks[1]
-		);
+		entity.addComponent(new PositionComponent(positions[3]));
+		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new MovementSpeedComponent(120f));
+		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
+		entity.addComponent(new NearDistanceComponent(50f));
+		entity.addToWorld();
 
-		e.addComponent(new PositionComponent(positions[4]));
-		e.addComponent(new BehaviorComponent(selector));
-		e.addComponent(new MovementSpeedComponent(80f));
-		e.addComponent(new MovementDirectionComponent(0, 1.5 * Math.PI));
-		e.addComponent(new NearDistanceComponent(50f));
-		e.addToWorld();*/
+		entity = world.createEntity();
+
+		entity.addComponent(new PositionComponent(positions[4]));
+		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new MovementSpeedComponent(80f));
+		entity.addComponent(new MovementDirectionComponent(0, 1.5 * Math.PI));
+		entity.addComponent(new NearDistanceComponent(50f));
+		entity.addToWorld();*/
 
 		// Landmarks
 		for (int i = 0; i < targtPositions.length; i++)
 		{
-			e = world.createEntity();
+			entity = world.createEntity();
 			
-			world.getManager(GroupManager.class).add(e, "targets");
+			world.getManager(GroupManager.class).add(entity, "targets");
 			
-			e.addComponent(new PositionComponent(targtPositions[i]));
+			entity.addComponent(new PositionComponent(targtPositions[i]));
 			
 			if (goals[i] instanceof NearPositionGoal)
 			{
-				e.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision()));
-				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
+				entity.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision()));
+				entity.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
 
 				// e.addComponent(new MovementSpeedComponent(5f));
-				e.addComponent(new MovementDirectionComponent());
+				entity.addComponent(new MovementDirectionComponent());
 			}
 			
 			if (goals[i] instanceof KeepInAreaGoal)
 			{
-				e.addComponent(new ShapeComponent((Polygon) ((KeepInAreaGoal) goals[i]).getArea()));
-				e.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
+				entity.addComponent(new ShapeComponent((Polygon) ((KeepInAreaGoal) goals[i]).getArea()));
+				entity.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
 			}
 			
-			e.addToWorld();
+			entity.addToWorld();
 		}
 	}
 
