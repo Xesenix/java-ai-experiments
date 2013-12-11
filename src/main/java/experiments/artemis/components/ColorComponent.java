@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.artemis.Component;
 
 
-@XmlRootElement(name = "behavior")
+@XmlRootElement(name = "color")
 public class ColorComponent extends Component
 {
 	private Color color;
