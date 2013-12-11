@@ -4,13 +4,21 @@ package experiments.artemis.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import com.artemis.Component;
 
 import experiments.artemis.ai.tasks.ITask;
 
 
+@XmlRootElement(name ="tasks")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TasksComponent extends Component
 {
+	@XmlTransient
 	private List<ITask> tasks = new ArrayList<ITask>();
 
 

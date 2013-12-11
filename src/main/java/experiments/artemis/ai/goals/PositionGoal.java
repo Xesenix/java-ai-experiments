@@ -3,16 +3,19 @@ package experiments.artemis.ai.goals;
 import ai.world.IPosition;
 
 import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.World;
 
-import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.PositionComponent;
 
 public class PositionGoal extends Goal implements IPositionGoal
 {
 	private IPositionGoal[] goals;
+	
+	
+	public PositionGoal()
+	{
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	public PositionGoal(IPositionGoal... goals)

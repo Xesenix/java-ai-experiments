@@ -27,36 +27,19 @@ public class WorldMarshaller
 	 */
 	public WorldDescriptor marshall(World world)
 	{
-		ImmutableBag<Entity> entities;
 		WorldDescriptor descriptor = (WorldDescriptor) injector.getInstance(IWorldDescriptor.class);
+		EntityMarshaller entityMarshaller = (EntityMarshaller) injector.getInstance(EntityMarshaller.class);
 		
-		// serialize actors
+		ImmutableBag<Entity> serializable = world.getManager(GroupManager.class).getEntities("serializable");
 		
-		entities = world.getManager(GroupManager.class).getEntities("actors");
+		ArrayList<EntityDescriptor> entities = new ArrayList<EntityDescriptor>();
 		
-		ArrayList<Integer> actors = new ArrayList<Integer>();
-		
-		for (Entity entity : entities)
+		for (Entity entity : serializable)
 		{
-			actors.add(entity.getId());
+			entities.add(entityMarshaller.marshall(entity));
 		}
 		
-		descriptor.actors = actors;
-		
-		// serialize targets
-		
-		entities = world.getManager(GroupManager.class).getEntities("targets");
-		
-		ArrayList<Integer> targets = new ArrayList<Integer>();
-		
-		for (Entity entity : entities)
-		{
-			targets.add(entity.getId());
-		}
-		
-		descriptor.targets = targets;
-		
-		// TODO rest
+		descriptor.entities = entities;
 		
 		return descriptor;
 	}

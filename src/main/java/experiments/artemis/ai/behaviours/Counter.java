@@ -1,8 +1,6 @@
 
 package experiments.artemis.ai.behaviours;
 
-import com.artemis.Entity;
-import com.artemis.World;
 import com.artemis.utils.Bag;
 
 

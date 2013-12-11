@@ -10,11 +10,24 @@ import ai.actors.NPC;
 import ai.world.IPosition;
 import ai.world.IWorld;
 import ai.world.IWorldDescriptor;
+import ai.world.IWorldObjectDescriptor;
 import ai.world.World;
-import ai.world2d.Position;
 
 import com.google.inject.AbstractModule;
 
+import experiments.artemis.ai.world2d.Polygon;
+import experiments.artemis.ai.world2d.Position;
+import experiments.artemis.components.BehaviorComponent;
+import experiments.artemis.components.ColorComponent;
+import experiments.artemis.components.ConsoleDebugComponent;
+import experiments.artemis.components.DesiredPositionComponent;
+import experiments.artemis.components.MovementDirectionComponent;
+import experiments.artemis.components.MovementSpeedComponent;
+import experiments.artemis.components.NearDistanceComponent;
+import experiments.artemis.components.PositionComponent;
+import experiments.artemis.components.ShapeComponent;
+import experiments.artemis.components.TasksComponent;
+import experiments.artemis.world.EntityDescriptor;
 import experiments.artemis.world.WorldDescriptor;
 
 
@@ -33,11 +46,29 @@ public class ArtemisModule extends AbstractModule
 		bind(AI.class);
 		bind(IWorld.class).to(World.class);
 		bind(IWorldDescriptor.class).to(WorldDescriptor.class);
+		bind(IWorldObjectDescriptor.class).to(EntityDescriptor.class);
 		bind(IPosition.class).to(Position.class);
 
 		try
 		{
-			bind(JAXBContext.class).toInstance(JAXBContext.newInstance(WorldDescriptor.class));
+			bind(JAXBContext.class).toInstance(JAXBContext.newInstance(
+				WorldDescriptor.class,
+				EntityDescriptor.class,
+				
+				BehaviorComponent.class,
+				ConsoleDebugComponent.class,
+				ColorComponent.class,
+				PositionComponent.class,
+				DesiredPositionComponent.class,
+				MovementDirectionComponent.class,
+				MovementSpeedComponent.class,
+				NearDistanceComponent.class,
+				ShapeComponent.class,
+				TasksComponent.class,
+				
+				Position.class,
+				Polygon.class
+			));
 		}
 		catch (JAXBException e)
 		{

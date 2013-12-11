@@ -1,17 +1,32 @@
 
 package experiments.artemis.components;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ai.world.IPosition;
 
 import com.artemis.Component;
 
 
+@XmlRootElement(name ="desiredPosition")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DesiredPositionComponent extends Component
 {
+	@XmlAnyElement
 	private IPosition position;
 
 
+	@XmlAttribute
 	private double precision;
+	
+	
+	public DesiredPositionComponent()
+	{
+	}
 
 
 	public DesiredPositionComponent(IPosition position)

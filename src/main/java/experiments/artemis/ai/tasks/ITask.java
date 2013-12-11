@@ -1,8 +1,7 @@
 
 package experiments.artemis.ai.tasks;
 
-import com.artemis.Entity;
-import com.artemis.World;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.goals.IGoal;
@@ -13,6 +12,7 @@ import experiments.artemis.ai.goals.IGoal;
  * 
  * @author Xesenix
  */
+@XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface ITask extends IBehavior
 {
 	IGoal getGoals();

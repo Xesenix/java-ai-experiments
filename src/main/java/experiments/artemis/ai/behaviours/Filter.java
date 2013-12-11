@@ -1,8 +1,6 @@
 
 package experiments.artemis.ai.behaviours;
 
-import com.artemis.Entity;
-import com.artemis.World;
 
 
 abstract public class Filter extends Decorator

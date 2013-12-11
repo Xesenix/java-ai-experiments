@@ -1,13 +1,21 @@
 
 package experiments.artemis.components;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.Component;
 
 import experiments.artemis.ai.world2d.Polygon;
 
 
+@XmlRootElement(name ="shape")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ShapeComponent extends Component
 {
+	@XmlAnyElement
 	private Polygon shape;
 
 

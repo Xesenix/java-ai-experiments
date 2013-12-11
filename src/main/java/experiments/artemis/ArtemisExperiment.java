@@ -170,6 +170,7 @@ public class ArtemisExperiment implements IExperimentManager
 		// Actors
 		Entity entity = world.createEntity();
 		world.getManager(GroupManager.class).add(entity, "actors");
+		world.getManager(GroupManager.class).add(entity, "serializable");
 
 		entity.addComponent(new ConsoleDebugComponent());
 		entity.addComponent(new PositionComponent(positions[0]));
@@ -221,6 +222,7 @@ public class ArtemisExperiment implements IExperimentManager
 			entity = world.createEntity();
 			
 			world.getManager(GroupManager.class).add(entity, "targets");
+			world.getManager(GroupManager.class).add(entity, "serializable");
 			
 			entity.addComponent(new PositionComponent(targtPositions[i]));
 			

@@ -14,12 +14,7 @@ import ai.world.IWorldDescriptor;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class WorldDescriptor implements IWorldDescriptor
 {
-	@XmlElementWrapper(name = "actors")
-	@XmlElement(name = "actor")
-	public ArrayList<Integer> actors = new ArrayList<Integer>();
-	
-	
-	@XmlElementWrapper(name = "targets")
-	@XmlElement(name = "target")
-	public ArrayList<Integer> targets = new ArrayList<Integer>();
+	@XmlElementWrapper(name = "entities")
+	@XmlElement(name = "entity")
+	public ArrayList<EntityDescriptor> entities = new ArrayList<EntityDescriptor>();
 }

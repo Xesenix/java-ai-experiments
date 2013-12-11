@@ -1,23 +1,35 @@
 
 package experiments.artemis.components;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.Component;
 
 
+@XmlRootElement(name ="movementSpeed")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MovementSpeedComponent extends Component
 {
+	@XmlAttribute
 	private double speed = 0;
 
 
+	@XmlAttribute
 	private double max = 0;
 
 
+	@XmlAttribute
 	private double min = 0;
 
 
+	@XmlAttribute
 	private double acceleration = 0;
 
 
+	@XmlAttribute
 	private double decceleration = 0;
 
 

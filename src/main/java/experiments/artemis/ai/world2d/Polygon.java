@@ -1,11 +1,25 @@
 
 package experiments.artemis.ai.world2d;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ai.world.IPosition;
 
+
+@XmlRootElement(name ="polygon")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Polygon implements IPosition
 {
+	@XmlAttribute
 	private double[] vertices;
+	
+	
+	public Polygon()
+	{
+	}
 
 
 	public Polygon(double... coordinates) throws Exception

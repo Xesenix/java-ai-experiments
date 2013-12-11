@@ -1,14 +1,23 @@
 
 package experiments.artemis.components;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.Component;
 
 
+@XmlRootElement(name ="movementDirection")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MovementDirectionComponent extends Component
 {
+	@XmlAttribute
 	private double direction = 0;
 	
 	
+	@XmlAttribute
 	private double rotationRate = Math.PI;
 
 
