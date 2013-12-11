@@ -26,4 +26,8 @@ public class EntityDescriptor implements IWorldObjectDescriptor
 	@XmlID
 	@XmlAttribute
 	public String id;
+	
+	
+	@XmlAttribute
+	public String uuid;
 }

@@ -18,8 +18,7 @@ import experiments.artemis.ai.tasks.ITask;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TasksComponent extends Component
 {
-	@XmlTransient
-	private List<ITask> tasks = new ArrayList<ITask>();
+	private transient List<ITask> tasks = new ArrayList<ITask>();
 
 
 	public TasksComponent()

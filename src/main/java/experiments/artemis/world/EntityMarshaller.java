@@ -29,7 +29,8 @@ public class EntityMarshaller
 		EntityDescriptor descriptor = (EntityDescriptor) injector.getInstance(IWorldObjectDescriptor.class);
 		
 		// describing entity
-		descriptor.id = entity.getUuid().toString();
+		descriptor.id = String.format("%d", entity.getId());
+		descriptor.uuid = entity.getUuid().toString();
 		
 		// describing entity components 
 		Bag<Component> componentsBag = new Bag<Component>();
