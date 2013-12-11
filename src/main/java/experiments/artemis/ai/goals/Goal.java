@@ -1,8 +1,10 @@
 
-package experiments.artemis.ai.behaviours;
+package experiments.artemis.ai.goals;
 
 import com.artemis.Entity;
 import com.artemis.World;
+
+import experiments.artemis.ai.behaviours.IContextAware;
 
 
 public class Goal implements IGoal, IContextAware
@@ -14,18 +16,6 @@ public class Goal implements IGoal, IContextAware
 
 
 	protected Entity entity;
-
-
-	public void setGoals(IGoal... goals)
-	{
-		this.goals = goals;
-	}
-
-
-	public IGoal[] getGoals()
-	{
-		return goals;
-	}
 
 
 	public boolean achived()
@@ -61,5 +51,17 @@ public class Goal implements IGoal, IContextAware
 				}
 			}
 		}
+	}
+
+
+	public IGoal[] getGoals()
+	{
+		return goals;
+	}
+
+
+	public void setGoals(IGoal... goals)
+	{
+		this.goals = goals;
 	}
 }

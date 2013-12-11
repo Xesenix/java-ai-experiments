@@ -21,19 +21,19 @@ public class MovementSystem extends EntityProcessingSystem
 
 
 	@Mapper
-	ComponentMapper<PositionComponent> pm;
+	ComponentMapper<PositionComponent> positionMapper;
 
 
 	@Mapper
-	ComponentMapper<MovementDirectionComponent> mdm;
+	ComponentMapper<MovementDirectionComponent> movementDirectionMapper;
 
 
 	@Mapper
-	ComponentMapper<MovementSpeedComponent> msm;
+	ComponentMapper<MovementSpeedComponent> movementSpeedMapper;
 
 
 	@Mapper
-	ComponentMapper<ConsoleDebugComponent> cdm;
+	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 	
 
 	public MovementSystem()
@@ -44,12 +44,12 @@ public class MovementSystem extends EntityProcessingSystem
 	
 	protected void process(Entity e)
 	{
-		log.setActive(cdm.get(e) != null && cdm.get(e).movement);
+		log.setActive(consoleDebugMapper.get(e) != null && consoleDebugMapper.get(e).movement);
 
 		log.info("process entity {}", e);
 		log.info("retriving entity state..");
 		
-		PositionComponent worldPosition = pm.get(e);
+		PositionComponent worldPosition = positionMapper.get(e);
 		
 		log.info("position: {}", worldPosition);
 		
@@ -57,8 +57,8 @@ public class MovementSystem extends EntityProcessingSystem
 		{
 			Position position = (Position) worldPosition.getPosition();
 			
-			MovementSpeedComponent speed = msm.get(e);
-			MovementDirectionComponent direction = mdm.get(e);
+			MovementSpeedComponent speed = movementSpeedMapper.get(e);
+			MovementDirectionComponent direction = movementDirectionMapper.get(e);
 
 			log.info("speed: {}", speed);
 			log.info("direction: {}", direction);

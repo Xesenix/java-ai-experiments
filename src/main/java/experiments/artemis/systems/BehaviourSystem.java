@@ -24,15 +24,15 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 
 
 	@Mapper
-	ComponentMapper<BehaviorComponent> bm;
+	ComponentMapper<BehaviorComponent> behaviorMapper;
 
 
 	@Mapper
-	ComponentMapper<TasksComponent> tm;
+	ComponentMapper<TasksComponent> tasksMapper;
 	
 
 	@Mapper
-	ComponentMapper<ConsoleDebugComponent> cdm;
+	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 	
 	
 	HashMap<String, IBehavior> behaviorMap = new HashMap<String, IBehavior>();
@@ -48,17 +48,17 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 	{
 		//boolean finished = true;
 
-		log.setActive(cdm.get(entity) != null && cdm.get(entity).behavior);
+		log.setActive(consoleDebugMapper.get(entity) != null && consoleDebugMapper.get(entity).behavior);
 
 		log.info("processing entity {}", entity);
 		log.info("retriving entity state..");
 
-		BehaviorComponent behaviorComponent = bm.get(entity); // get behavior for entity
+		BehaviorComponent behaviorComponent = behaviorMapper.get(entity); // get behavior for entity
 
 		log.debug("entity behavior {}", behaviorComponent);
 
 		// clean task list
-		TasksComponent tasksComponent = tm.get(entity);
+		TasksComponent tasksComponent = tasksMapper.get(entity);
 		
 		if (tasksComponent == null)
 		{

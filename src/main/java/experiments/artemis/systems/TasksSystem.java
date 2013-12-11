@@ -14,9 +14,9 @@ import com.artemis.utils.Bag;
 
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.StrategyPlanner;
-import experiments.artemis.ai.behaviours.ITask;
-import experiments.artemis.ai.behaviours.TaskState;
 import experiments.artemis.ai.strategy.IStrategy;
+import experiments.artemis.ai.tasks.ITask;
+import experiments.artemis.ai.tasks.TaskState;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.TasksComponent;
 
@@ -27,11 +27,11 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 
 
 	@Mapper
-	ComponentMapper<TasksComponent> tm;
+	ComponentMapper<TasksComponent> taskMapper;
 
 
 	@Mapper
-	ComponentMapper<ConsoleDebugComponent> cdm;
+	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
 	private Bag<IStrategy> strategyByEntity = new Bag<IStrategy>();
@@ -52,12 +52,12 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 	{
 		boolean finished = true;
 
-		log.setActive(cdm.get(entity) != null && cdm.get(entity).behavior);
+		log.setActive(consoleDebugMapper.get(entity) != null && consoleDebugMapper.get(entity).behavior);
 
 		log.info("processing entity {}", entity);
 		log.info("retriving entity state..");
 
-		TasksComponent tasksComponent = tm.get(entity); // get behavior for entity
+		TasksComponent tasksComponent = taskMapper.get(entity); // get behavior for entity
 		
 		log.info("tasks {}", tasksComponent);
 
@@ -86,7 +86,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 	{
 		boolean finished;
 		
-		log.setActive(cdm.get(entity) != null && cdm.get(entity).behavior);
+		log.setActive(consoleDebugMapper.get(entity) != null && consoleDebugMapper.get(entity).behavior);
 		
 		task.setContext(world, entity);
 		
@@ -134,6 +134,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 						
 						strategyByEntity.set(entity.getId(), null);
 						
+						// TODO if there is other strategy available choose it
 						task.setState(TaskState.FAILURE);
 						
 						return;
@@ -141,7 +142,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					else
 					{
 						//task.setState(world, e, TaskState.RUNNING);
-						TasksComponent tasksComponent = tm.get(entity);
+						TasksComponent tasksComponent = taskMapper.get(entity);
 						tasksComponent.addTask(task);
 						
 						return;

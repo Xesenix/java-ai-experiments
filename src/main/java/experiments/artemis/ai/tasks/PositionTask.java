@@ -1,5 +1,7 @@
 
-package experiments.artemis.ai.behaviours;
+package experiments.artemis.ai.tasks;
+
+import experiments.artemis.ai.goals.IPositionGoal;
 
 
 

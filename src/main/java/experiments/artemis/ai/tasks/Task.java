@@ -1,10 +1,11 @@
 
-package experiments.artemis.ai.behaviours;
+package experiments.artemis.ai.tasks;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.utils.Bag;
 
+import experiments.artemis.ai.goals.IGoal;
 import experiments.artemis.systems.TasksSystem;
 
 

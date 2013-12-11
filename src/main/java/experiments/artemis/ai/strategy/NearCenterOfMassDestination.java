@@ -8,8 +8,9 @@ import com.artemis.Entity;
 import com.artemis.World;
 
 import experiments.artemis.ActiveLogger;
-import experiments.artemis.ai.behaviours.ITask;
-import experiments.artemis.ai.behaviours.PositionTask;
+import experiments.artemis.ai.goals.IPositionGoal;
+import experiments.artemis.ai.tasks.ITask;
+import experiments.artemis.ai.tasks.PositionTask;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
@@ -45,92 +46,72 @@ public class NearCenterOfMassDestination implements IStrategy
 	}
 
 
-	public boolean perform(World world, Entity e, ITask task)
+	public boolean perform(World world, Entity entity, ITask task)
 	{
-		log.setActive(e.getComponent(ConsoleDebugComponent.class) != null && e.getComponent(ConsoleDebugComponent.class).strategy);
+		log.setActive(entity.getComponent(ConsoleDebugComponent.class) != null && entity.getComponent(ConsoleDebugComponent.class).strategy);
 
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
-
+		
+		task.setContext(world, entity);
+		
 		if (task instanceof PositionTask)
 		{
-			double x = 0, y = 0;
-			int n = 0;
+			IPositionGoal goal = ((PositionTask) task).getGoals();
+			
+			log.debug("goal {}", goal);
+			
+			Position target = (Position) goal.getTarget();
+			
+			log.debug("goal target position {}", target);
 
-			/*for (IPositionGoal goal : ((PositionTask) task).getGoals())
-			{
-				IPosition pos = goal.getTarget(world, e);
-
-				if (pos instanceof Position)
-				{
-					x += ((Position) pos).getX();
-					y += ((Position) pos).getY();
-					n ++;
-				}
-				
-				if (pos instanceof Polygon)
-				{
-					double[] vertices = ((Polygon) pos).getVertices();
-					int count = vertices.length / 2;
-					
-					for (int i = 0; i < count; i++)
-					{
-						x += vertices[2 * i];
-						y += vertices[2 * i + 1];
-						n ++;
-					}
-				}
-			}*/
-
-			if (n > 0)
+			if (target != null)
 			{
 				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
-				DesiredPositionComponent targetComponent = dpm.get(e);
-				Position target = null;
+				DesiredPositionComponent targetComponent = dpm.get(entity);
+				Position oldTarget = null;
 				
 				if (targetComponent == null)
 				{
 					log.debug("new desired position");
 					
-					target = new Position();
-					targetComponent = new DesiredPositionComponent(target);
-					
-					target.set(x / (double) n, y / (double) n);
-					
-					e.addComponent(targetComponent);
-					e.changedInWorld();
+					oldTarget = new Position(target);
+					targetComponent = new DesiredPositionComponent(oldTarget);
+					entity.addComponent(targetComponent);
+					entity.changedInWorld();
 				}
 				
 				if (!(targetComponent.getPosition() instanceof Position))
 				{
-					target = new Position();
-					targetComponent.setPosition(target);
+					oldTarget = new Position();
+					targetComponent.setPosition(oldTarget);
 				}
 				else
 				{
-					target = (Position) targetComponent.getPosition();
+					oldTarget = (Position) targetComponent.getPosition();
 				}
 				
 				
 				if (task.isSuccess())
 				{
-					e.removeComponent(targetComponent);
-					e.changedInWorld();
+					entity.removeComponent(targetComponent);
+					entity.changedInWorld();
 					
 					return true;
 				}
 				
-				if (navigation.atPoint(e, target, precision))
+				if (navigation.atPoint(entity, oldTarget, precision))
 				{
 					// finished strategy step
 				}
 				
 				targetComponent.setPrecision(precision);
-				target.set(x / (double) n + (0.5 - Math.random()) * near, y / (double) n + (0.5 - Math.random()) * near);
 				
-				log.debug("target position {}", target);
+				oldTarget.set(target.getX() + (0.5 - Math.random()) * near, target.getY() + (0.5 - Math.random()) * near);
+				
+				log.debug("position {}", entity.getComponent(PositionComponent.class));
 				log.debug("entity desired position {}", targetComponent);
 				
-				return false;
+				return navigation.atPoint(entity, oldTarget, targetComponent.getPrecision());
 			}
 		}
 

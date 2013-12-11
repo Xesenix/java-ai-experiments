@@ -1,8 +1,11 @@
 
-package experiments.artemis.ai.behaviours;
+package experiments.artemis.ai.tasks;
 
 import com.artemis.Entity;
 import com.artemis.World;
+
+import experiments.artemis.ai.behaviours.IBehavior;
+import experiments.artemis.ai.goals.IGoal;
 
 
 /**

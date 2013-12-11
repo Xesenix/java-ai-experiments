@@ -31,27 +31,27 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 
 
 	@Mapper
-	ComponentMapper<PositionComponent> pm;
+	ComponentMapper<PositionComponent> positionMapper;
 
 
 	@Mapper
-	ComponentMapper<MovementDirectionComponent> mdm;
+	ComponentMapper<MovementDirectionComponent> movementDirectionMapper;
 
 
 	@Mapper
-	ComponentMapper<MovementSpeedComponent> msm;
+	ComponentMapper<MovementSpeedComponent> movementSpeedMapper;
 
 
 	@Mapper
-	ComponentMapper<NearDistanceComponent> dm;
+	ComponentMapper<NearDistanceComponent> nearDistanceMapper;
 
 
 	@Mapper
-	ComponentMapper<DesiredPositionComponent> dpm;
+	ComponentMapper<DesiredPositionComponent> desiredPositionMapper;
 
 
 	@Mapper
-	ComponentMapper<ConsoleDebugComponent> cdm;
+	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
 	private IMetric metric;
@@ -67,20 +67,20 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 
 	protected void process(Entity e)
 	{
-		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
+		log.setActive(consoleDebugMapper.get(e) != null && consoleDebugMapper.get(e).navigation);
 
 		log.info("process entity {}", e);
 		log.info("retriving entity state..");
 		
-		PositionComponent worldPosition = pm.get(e);
-		DesiredPositionComponent targetComponent = dpm.get(e);
+		PositionComponent worldPosition = positionMapper.get(e);
+		DesiredPositionComponent targetComponent = desiredPositionMapper.get(e);
 		
 		if (targetComponent.getPosition() instanceof Position && worldPosition.getPosition() instanceof Position)
 		{
 			Position position = (Position) worldPosition.getPosition();
 			Position target = (Position) targetComponent.getPosition();
 			
-			MovementSpeedComponent speed = msm.get(e);
+			MovementSpeedComponent speed = movementSpeedMapper.get(e);
 			
 			if (speed == null)
 			{
@@ -88,7 +88,7 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 				e.addComponent(speed);
 			}
 			
-			MovementDirectionComponent direction = mdm.get(e);
+			MovementDirectionComponent direction = movementDirectionMapper.get(e);
 			
 			if (direction == null)
 			{
@@ -111,13 +111,13 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 
 	public boolean nearPoint(Entity e, IPosition target)
 	{
-		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
+		log.setActive(consoleDebugMapper.get(e) != null && consoleDebugMapper.get(e).navigation);
 
 		log.info("nearPoint entity {}", e);
 		log.info("retriving entity state..");
 
-		PositionComponent worldPosition = pm.get(e);
-		NearDistanceComponent nearDistance = dm.get(e);
+		PositionComponent worldPosition = positionMapper.get(e);
+		NearDistanceComponent nearDistance = nearDistanceMapper.get(e);
 
 		double near = Math.max(nearDistance != null ? nearDistance.getNear() : PRECISION, PRECISION);
 
@@ -141,12 +141,12 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 
 	public boolean atPoint(Entity e, IPosition target, Double precision)
 	{
-		log.setActive(cdm.get(e) != null && cdm.get(e).navigation);
+		log.setActive(consoleDebugMapper.get(e) != null && consoleDebugMapper.get(e).navigation);
 
 		log.info("atPoint entity {}", e);
 		log.info("retriving entity state..");
 
-		PositionComponent worldPosition = pm.get(e);
+		PositionComponent worldPosition = positionMapper.get(e);
 
 		double near = Math.max(precision != null ? precision : PRECISION, PRECISION);
 

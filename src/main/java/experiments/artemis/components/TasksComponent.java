@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.artemis.Component;
 
-import experiments.artemis.ai.behaviours.ITask;
+import experiments.artemis.ai.tasks.ITask;
 
 
 public class TasksComponent extends Component

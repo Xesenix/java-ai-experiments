@@ -1,5 +1,5 @@
 
-package experiments.artemis.ai.behaviours;
+package experiments.artemis.ai.goals;
 
 import ai.world.IPosition;
 

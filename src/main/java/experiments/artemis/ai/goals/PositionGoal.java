@@ -1,4 +1,4 @@
-package experiments.artemis.ai.behaviours;
+package experiments.artemis.ai.goals;
 
 import ai.world.IPosition;
 
@@ -57,8 +57,6 @@ public class PositionGoal extends Goal implements IPositionGoal
 				y += ((Position) pos).getY();
 				n ++;
 			}
-			
-			
 		}
 		
 		if (n > 0)

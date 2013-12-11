@@ -5,7 +5,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 
 
-public class Decorator implements IBehavior
+abstract public class Decorator implements IBehavior
 {
 	private IBehavior behavior;
 

@@ -1,4 +1,4 @@
-package experiments.artemis.ai.behaviours;
+package experiments.artemis.ai.tasks;
 
 public enum TaskState
 {

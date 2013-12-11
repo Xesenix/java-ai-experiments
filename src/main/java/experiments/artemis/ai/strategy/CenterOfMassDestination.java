@@ -8,9 +8,9 @@ import com.artemis.Entity;
 import com.artemis.World;
 
 import experiments.artemis.ActiveLogger;
-import experiments.artemis.ai.behaviours.IPositionGoal;
-import experiments.artemis.ai.behaviours.ITask;
-import experiments.artemis.ai.behaviours.PositionTask;
+import experiments.artemis.ai.goals.IPositionGoal;
+import experiments.artemis.ai.tasks.ITask;
+import experiments.artemis.ai.tasks.PositionTask;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
@@ -53,8 +53,6 @@ public class CenterOfMassDestination implements IStrategy
 			
 			if (target != null)
 			{
-				boolean result = false;
-				
 				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
 				DesiredPositionComponent targetComponent = dpm.get(entity);
 				Position oldTarget = null;
