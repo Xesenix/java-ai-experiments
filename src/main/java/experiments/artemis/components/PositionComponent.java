@@ -12,11 +12,11 @@ import ai.world.IPosition;
 import com.artemis.Component;
 
 
-@XmlRootElement(name ="worldPosition")
+@XmlRootElement(name = "worldPosition")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PositionComponent extends Component
 {
-	@XmlElement
+	@XmlAnyElement(lax = true)
 	private IPosition position;
 	
 	

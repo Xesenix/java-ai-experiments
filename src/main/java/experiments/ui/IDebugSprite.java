@@ -26,7 +26,7 @@ public interface IDebugSprite
 	void setCloseFarSighRange(double range);
 
 
-	void setRangeColor(Color color);
+	void setRangeColor(String color);
 
 
 	void setSpeed(double speed);

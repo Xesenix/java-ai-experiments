@@ -3,9 +3,7 @@ package experiments.artemis.components;
 
 import javafx.scene.paint.Color;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import com.artemis.Component;
 
@@ -13,44 +11,30 @@ import com.artemis.Component;
 @XmlRootElement(name = "color")
 public class ColorComponent extends Component
 {
-	private Color color;
+	private String color;
 
 
 	public ColorComponent()
 	{
-		color = Color.BLACK;
+		color = Color.BLACK.toString();
 	}
 
 
-	public ColorComponent(Color color)
+	public ColorComponent(String color)
 	{
-		this.setColor(color);
+		setColor(color);
 	}
 
 
-	@XmlTransient
-	public Color getColor()
+	public String getColor()
 	{
 		return color;
 	}
 
 
-	public void setColor(Color color)
+	public void setColor(String color)
 	{
 		this.color = color;
-	}
-
-
-	@XmlAttribute(name = "color")
-	public String getColorName()
-	{
-		return color.toString();
-	}
-
-
-	public void setColorName(String color)
-	{
-		this.color = Color.web(color);
 	}
 
 

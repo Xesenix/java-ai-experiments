@@ -237,7 +237,7 @@ public class ArtemisExperiment implements IExperimentManager
 			if (goals[i] instanceof NearPositionGoal)
 			{
 				entity.addComponent(new NearDistanceComponent(((NearPositionGoal)goals[i]).getPrecision()));
-				entity.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
+				entity.addComponent(new ColorComponent(Color.rgb(255, 0, 0).toString()));
 
 				// e.addComponent(new MovementSpeedComponent(5f));
 				entity.addComponent(new MovementDirectionComponent());
@@ -246,7 +246,7 @@ public class ArtemisExperiment implements IExperimentManager
 			if (goals[i] instanceof KeepInAreaGoal)
 			{
 				entity.addComponent(new ShapeComponent((Polygon) ((KeepInAreaGoal) goals[i]).getArea()));
-				entity.addComponent(new ColorComponent(Color.rgb(255, 0, 0, 0.3f)));
+				entity.addComponent(new ColorComponent(Color.rgb(255, 0, 0).toString()));
 			}
 			
 			entity.addToWorld();

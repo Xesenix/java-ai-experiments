@@ -184,9 +184,9 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 	}
 
 
-	public void setRangeColor(Color color)
+	public void setRangeColor(String color)
 	{
-		closeSight.setFill(color);
+		closeSight.setFill(Color.web(color, 0.3));
 	}
 
 

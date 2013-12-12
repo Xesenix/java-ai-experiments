@@ -49,9 +49,9 @@ public class DebugSpriteMediator
 	}
 
 
-	public void setRangeColor(Color color)
+	public void setRangeColor(String string)
 	{
-		this.sprite.setRangeColor(color);
+		this.sprite.setRangeColor(string);
 	}
 
 
