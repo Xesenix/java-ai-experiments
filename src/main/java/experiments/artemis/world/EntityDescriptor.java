@@ -1,3 +1,4 @@
+
 package experiments.artemis.world;
 
 import java.util.ArrayList;
@@ -14,20 +15,21 @@ import ai.world.IWorldObjectDescriptor;
 
 import com.artemis.Component;
 
+
 @XmlRootElement(name = "entity")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EntityDescriptor implements IWorldObjectDescriptor
 {
 	@XmlElementWrapper(name = "components")
-	@XmlAnyElement
+	@XmlAnyElement(lax = true)
 	public ArrayList<Component> components = new ArrayList<Component>();
-	
-	
+
+
 	@XmlID
 	@XmlAttribute
 	public String id;
-	
-	
+
+
 	@XmlAttribute
 	public String uuid;
 }

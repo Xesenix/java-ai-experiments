@@ -11,8 +11,8 @@ import ai.world.IPosition;
 import ai.world.IWorld;
 import ai.world.IWorldDescriptor;
 import ai.world.IWorldObjectDescriptor;
-import ai.world.World;
 
+import com.artemis.World;
 import com.google.inject.AbstractModule;
 
 import experiments.artemis.ai.world2d.Polygon;
@@ -44,7 +44,7 @@ public class ArtemisModule extends AbstractModule
 	private void bindEnviroment()
 	{
 		bind(AI.class);
-		bind(IWorld.class).to(World.class);
+		bind(World.class);
 		bind(IWorldDescriptor.class).to(WorldDescriptor.class);
 		bind(IWorldObjectDescriptor.class).to(EntityDescriptor.class);
 		bind(IPosition.class).to(Position.class);

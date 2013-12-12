@@ -1,6 +1,7 @@
 
 package experiments.artemis;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import javafx.scene.paint.Color;
@@ -8,6 +9,7 @@ import javafx.scene.paint.Color;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +53,9 @@ import experiments.artemis.systems.DebugEntitySystem;
 import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
 import experiments.artemis.systems.TasksSystem;
+import experiments.artemis.world.WorldDescriptor;
 import experiments.artemis.world.WorldMarshaller;
+import experiments.artemis.world.WorldUnmarshaller;
 
 
 public class ArtemisExperiment implements IExperimentManager
@@ -73,6 +77,10 @@ public class ArtemisExperiment implements IExperimentManager
 
 	@Inject
 	private WorldMarshaller worldMarshaller;
+
+
+	@Inject
+	private WorldUnmarshaller worldUnmarshaller;
 
 
 	@Inject
@@ -288,6 +296,23 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public void loadWorldFromXmlString(String source)
 	{
+		log.debug("loading - XML World: {}", source);
+
+		StringReader xmlReader = new StringReader(source);
+
+		try
+		{
+			WorldDescriptor descriptor = (WorldDescriptor) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
+			//world.getEntityManager().
+			worldUnmarshaller.setWorld(world);
+			world = worldUnmarshaller.unmarshal(descriptor);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+
+		log.debug("deserialized - World: {}", world);
 	}
 
 
