@@ -24,7 +24,7 @@ public class Task implements ITask
 
 
 	@XmlAnyElement(lax = true)
-	private IGoal goals;
+	protected IGoal goals;
 
 
 	protected transient World world;

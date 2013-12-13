@@ -13,7 +13,7 @@ import experiments.artemis.systems.NavigationSystem;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NearPositionGoal extends Goal implements IPositionGoal
+public class NearPositionGoal extends PositionGoal
 {
 	@XmlAnyElement(lax = true)
 	private IPosition target;

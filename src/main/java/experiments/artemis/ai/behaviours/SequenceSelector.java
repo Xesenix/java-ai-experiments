@@ -24,10 +24,10 @@ public class SequenceSelector implements IBehavior
 	private transient Bag<Integer> indexForEntity = new Bag<Integer>();
 
 
-	private transient World world;
+	protected transient World world;
 
 
-	private transient Entity entity;
+	protected transient Entity entity;
 	
 	
 	public SequenceSelector()

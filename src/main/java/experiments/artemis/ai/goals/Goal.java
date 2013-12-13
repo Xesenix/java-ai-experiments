@@ -72,4 +72,10 @@ public class Goal implements IGoal, IContextAware
 	{
 		this.goals = goals;
 	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x {goals: %s}]", getClass().getSimpleName(), hashCode(), getGoals());
+	}
 }

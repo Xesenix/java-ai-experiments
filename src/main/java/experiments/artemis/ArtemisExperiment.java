@@ -31,6 +31,7 @@ import experiments.artemis.ai.behaviours.Counter;
 import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.behaviours.PrioritySelector;
 import experiments.artemis.ai.behaviours.SequenceSelector;
+import experiments.artemis.ai.conditions.Condition;
 import experiments.artemis.ai.conditions.Not;
 import experiments.artemis.ai.goals.IPositionGoal;
 import experiments.artemis.ai.goals.KeepInAreaGoal;
@@ -166,7 +167,9 @@ public class ArtemisExperiment implements IExperimentManager
 		};
 		
 		IBehavior keepInAreaBehavior = new SequenceSelector(
-			new Not(goals[5]),
+			new Not("not in area", goals[5]),
+			// new Condition("test", goals[4]),
+			// new Task("test 2", goals[4]),
 			tasks[5]
 		);
 		
@@ -375,7 +378,11 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public String getAiAsJsonString()
 	{
-		return null;
+		String result = json.prettyPrint(ai);
+
+		log.debug("serialized - Json AI: {}", result);
+
+		return result;
 	}
 
 

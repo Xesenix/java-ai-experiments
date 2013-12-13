@@ -19,7 +19,7 @@ import experiments.artemis.components.PositionComponent;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class KeepInAreaGoal implements IPositionGoal
+public class KeepInAreaGoal extends PositionGoal
 {
 	@XmlElement
 	private Polygon polygon;
@@ -95,6 +95,12 @@ public class KeepInAreaGoal implements IPositionGoal
 		}
 
 		return new Position(x / (double) n, y / (double) n);
+	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x {target: %s, area: %s}]", getClass().getSimpleName(), hashCode(), getTarget(), getArea());
 	}
 
 }

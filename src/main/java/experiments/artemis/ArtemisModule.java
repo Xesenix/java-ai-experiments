@@ -69,18 +69,19 @@ public class ArtemisModule extends AbstractModule
 				
 				AiDescriptor.class,
 				BehaviorDescriptor.class,
-				
-				SequenceSelector.class,
-				PrioritySelector.class,
-				Counter.class,
+
 				Task.class,
+				Not.class,
+				Condition.class,
+				Counter.class,
 				PositionTask.class,
 				Goal.class,
 				PositionGoal.class,
 				NearPositionGoal.class,
 				KeepInAreaGoal.class,
-				Condition.class,
-				Not.class,
+				
+				SequenceSelector.class,
+				PrioritySelector.class,
 				
 				BehaviorComponent.class,
 				ConsoleDebugComponent.class,

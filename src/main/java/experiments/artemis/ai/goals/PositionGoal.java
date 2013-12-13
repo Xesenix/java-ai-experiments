@@ -78,4 +78,10 @@ public class PositionGoal extends Goal implements IPositionGoal
 		return null;
 	}
 
+
+	public String toString()
+	{
+		return String.format("[%s@%x {goals: %s}]", getClass().getSimpleName(), hashCode(), getGoals());
+	}
+
 }

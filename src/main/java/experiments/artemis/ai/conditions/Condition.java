@@ -4,16 +4,10 @@ package experiments.artemis.ai.conditions;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.artemis.Entity;
-import com.artemis.World;
-
 import experiments.artemis.ai.goals.IGoal;
-import experiments.artemis.ai.tasks.ITask;
 import experiments.artemis.ai.tasks.Task;
-import experiments.artemis.ai.tasks.TaskState;
 
 
 @XmlRootElement
