@@ -1,8 +1,11 @@
 
 package experiments.artemis.ai.behaviours;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
+
+@XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface IBehavior extends IContextAware
 {
 	/**

@@ -1,16 +1,31 @@
 
 package experiments.artemis.ai.goals;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ai.world.IPosition;
 import experiments.artemis.systems.NavigationSystem;
 
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class NearPositionGoal extends Goal implements IPositionGoal
 {
+	@XmlAnyElement(lax = true)
 	private IPosition target;
-	
-	
+
+
+	@XmlAttribute
 	private double precision;
+
+
+	public NearPositionGoal()
+	{
+	}
 
 
 	public NearPositionGoal(IPosition target)
@@ -21,8 +36,8 @@ public class NearPositionGoal extends Goal implements IPositionGoal
 
 	public NearPositionGoal(IPosition target, double precision)
 	{
-		this.target = target;
-		this.precision = precision;
+		setTarget(target);
+		setPrecision(precision);
 	}
 
 
@@ -40,9 +55,21 @@ public class NearPositionGoal extends Goal implements IPositionGoal
 	}
 
 
+	public void setTarget(IPosition target)
+	{
+		this.target = target;
+	}
+
+
 	public double getPrecision()
 	{
 		return precision;
+	}
+
+
+	public void setPrecision(double precision)
+	{
+		this.precision = precision;
 	}
 
 

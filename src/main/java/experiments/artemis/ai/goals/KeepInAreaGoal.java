@@ -1,6 +1,11 @@
 
 package experiments.artemis.ai.goals;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ai.world.IPosition;
 
 import com.artemis.ComponentMapper;
@@ -12,20 +17,22 @@ import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.PositionComponent;
 
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class KeepInAreaGoal implements IPositionGoal
 {
+	@XmlElement
 	private Polygon polygon;
 
 
-	private World world;
+	private transient World world;
 
 
-	private Entity entity;
+	private transient Entity entity;
 
 
 	public KeepInAreaGoal()
 	{
-		// TODO Auto-generated constructor stub
 	}
 
 

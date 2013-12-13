@@ -8,13 +8,23 @@ import ai.AI;
 import ai.actions.MoveTo;
 import ai.actors.NPC;
 import ai.world.IPosition;
-import ai.world.IWorld;
 import ai.world.IWorldDescriptor;
 import ai.world.IWorldObjectDescriptor;
 
 import com.artemis.World;
 import com.google.inject.AbstractModule;
 
+import experiments.artemis.ai.AiDescriptor;
+import experiments.artemis.ai.BehaviorDescriptor;
+import experiments.artemis.ai.behaviours.Counter;
+import experiments.artemis.ai.behaviours.PrioritySelector;
+import experiments.artemis.ai.behaviours.SequenceSelector;
+import experiments.artemis.ai.conditions.Not;
+import experiments.artemis.ai.goals.KeepInAreaGoal;
+import experiments.artemis.ai.goals.NearPositionGoal;
+import experiments.artemis.ai.goals.PositionGoal;
+import experiments.artemis.ai.tasks.PositionTask;
+import experiments.artemis.ai.tasks.Task;
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.BehaviorComponent;
@@ -54,6 +64,19 @@ public class ArtemisModule extends AbstractModule
 			bind(JAXBContext.class).toInstance(JAXBContext.newInstance(
 				WorldDescriptor.class,
 				EntityDescriptor.class,
+				
+				AiDescriptor.class,
+				BehaviorDescriptor.class,
+				
+				SequenceSelector.class,
+				PrioritySelector.class,
+				Counter.class,
+				Task.class,
+				PositionTask.class,
+				PositionGoal.class,
+				NearPositionGoal.class,
+				KeepInAreaGoal.class,
+				Not.class,
 				
 				BehaviorComponent.class,
 				ConsoleDebugComponent.class,

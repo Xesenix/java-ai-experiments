@@ -1,21 +1,29 @@
 
 package experiments.artemis.ai.goals;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.Entity;
 import com.artemis.World;
 
 import experiments.artemis.ai.behaviours.IContextAware;
 
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Goal implements IGoal, IContextAware
 {
+	@XmlAnyElement(lax = true)
 	private IGoal[] goals;
 
 
-	protected World world;
+	protected transient World world;
 
 
-	protected Entity entity;
+	protected transient Entity entity;
 
 
 	public boolean achived()

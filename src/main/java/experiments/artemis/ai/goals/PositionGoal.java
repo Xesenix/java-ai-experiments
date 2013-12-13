@@ -1,5 +1,10 @@
 package experiments.artemis.ai.goals;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ai.world.IPosition;
 
 import com.artemis.ComponentMapper;
@@ -7,14 +12,17 @@ import com.artemis.ComponentMapper;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.PositionComponent;
 
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PositionGoal extends Goal implements IPositionGoal
 {
+	@XmlAnyElement(lax = true)
 	private IPositionGoal[] goals;
 	
 	
 	public PositionGoal()
 	{
-		// TODO Auto-generated constructor stub
 	}
 	
 	

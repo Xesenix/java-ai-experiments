@@ -1,8 +1,6 @@
 
 package experiments.artemis.systems;
 
-import java.util.HashMap;
-
 import org.slf4j.LoggerFactory;
 
 import com.artemis.Aspect;
@@ -12,6 +10,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.IntervalEntityProcessingSystem;
 
 import experiments.artemis.ActiveLogger;
+import experiments.artemis.ai.AI;
 import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
@@ -33,14 +32,15 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 
 	@Mapper
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
-	
-	
-	HashMap<String, IBehavior> behaviorMap = new HashMap<String, IBehavior>();
 
 
-	public BehaviourSystem(float interval)
+	private AI ai;
+
+
+	public BehaviourSystem(AI ai, float interval)
 	{
 		super(Aspect.getAspectForOne(BehaviorComponent.class), interval);
+		this.ai = ai;
 	}
 
 
@@ -67,7 +67,7 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 			entity.changedInWorld();
 		}
 		
-		IBehavior behavior = behaviorMap.get(behaviorComponent.getName());
+		IBehavior behavior = ai.getBehaviors().get(behaviorComponent.getName());
 		
 		if (behavior != null)
 		{
@@ -79,11 +79,5 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 			log.info("entity tasks {}", tasksComponent);
 		}
 		
-	}
-
-
-	public void addBehavior(String key, IBehavior behavior)
-	{
-		behaviorMap.put(key, behavior);
 	}
 }

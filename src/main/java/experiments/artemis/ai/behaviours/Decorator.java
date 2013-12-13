@@ -1,19 +1,31 @@
 
 package experiments.artemis.ai.behaviours;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.Entity;
 import com.artemis.World;
 
-
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 abstract public class Decorator implements IBehavior
 {
+	@XmlAnyElement(lax = true)
 	private IBehavior behavior;
 
 
-	protected World world;
+	protected transient World world;
 
 
-	protected Entity entity;
+	protected transient Entity entity;
+	
+	
+	public Decorator()
+	{
+	}
 
 
 	public Decorator(IBehavior behavior)
@@ -72,9 +84,9 @@ abstract public class Decorator implements IBehavior
 	}
 
 
-	public void setBehavior(IBehavior task)
+	public void setBehavior(IBehavior behavior)
 	{
-		this.behavior = task;
+		this.behavior = behavior;
 	}
 
 

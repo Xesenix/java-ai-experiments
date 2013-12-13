@@ -1,11 +1,6 @@
 
 package experiments.artemis.world;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import ai.world.IWorld;
-
 import com.artemis.Entity;
 import com.artemis.World;
 import com.google.inject.Inject;

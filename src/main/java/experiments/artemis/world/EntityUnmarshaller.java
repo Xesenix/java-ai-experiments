@@ -2,8 +2,6 @@ package experiments.artemis.world;
 
 import java.util.UUID;
 
-import ai.world.IWorld;
-
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;

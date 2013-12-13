@@ -1,16 +1,25 @@
 
 package experiments.artemis.ai.tasks;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import experiments.artemis.ai.goals.IPositionGoal;
 
 
-
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PositionTask extends Task
 {
+	@XmlAnyElement(lax = true)
 	private IPositionGoal goals;
 	
 	
-	private String name;
+	public PositionTask()
+	{
+	}
 
 
 	public PositionTask(IPositionGoal goals)
@@ -23,18 +32,6 @@ public class PositionTask extends Task
 	{
 		this.setName(name);
 		this.setGoals(goals);
-	}
-
-
-	public String getName()
-	{
-		return name;
-	}
-
-
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 
 

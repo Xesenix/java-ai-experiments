@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +24,8 @@ import com.google.inject.Injector;
 
 import experiments.IExperimentManager;
 import experiments.IExperimentView;
+import experiments.artemis.ai.AI;
+import experiments.artemis.ai.AiMarshaller;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.behaviours.Counter;
 import experiments.artemis.ai.behaviours.IBehavior;
@@ -76,6 +77,10 @@ public class ArtemisExperiment implements IExperimentManager
 
 
 	@Inject
+	private AiMarshaller aiMarshaller;
+
+
+	@Inject
 	private WorldMarshaller worldMarshaller;
 
 
@@ -97,11 +102,16 @@ public class ArtemisExperiment implements IExperimentManager
 	private World world;
 
 
+	private AI ai;
+
+
 	public void initialize()
 	{
+		ai = new AI();
+		
 		world = new World();
 		
-		BehaviourSystem behaviorSystem = world.setSystem(new BehaviourSystem(2.5f));
+		world.setSystem(new BehaviourSystem(ai, 2.5f));
 		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
@@ -173,7 +183,7 @@ public class ArtemisExperiment implements IExperimentManager
 			quests
 		);
 		
-		behaviorSystem.addBehavior("crowd", crowdBehavior);
+		ai.addBehavior("crowd", crowdBehavior);
 
 		// Actors
 		Entity entity = world.createEntity();
@@ -290,7 +300,25 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public String getAiAsXmlString()
 	{
-		return null;
+		StringWriter xmlWriter = new StringWriter();
+
+		Marshaller jaxbMarshaller;
+		try
+		{
+			jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.marshal(aiMarshaller.marshall(ai), xmlWriter);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+
+		String result = xmlWriter.toString();
+
+		log.debug("serialized - XML AI: {}", result);
+
+		return result;
 	}
 
 

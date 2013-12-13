@@ -1,6 +1,12 @@
 
 package experiments.artemis.ai.tasks;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.utils.Bag;
@@ -9,18 +15,25 @@ import experiments.artemis.ai.goals.IGoal;
 import experiments.artemis.systems.TasksSystem;
 
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Task implements ITask
 {
-	private Bag<TaskState> stateByEntity = new Bag<TaskState>();
-	
-	
+	@XmlAttribute
+	private String name;
+
+
+	@XmlAnyElement(lax = true)
 	private IGoal goals;
 
 
-	private World world;
+	private transient World world;
 
 
-	private Entity entity;
+	private transient Entity entity;
+
+
+	private transient Bag<TaskState> stateByEntity = new Bag<TaskState>();
 
 
 	public Task()
@@ -31,7 +44,7 @@ public class Task implements ITask
 	public void run()
 	{
 		TasksSystem system = world.getSystem(TasksSystem.class);
-		
+
 		system.runTask(entity, this);
 	}
 
@@ -72,11 +85,23 @@ public class Task implements ITask
 	{
 		this.world = world;
 		this.entity = entity;
-		
+
 		if (getGoals() != null)
 		{
 			getGoals().setContext(world, entity);
 		}
+	}
+
+
+	public String getName()
+	{
+		return name;
+	}
+
+
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 
 
@@ -101,7 +126,7 @@ public class Task implements ITask
 	public void setGoals(IGoal goals)
 	{
 		this.goals = goals;
-		
+
 		if (this.goals != null)
 		{
 			this.goals.setContext(world, entity);

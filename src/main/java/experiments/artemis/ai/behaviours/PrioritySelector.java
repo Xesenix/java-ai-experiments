@@ -3,23 +3,36 @@ package experiments.artemis.ai.behaviours;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.utils.Bag;
 
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PrioritySelector implements IBehavior
 {
+	@XmlAnyElement(lax = true)
 	private IBehavior behaviors[];
 
 
 	private transient Bag<Integer> indexForEntity = new Bag<Integer>();
 
 
-	protected World world;
+	protected transient World world;
 
 
-	protected Entity entity;
+	protected transient Entity entity;
+	
+	
+	public PrioritySelector()
+	{
+	}
 	
 	
 	public PrioritySelector(IBehavior... behaviors)

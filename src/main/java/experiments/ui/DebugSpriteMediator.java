@@ -1,7 +1,6 @@
 
 package experiments.ui;
 
-import javafx.scene.paint.Color;
 
 public class DebugSpriteMediator
 {

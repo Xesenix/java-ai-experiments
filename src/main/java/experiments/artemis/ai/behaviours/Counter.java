@@ -1,15 +1,28 @@
 
 package experiments.artemis.ai.behaviours;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.artemis.utils.Bag;
 
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Counter extends Filter
 {
+	@XmlAttribute
 	private int count;
 
 
-	private Bag<Integer> counters = new Bag<Integer>();
+	private transient Bag<Integer> counters = new Bag<Integer>();
+	
+	
+	public Counter()
+	{
+	}
 
 
 	public Counter(IBehavior behavior, int count)
@@ -74,15 +87,15 @@ public class Counter extends Filter
 	}
 
 
-	public void setCount(int count)
+	public int getCount()
 	{
-		this.count = count;
+		return count;
 	}
 
 
-	public int getCount()
+	public void setCount(int count)
 	{
-		return this.count;
+		this.count = count;
 	}
 
 
