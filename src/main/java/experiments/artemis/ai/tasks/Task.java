@@ -27,10 +27,10 @@ public class Task implements ITask
 	private IGoal goals;
 
 
-	private transient World world;
+	protected transient World world;
 
 
-	private transient Entity entity;
+	protected transient Entity entity;
 
 
 	private transient Bag<TaskState> stateByEntity = new Bag<TaskState>();
@@ -38,6 +38,25 @@ public class Task implements ITask
 
 	public Task()
 	{
+	}
+
+
+	public Task(String name)
+	{
+		setName(name);
+	}
+	
+	
+	public Task(IGoal goals)
+	{
+		setGoals(goals);
+	}
+	
+	
+	public Task(String name, IGoal goals)
+	{
+		setName(name);
+		setGoals(goals);
 	}
 
 

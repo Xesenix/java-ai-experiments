@@ -23,6 +23,12 @@ public class Not extends Condition
 	}
 
 
+	public Not(String name, IGoal goals)
+	{
+		super(name, goals);
+	}
+
+
 	public boolean isSuccess()
 	{
 		return !super.isSuccess();

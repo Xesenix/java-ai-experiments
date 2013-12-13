@@ -19,7 +19,9 @@ import experiments.artemis.ai.BehaviorDescriptor;
 import experiments.artemis.ai.behaviours.Counter;
 import experiments.artemis.ai.behaviours.PrioritySelector;
 import experiments.artemis.ai.behaviours.SequenceSelector;
+import experiments.artemis.ai.conditions.Condition;
 import experiments.artemis.ai.conditions.Not;
+import experiments.artemis.ai.goals.Goal;
 import experiments.artemis.ai.goals.KeepInAreaGoal;
 import experiments.artemis.ai.goals.NearPositionGoal;
 import experiments.artemis.ai.goals.PositionGoal;
@@ -73,9 +75,11 @@ public class ArtemisModule extends AbstractModule
 				Counter.class,
 				Task.class,
 				PositionTask.class,
+				Goal.class,
 				PositionGoal.class,
 				NearPositionGoal.class,
 				KeepInAreaGoal.class,
+				Condition.class,
 				Not.class,
 				
 				BehaviorComponent.class,
