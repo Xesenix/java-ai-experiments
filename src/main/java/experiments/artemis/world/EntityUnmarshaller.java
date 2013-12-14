@@ -53,8 +53,8 @@ public class EntityUnmarshaller
 		if (entity == null)
 		{
 			entity = world.createEntity(UUID.fromString(descriptor.uuid));
+			entity.addToWorld();
 		}
-		
 		
 		for (Component component : descriptor.components)
 		{

@@ -53,8 +53,6 @@ public class WorldUnmarshaller
 		for (EntityDescriptor entityDescriptor : descriptor.entities)
 		{
 			Entity entity = entityUnmrashaller.unmarshal(entityDescriptor);
-			
-			world.addEntity(entity);
 		}
 
 		return world;

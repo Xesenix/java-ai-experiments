@@ -271,6 +271,9 @@ public class ArtemisExperiment implements IExperimentManager
 			
 			entity.addToWorld();
 		}
+		
+		// initialize entieties and systems
+		world.process();
 	}
 
 
@@ -368,6 +371,8 @@ public class ArtemisExperiment implements IExperimentManager
 		}
 
 		log.debug("deserialized - World: {}", world);
+		
+		world.process();
 	}
 
 
@@ -441,6 +446,8 @@ public class ArtemisExperiment implements IExperimentManager
 		}
 
 		log.debug("deserialized - World: {}", world);
+		
+		world.process();
 	}
 
 
