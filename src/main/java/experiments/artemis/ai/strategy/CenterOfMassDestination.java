@@ -33,13 +33,13 @@ public class CenterOfMassDestination implements IStrategy
 	}
 
 
-	public boolean perform(World world, Entity entity, ITask task)
+	public boolean perform(World world, Entity actor, ITask task)
 	{
-		log.setActive(entity.getComponent(ConsoleDebugComponent.class) != null && entity.getComponent(ConsoleDebugComponent.class).strategy);
+		log.setActive(actor.getComponent(ConsoleDebugComponent.class) != null && actor.getComponent(ConsoleDebugComponent.class).strategy);
 
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 		
-		task.setContext(world, entity);
+		task.setActor(actor);
 
 		if (task instanceof PositionTask)
 		{
@@ -54,7 +54,7 @@ public class CenterOfMassDestination implements IStrategy
 			if (target != null)
 			{
 				ComponentMapper<DesiredPositionComponent> dpm = world.getMapper(DesiredPositionComponent.class);
-				DesiredPositionComponent targetComponent = dpm.get(entity);
+				DesiredPositionComponent targetComponent = dpm.get(actor);
 				Position oldTarget = null;
 				
 				if (targetComponent == null)
@@ -63,8 +63,8 @@ public class CenterOfMassDestination implements IStrategy
 					
 					oldTarget = new Position(target);
 					targetComponent = new DesiredPositionComponent(oldTarget);
-					entity.addComponent(targetComponent);
-					entity.changedInWorld();
+					actor.addComponent(targetComponent);
+					actor.changedInWorld();
 				}
 				
 				if (!(targetComponent.getPosition() instanceof Position))
@@ -79,8 +79,8 @@ public class CenterOfMassDestination implements IStrategy
 				
 				if (task.isSuccess())
 				{
-					entity.removeComponent(targetComponent);
-					entity.changedInWorld();
+					actor.removeComponent(targetComponent);
+					actor.changedInWorld();
 					
 					return true;
 				}
@@ -89,10 +89,10 @@ public class CenterOfMassDestination implements IStrategy
 				
 				oldTarget.set(target.getX(), target.getY());
 				
-				log.debug("position {}", entity.getComponent(PositionComponent.class));
+				log.debug("position {}", actor.getComponent(PositionComponent.class));
 				log.debug("entity desired position {}", targetComponent);
 				
-				return navigation.atPoint(entity, oldTarget, targetComponent.getPrecision());
+				return navigation.atPoint(actor, oldTarget, targetComponent.getPrecision());
 			}
 		}
 

@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.artemis.World;
+
 import ai.world.IPosition;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.systems.NavigationSystem;
@@ -40,9 +42,10 @@ public class NearPositionGoal extends PositionGoal
 
 	public boolean achived()
 	{
+		World world = actor.getWorld();
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 
-		return navigation.atPoint(entity, position, precision);
+		return navigation.atPoint(actor, position, precision);
 	}
 
 

@@ -82,19 +82,19 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 	}
 
 
-	public void runTask(Entity entity, ITask task)
+	public void runTask(Entity actor, ITask task)
 	{
 		boolean finished;
 		
-		log.setActive(consoleDebugMapper.get(entity) != null && consoleDebugMapper.get(entity).behavior);
+		log.setActive(consoleDebugMapper.get(actor) != null && consoleDebugMapper.get(actor).behavior);
 		
-		task.setContext(world, entity);
+		task.setActor(actor);
 		
 		log.debug("running task {}", task);
 		
-		IStrategy runningStrategy = strategyByEntity.get(entity.getId());
+		IStrategy runningStrategy = strategyByEntity.get(actor.getId());
 		
-		runningStrategy = strategyPlanner.bestStrategyFor(world, entity, task);
+		runningStrategy = strategyPlanner.bestStrategyFor(world, actor, task);
 		
 		log.debug("current running strategy {}", runningStrategy);
 		
@@ -104,14 +104,14 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 
 			// check is strategy can be performed
 
-			if (runningStrategy.canPerform(world, entity, task))
+			if (runningStrategy.canPerform(world, actor, task))
 			{
 				task.setState(TaskState.RUNNING);
 				
 				// performing strategy
 				log.info("performing chosen strategy");
 
-				finished = runningStrategy.perform(world, entity, task);
+				finished = runningStrategy.perform(world, actor, task);
 
 				log.debug("strategy finished: {}", finished);
 				
@@ -132,7 +132,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					{
 						log.info("finished performing chosen strategy");
 						
-						strategyByEntity.set(entity.getId(), null);
+						strategyByEntity.set(actor.getId(), null);
 						
 						// TODO if there is other strategy available choose it
 						task.setState(TaskState.FAILURE);
@@ -142,7 +142,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					else
 					{
 						//task.setState(world, e, TaskState.RUNNING);
-						TasksComponent tasksComponent = taskMapper.get(entity);
+						TasksComponent tasksComponent = taskMapper.get(actor);
 						tasksComponent.addTask(task);
 						
 						return;

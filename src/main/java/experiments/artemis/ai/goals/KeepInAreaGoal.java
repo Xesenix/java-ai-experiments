@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ai.world.IPosition;
 
 import com.artemis.ComponentMapper;
+import com.artemis.World;
 
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
@@ -42,8 +43,9 @@ public class KeepInAreaGoal extends PositionGoal
 
 	public boolean achived()
 	{
+		World world = actor.getWorld();
 		ComponentMapper<PositionComponent> pm = world.getMapper(PositionComponent.class);
-		PositionComponent worldPosition = pm.get(entity);
+		PositionComponent worldPosition = pm.get(actor);
 
 		if (worldPosition == null)
 		{

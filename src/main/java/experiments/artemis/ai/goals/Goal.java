@@ -17,10 +17,7 @@ public class Goal implements IGoal, IContextAware
 	private IGoal[] goals;
 
 
-	protected transient World world;
-
-
-	protected transient Entity entity;
+	protected transient Entity actor;
 
 
 	@XmlAnyElement(lax = true)
@@ -52,10 +49,9 @@ public class Goal implements IGoal, IContextAware
 	}
 
 
-	public void setContext(World world, Entity entity)
+	public void setActor(Entity actor)
 	{
-		this.world = world;
-		this.entity = entity;
+		this.actor = actor;
 		
 		IGoal[] goals = getGoals();
 		
@@ -65,7 +61,7 @@ public class Goal implements IGoal, IContextAware
 			{
 				if (goals[i] instanceof IContextAware)
 				{
-					((IContextAware) goals[i]).setContext(world, entity);
+					((IContextAware) goals[i]).setActor(actor);
 				}
 			}
 		}

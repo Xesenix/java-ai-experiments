@@ -47,8 +47,8 @@ public class Counter extends Filter
 	{
 		if (isCompleted() && filterCondition())
 		{
-			int countForEntity = counters.get(entity.getId());
-			counters.set(entity.getId(), -- countForEntity);
+			int countForEntity = counters.get(actor.getId());
+			counters.set(actor.getId(), -- countForEntity);
 
 			super.reset();
 		}
@@ -57,25 +57,25 @@ public class Counter extends Filter
 
 	public boolean isRunning()
 	{
-		return counters.get(entity.getId()) != 0 && super.isRunning();
+		return counters.get(actor.getId()) != 0 && super.isRunning();
 	}
 
 
 	public boolean isCompleted()
 	{
-		return counters.get(entity.getId()) == 0 || super.isCompleted();
+		return counters.get(actor.getId()) == 0 || super.isCompleted();
 	}
 
 
 	public boolean isSuccess()
 	{
-		return counters.get(entity.getId()) == 0 || super.isSuccess();
+		return counters.get(actor.getId()) == 0 || super.isSuccess();
 	}
 
 
 	public boolean filterCondition()
 	{
-		return counters.get(entity.getId()) > 0;
+		return counters.get(actor.getId()) > 0;
 	}
 	
 	

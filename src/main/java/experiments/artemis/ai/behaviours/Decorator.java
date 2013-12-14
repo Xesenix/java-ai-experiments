@@ -15,10 +15,7 @@ class Decorator implements IBehavior
 	private IBehavior behavior;
 
 
-	protected transient World world;
-
-
-	protected transient Entity entity;
+	protected transient Entity actor;
 	
 	
 	public Decorator()
@@ -81,11 +78,10 @@ class Decorator implements IBehavior
 	}
 
 
-	public void setContext(World world, Entity entity)
+	public void setActor(Entity actor)
 	{
-		this.world = world;
-		this.entity = entity;
-		behavior.setContext(world, entity);
+		this.actor = actor;
+		behavior.setActor(actor);
 	}
 
 

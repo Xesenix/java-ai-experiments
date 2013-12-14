@@ -22,7 +22,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 	{
 		for (int i = 0; i < behaviors.length; i++)
 		{
-			indexForEntity.set(entity.getId(), i);
+			indexForEntity.set(actor.getId(), i);
 			
 			behaviors[i].run();
 			
@@ -48,7 +48,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isReady()
 	{
-		int index = indexForEntity.get(entity.getId());
+		int index = indexForEntity.get(actor.getId());
 		
 		return index == 0 && behaviors[index].isReady();
 	}
@@ -56,7 +56,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isRunning()
 	{
-		int index = indexForEntity.get(entity.getId());
+		int index = indexForEntity.get(actor.getId());
 		
 		return behaviors[index].isRunning() || behaviors[index].isSuccess() && index < behaviors.length - 1;
 	}
@@ -64,7 +64,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isSuccess()
 	{
-		int index = indexForEntity.get(entity.getId());
+		int index = indexForEntity.get(actor.getId());
 		
 		return index == behaviors.length - 1 && behaviors[index].isSuccess();
 	}
@@ -72,7 +72,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isCompleted()
 	{
-		int index = indexForEntity.get(entity.getId());
+		int index = indexForEntity.get(actor.getId());
 		
 		return index == behaviors.length - 1 && behaviors[index].isCompleted();
 	}

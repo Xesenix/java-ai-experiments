@@ -25,10 +25,7 @@ public class Task implements ITask
 	protected IGoal goals;
 
 
-	protected transient World world;
-
-
-	protected transient Entity entity;
+	protected transient Entity actor;
 
 
 	private transient Bag<TaskState> stateByEntity = new Bag<TaskState>();
@@ -84,7 +81,7 @@ public class Task implements ITask
 
 		if (this.goals != null)
 		{
-			this.goals.setContext(world, entity);
+			this.goals.setActor(actor);
 		}
 	}
 
@@ -92,21 +89,22 @@ public class Task implements ITask
 	@XmlTransient
 	public TaskState getState()
 	{
-		return stateByEntity.get(entity.getId());
+		return stateByEntity.get(actor.getId());
 	}
 
 
 	public void setState(TaskState state)
 	{
-		stateByEntity.set(entity.getId(), state);
+		stateByEntity.set(actor.getId(), state);
 	}
 
 
 	public void run()
 	{
+		World world = actor.getWorld();
 		TasksSystem system = world.getSystem(TasksSystem.class);
 
-		system.runTask(entity, this);
+		system.runTask(actor, this);
 	}
 
 
@@ -142,14 +140,13 @@ public class Task implements ITask
 	}
 
 
-	public void setContext(World world, Entity entity)
+	public void setActor(Entity actor)
 	{
-		this.world = world;
-		this.entity = entity;
+		this.actor = actor;
 
 		if (getGoals() != null)
 		{
-			getGoals().setContext(world, entity);
+			getGoals().setActor(actor);
 		}
 	}
 

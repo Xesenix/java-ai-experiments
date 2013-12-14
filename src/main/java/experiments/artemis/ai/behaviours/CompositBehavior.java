@@ -24,10 +24,7 @@ public class CompositBehavior implements IActorAware
 	protected transient Bag<Integer> indexForEntity = new Bag<Integer>();
 
 
-	protected transient World world;
-
-
-	protected transient Entity entity;
+	protected transient Entity actor;
 
 
 	public CompositBehavior()
@@ -42,14 +39,13 @@ public class CompositBehavior implements IActorAware
 	}
 
 
-	public void setContext(World world, Entity entity)
+	public void setActor(Entity actor)
 	{
-		this.world = world;
-		this.entity = entity;
+		this.actor = actor;
 
 		for (int i = 0; i < behaviors.length; i++)
 		{
-			behaviors[i].setContext(world, entity);
+			behaviors[i].setActor(actor);
 		}
 	}
 

@@ -46,27 +46,27 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 	}
 
 
-	protected void process(Entity entity)
+	protected void process(Entity actor)
 	{
 		//boolean finished = true;
 
-		log.setActive(consoleDebugMapper.get(entity) != null && consoleDebugMapper.get(entity).behavior);
+		log.setActive(consoleDebugMapper.get(actor) != null && consoleDebugMapper.get(actor).behavior);
 
-		log.info("processing entity {}", entity);
+		log.info("processing entity {}", actor);
 		log.info("retriving entity state..");
 
-		BehaviorComponent behaviorComponent = behaviorMapper.get(entity); // get behavior for entity
+		BehaviorComponent behaviorComponent = behaviorMapper.get(actor); // get behavior for entity
 
 		log.debug("entity behavior {}", behaviorComponent);
 
 		// clean task list
-		TasksComponent tasksComponent = tasksMapper.get(entity);
+		TasksComponent tasksComponent = tasksMapper.get(actor);
 		
 		if (tasksComponent == null)
 		{
 			tasksComponent = new TasksComponent();
-			entity.addComponent(tasksComponent);
-			entity.changedInWorld();
+			actor.addComponent(tasksComponent);
+			actor.changedInWorld();
 		}
 		
 		IBehavior behavior = ai.getBehaviors().get(behaviorComponent.getName());
@@ -74,7 +74,7 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 		if (behavior != null)
 		{
 			// decide what to do
-			behavior.setContext(world, entity);
+			behavior.setActor(actor);
 			behavior.reset();
 			behavior.run();
 			
