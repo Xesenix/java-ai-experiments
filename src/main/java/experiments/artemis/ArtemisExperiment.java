@@ -245,7 +245,7 @@ public class ArtemisExperiment implements IExperimentManager
 		entity.addToWorld();*/
 
 		// Landmarks
-		for (int i = 0; i < targtPositions.length; i++)
+		/*for (int i = 0; i < targtPositions.length; i++)
 		{
 			entity = world.createEntity();
 			
@@ -270,7 +270,7 @@ public class ArtemisExperiment implements IExperimentManager
 			}
 			
 			entity.addToWorld();
-		}
+		}*/
 		
 		// initialize entieties and systems
 		world.process();

@@ -102,7 +102,7 @@ public class NavigationSystem extends IntervalEntityProcessingSystem
 			direction.changeDirection(Math.atan2(dy, dx), world.getDelta());
 			
 			// good place for placing some learning algorithm
-			double castLength = dx * Math.cos(direction.getDirection()) + dy * Math.sin(direction.getDirection());
+			double castLength = dx * Math.cos(direction.getDirectionRadians()) + dy * Math.sin(direction.getDirectionRadians());
 			
 			speed.changeSpeed(castLength, world.getDelta());
 		}

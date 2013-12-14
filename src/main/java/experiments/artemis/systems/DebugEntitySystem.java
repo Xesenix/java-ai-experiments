@@ -254,7 +254,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 		if (direction != null)
 		{
-			mediator.setDirection(direction.getDirection());
+			mediator.setDirection(direction.getDirectionRadians());
 		}
 	}
 

@@ -5,19 +5,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.artemis.Component;
 
 
 @XmlRootElement(name ="movementDirection")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class MovementDirectionComponent extends Component
 {
-	@XmlAttribute
 	private double direction = 0;
 	
 	
-	@XmlAttribute
 	private double rotationRate = Math.PI;
 
 
@@ -28,38 +26,66 @@ public class MovementDirectionComponent extends Component
 	
 	public MovementDirectionComponent(double direction)
 	{
-		setDirection(direction);
+		setDirectionRadians(direction);
 	}
 	
 	
 	public MovementDirectionComponent(double direction, double rotationRate)
 	{
-		setDirection(direction);
-		setRotationRate(rotationRate);
+		setDirectionRadians(direction);
+		setRotationRateRadians(rotationRate);
 	}
 
 
-	public double getDirection()
+	@XmlTransient
+	public double getDirectionRadians()
 	{
 		return direction;
 	}
 
 
-	public void setDirection(double direction)
+	public void setDirectionRadians(double angle)
 	{
-		this.direction = Math.IEEEremainder(direction, 2 * Math.PI);
+		this.direction = Math.IEEEremainder(angle, 2 * Math.PI);
 	}
 
 
-	public double getRotationRate()
+	@XmlAttribute
+	public double getDirection()
+	{
+		return Math.toDegrees(direction);
+	}
+
+
+	public void setDirection(double direction)
+	{
+		this.direction = Math.IEEEremainder(Math.toRadians(direction), 2 * Math.PI);
+	}
+
+
+	@XmlTransient
+	public double getRotationRatRadianse()
 	{
 		return rotationRate;
 	}
 
 
-	public void setRotationRate(double rotationRate)
+	public void setRotationRateRadians(double rotationRate)
 	{
 		this.rotationRate = rotationRate;
+	}
+
+
+	@XmlAttribute
+	public double getRotationRate()
+	{
+		return Math.toDegrees(rotationRate);
+	}
+
+
+	public void setRotationRate(double rotationRate)
+	{
+		this.rotationRate = Math.toRadians(rotationRate);
 	}
 	
 	
@@ -69,11 +95,11 @@ public class MovementDirectionComponent extends Component
 		
 		if (directionChange > 0)
 		{
-			setDirection(direction + Math.min(directionChange, rotationRate * time));
+			setDirectionRadians(direction + Math.min(directionChange, rotationRate * time));
 		}
 		else
 		{
-			setDirection(direction + Math.max(directionChange, - rotationRate * time));
+			setDirectionRadians(direction + Math.max(directionChange, - rotationRate * time));
 		}
 	}
 
