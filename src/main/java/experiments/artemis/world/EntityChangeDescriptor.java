@@ -18,7 +18,7 @@ import com.artemis.Component;
 
 @XmlRootElement(name = "entity")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EntityDescriptor implements IWorldObjectDescriptor
+public class EntityChangeDescriptor implements IWorldObjectDescriptor
 {
 	@XmlElementWrapper(name = "components")
 	@XmlAnyElement(lax = true)

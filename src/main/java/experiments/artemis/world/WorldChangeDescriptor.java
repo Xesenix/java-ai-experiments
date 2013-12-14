@@ -12,9 +12,14 @@ import ai.world.IWorldDescriptor;
 
 @XmlRootElement(name = "world")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WorldDescriptor implements IWorldDescriptor
+public class WorldChangeDescriptor implements IWorldDescriptor
 {
 	@XmlElementWrapper(name = "entities")
 	@XmlElement(name = "entity")
-	public ArrayList<EntityDescriptor> entities = new ArrayList<EntityDescriptor>();
+	public ArrayList<EntityChangeDescriptor> entities = new ArrayList<EntityChangeDescriptor>();
+	
+	
+	@XmlElementWrapper(name = "remove")
+	@XmlElement(name = "entity")
+	public ArrayList<EntityChangeDescriptor> removeEntities;
 }

@@ -26,15 +26,15 @@ public class WorldMarshaller
 	 * @param world
 	 * @return world model object
 	 */
-	public WorldDescriptor marshall(World world)
+	public WorldChangeDescriptor marshall(World world)
 	{
-		WorldDescriptor descriptor = (WorldDescriptor) injector.getInstance(WorldDescriptor.class);
+		WorldChangeDescriptor descriptor = (WorldChangeDescriptor) injector.getInstance(WorldChangeDescriptor.class);
 		
 		// entities
 		EntityMarshaller entityMarshaller = (EntityMarshaller) injector.getInstance(EntityMarshaller.class);
 		ImmutableBag<Entity> serializable = world.getManager(GroupManager.class).getEntities("serializable");
 		
-		ArrayList<EntityDescriptor> entities = new ArrayList<EntityDescriptor>();
+		ArrayList<EntityChangeDescriptor> entities = new ArrayList<EntityChangeDescriptor>();
 		
 		for (Entity entity : serializable)
 		{

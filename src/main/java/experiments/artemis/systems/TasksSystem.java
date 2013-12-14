@@ -157,4 +157,10 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 		
 		task.setState(TaskState.FAILURE);
 	}
+	
+	
+	protected void removed(Entity entity)
+	{
+		strategyByEntity.set(entity.getId(), null);
+	}
 }

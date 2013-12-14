@@ -89,4 +89,10 @@ public class DebugSpriteMediator
 	{
 		this.sprite.setShape(vertices);
 	}
+
+
+	public IDebugSprite getSprite()
+	{
+		return this.sprite;
+	}
 }

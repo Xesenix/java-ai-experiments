@@ -27,9 +27,9 @@ public class EntityMarshaller
 	 * @param world
 	 * @return world model object
 	 */
-	public EntityDescriptor marshall(Entity entity)
+	public EntityChangeDescriptor marshall(Entity entity)
 	{
-		EntityDescriptor descriptor = (EntityDescriptor) injector.getInstance(IWorldObjectDescriptor.class);
+		EntityChangeDescriptor descriptor = (EntityChangeDescriptor) injector.getInstance(IWorldObjectDescriptor.class);
 		World world = entity.getWorld();
 		
 		// describing entity

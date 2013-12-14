@@ -1,17 +1,8 @@
 package experiments.artemis.ai;
 
-import java.util.HashMap;
-import java.util.UUID;
-
-import com.artemis.Component;
-import com.artemis.Entity;
-import com.artemis.World;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-
-import experiments.artemis.ai.behaviours.IBehavior;
-import experiments.artemis.world.EntityDescriptor;
 
 @Singleton
 public class AiUnmarshaller

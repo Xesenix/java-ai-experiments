@@ -39,8 +39,8 @@ import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.ShapeComponent;
 import experiments.artemis.components.TasksComponent;
-import experiments.artemis.world.EntityDescriptor;
-import experiments.artemis.world.WorldDescriptor;
+import experiments.artemis.world.EntityChangeDescriptor;
+import experiments.artemis.world.WorldChangeDescriptor;
 
 
 public class ArtemisModule extends AbstractModule
@@ -57,15 +57,15 @@ public class ArtemisModule extends AbstractModule
 	{
 		bind(AI.class);
 		bind(World.class);
-		bind(IWorldDescriptor.class).to(WorldDescriptor.class);
-		bind(IWorldObjectDescriptor.class).to(EntityDescriptor.class);
+		bind(IWorldDescriptor.class).to(WorldChangeDescriptor.class);
+		bind(IWorldObjectDescriptor.class).to(EntityChangeDescriptor.class);
 		bind(IPosition.class).to(Position.class);
 
 		try
 		{
 			bind(JAXBContext.class).toInstance(JAXBContext.newInstance(
-				WorldDescriptor.class,
-				EntityDescriptor.class,
+				WorldChangeDescriptor.class,
+				EntityChangeDescriptor.class,
 				
 				AiDescriptor.class,
 				BehaviorDescriptor.class,

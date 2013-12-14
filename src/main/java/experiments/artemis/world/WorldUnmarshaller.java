@@ -42,7 +42,7 @@ public class WorldUnmarshaller
 	 * @param descriptor
 	 * @return
 	 */
-	public World unmarshal(WorldDescriptor descriptor)
+	public World unmarshal(WorldChangeDescriptor descriptor)
 	{
 		World world = getWorld();
 		
@@ -50,9 +50,17 @@ public class WorldUnmarshaller
 		
 		entityUnmrashaller.setWorld(world);
 
-		for (EntityDescriptor entityDescriptor : descriptor.entities)
+		for (EntityChangeDescriptor entityDescriptor : descriptor.entities)
 		{
-			Entity entity = entityUnmrashaller.unmarshal(entityDescriptor);
+			entityUnmrashaller.unmarshal(entityDescriptor);
+		}
+
+		if (descriptor.removeEntities != null)
+		{
+			for (EntityChangeDescriptor entityDescriptor : descriptor.removeEntities)
+			{
+				world.deleteEntity(entityUnmrashaller.unmarshal(entityDescriptor));
+			}
 		}
 
 		return world;

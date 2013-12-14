@@ -281,4 +281,17 @@ public class DebugEntitySystem extends EntityProcessingSystem
 
 		return String.format("entity: %s\ncomponents:%s\ngroups:%s", e.getId(), entityComponentsDescription, entityGroupsDescription);
 	}
+	
+	
+	protected void removed(Entity entity)
+	{
+		DebugSpriteMediator mediator = mediatorByEntity.get(entity.getId());
+		
+		if (mediator != null)
+		{
+			view.removePositionDebugSprite(mediator);
+			
+			mediatorByEntity.set(entity.getId(), null);
+		}
+	}
 }

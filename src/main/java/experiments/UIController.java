@@ -194,4 +194,10 @@ public class UIController implements IExperimentView
 
 		return mediator;
 	}
+
+
+	public void removePositionDebugSprite(DebugSpriteMediator mediator)
+	{
+		debugPointLayer.getChildren().remove(mediator.getSprite());
+	}
 }

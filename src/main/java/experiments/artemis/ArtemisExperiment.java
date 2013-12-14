@@ -57,7 +57,7 @@ import experiments.artemis.systems.DebugEntitySystem;
 import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
 import experiments.artemis.systems.TasksSystem;
-import experiments.artemis.world.WorldDescriptor;
+import experiments.artemis.world.WorldChangeDescriptor;
 import experiments.artemis.world.WorldMarshaller;
 import experiments.artemis.world.WorldUnmarshaller;
 
@@ -360,7 +360,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		try
 		{
-			WorldDescriptor descriptor = (WorldDescriptor) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
+			WorldChangeDescriptor descriptor = (WorldChangeDescriptor) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
 			//world.getEntityManager().
 			worldUnmarshaller.setWorld(world);
 			world = worldUnmarshaller.unmarshal(descriptor);
@@ -437,7 +437,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		try
 		{
-			WorldDescriptor descriptor = json.fromJson(WorldDescriptor.class, source);
+			WorldChangeDescriptor descriptor = json.fromJson(WorldChangeDescriptor.class, source);
 			worldUnmarshaller.setWorld(world);
 			world = worldUnmarshaller.unmarshal(descriptor);
 		}

@@ -48,7 +48,7 @@ public class EntityUnmarshaller
 	 * @param descriptor
 	 * @return
 	 */
-	public Entity unmarshal(EntityDescriptor descriptor)
+	public Entity unmarshal(EntityChangeDescriptor descriptor)
 	{
 		World world = getWorld();
 		
