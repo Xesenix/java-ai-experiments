@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.managers.GroupManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -52,8 +53,17 @@ public class EntityUnmarshaller
 		
 		if (entity == null)
 		{
-			entity = world.createEntity(UUID.fromString(descriptor.uuid));
+			entity = world.createEntity();
 			entity.addToWorld();
+		}
+		
+		GroupManager groupManager = world.getManager(GroupManager.class);
+		
+		groupManager.removeFromAllGroups(entity);
+		
+		for (String group : descriptor.groups)
+		{
+			groupManager.add(entity, group);
 		}
 		
 		for (Component component : descriptor.components)

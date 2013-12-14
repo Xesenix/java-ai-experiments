@@ -31,5 +31,5 @@ public class EntityDescriptor implements IWorldObjectDescriptor
 
 
 	@XmlAttribute
-	public String uuid;
+	public ArrayList<String> groups = new ArrayList<String>();
 }
