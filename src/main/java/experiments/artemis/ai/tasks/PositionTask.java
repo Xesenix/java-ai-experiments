@@ -1,8 +1,6 @@
 
 package experiments.artemis.ai.tasks;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -41,11 +39,5 @@ public class PositionTask extends Task
 	public void setGoals(IGoal goals)
 	{
 		super.setGoals(goals);
-	}
-
-
-	public String toString()
-	{
-		return String.format("[%s@%x {name: %s, targets: %s}]", getClass().getSimpleName(), hashCode(), getName(), getGoals());
 	}
 }

@@ -1,6 +1,8 @@
 
 package experiments.artemis.systems;
 
+import java.util.Map;
+
 import org.slf4j.LoggerFactory;
 
 import com.artemis.Aspect;
@@ -78,6 +80,18 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 			
 			log.info("entity tasks {}", tasksComponent);
 		}
-		
 	}
+
+
+	public void inserted(Entity entity)
+	{
+		ai.addActor(entity);
+	}
+
+
+	public void removed(Entity entity)
+	{
+		ai.removeActor(entity);
+	}
+	
 }

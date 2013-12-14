@@ -1,35 +1,12 @@
 
 package experiments.artemis.ai.behaviours;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.artemis.Entity;
-import com.artemis.World;
-import com.artemis.utils.Bag;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class SequenceSelector implements IBehavior
+public class SequenceSelector extends CompositBehavior implements IBehavior
 {
-	@XmlAnyElement(lax = true)
-	private IBehavior behaviors[];
-
-
-	private transient Bag<Integer> indexForEntity = new Bag<Integer>();
-
-
-	protected transient World world;
-
-
-	protected transient Entity entity;
-	
-	
 	public SequenceSelector()
 	{
 	}
@@ -37,13 +14,13 @@ public class SequenceSelector implements IBehavior
 	
 	public SequenceSelector(IBehavior... behaviors)
 	{
-		setBehaviors(behaviors);
+		super(behaviors);
 	}
 
 
 	public void run()
 	{
-		for (int i = getIndexForEntity(); i < behaviors.length; i++)
+		for (int i = indexForEntity.get(entity.getId()); i < behaviors.length; i++)
 		{
 			indexForEntity.set(entity.getId(), i);
 			
@@ -82,7 +59,7 @@ public class SequenceSelector implements IBehavior
 
 	public boolean isReady()
 	{
-		int index = getIndexForEntity();
+		int index = indexForEntity.get(entity.getId());
 		
 		return index == 0 && behaviors[index].isReady();
 	}
@@ -90,7 +67,7 @@ public class SequenceSelector implements IBehavior
 
 	public boolean isRunning()
 	{
-		int index = getIndexForEntity();
+		int index = indexForEntity.get(entity.getId());
 		
 		return behaviors[index].isRunning() || behaviors[index].isSuccess() && index < behaviors.length - 1;
 	}
@@ -98,7 +75,7 @@ public class SequenceSelector implements IBehavior
 
 	public boolean isSuccess()
 	{
-		int index = getIndexForEntity();
+		int index = indexForEntity.get(entity.getId());
 		
 		return index == behaviors.length - 1 && behaviors[index].isSuccess();
 	}
@@ -106,58 +83,8 @@ public class SequenceSelector implements IBehavior
 
 	public boolean isCompleted()
 	{
-		int index = getIndexForEntity();
+		int index = indexForEntity.get(entity.getId());
 		
 		return index == behaviors.length - 1 && behaviors[index].isCompleted();
-	}
-
-
-	public void setContext(World world, Entity entity)
-	{
-		this.world = world;
-		this.entity = entity;
-		
-		for (int i = 0; i < behaviors.length; i++)
-		{
-			behaviors[i].setContext(world, entity);
-		}
-	}
-
-
-	private int getIndexForEntity()
-	{
-		Integer index = indexForEntity.get(entity.getId());
-
-		if (index == null)
-		{
-			index = 0;
-			indexForEntity.set(entity.getId(), index);
-		}
-
-		return index;
-	}
-
-
-	public IBehavior[] getBehaviours()
-	{
-		return behaviors;
-	}
-
-
-	public void setBehaviors(IBehavior... behaviours)
-	{
-		this.behaviors = behaviours;
-	}
-
-
-	public void setBehaviors(List<IBehavior> behavioursList)
-	{
-		this.behaviors = behavioursList.toArray(new IBehavior[0]);
-	}
-
-
-	public String toString()
-	{
-		return String.format("[%s@%x, {behaviors: %s}]", getClass().getSimpleName(), hashCode(), behaviors);
 	}
 }

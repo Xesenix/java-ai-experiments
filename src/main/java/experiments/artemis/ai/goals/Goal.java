@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.artemis.Entity;
 import com.artemis.World;
 
+import experiments.artemis.ai.behaviours.IActorAware;
 import experiments.artemis.ai.behaviours.IContextAware;
 
 
@@ -20,6 +21,19 @@ public class Goal implements IGoal, IContextAware
 
 
 	protected transient Entity entity;
+
+
+	@XmlAnyElement(lax = true)
+	public IGoal[] getGoals()
+	{
+		return goals;
+	}
+
+
+	public void setGoals(IGoal... goals)
+	{
+		this.goals = goals;
+	}
 
 
 	public boolean achived()
@@ -58,16 +72,37 @@ public class Goal implements IGoal, IContextAware
 	}
 
 
-	@XmlAnyElement(lax = true)
-	public IGoal[] getGoals()
+	public void actorAdded(Entity entity)
 	{
-		return goals;
+		IGoal[] goals = getGoals();
+		
+		if (goals != null)
+		{
+			for (int i = 0; i < goals.length; i++)
+			{
+				if (goals[i] instanceof IActorAware)
+				{
+					((IActorAware) goals[i]).actorAdded(entity);
+				}
+			}
+		}
 	}
 
 
-	public void setGoals(IGoal... goals)
+	public void actorRemoved(Entity entity)
 	{
-		this.goals = goals;
+		IGoal[] goals = getGoals();
+		
+		if (goals != null)
+		{
+			for (int i = 0; i < goals.length; i++)
+			{
+				if (goals[i] instanceof IActorAware)
+				{
+					((IActorAware) goals[i]).actorRemoved(entity);
+				}
+			}
+		}
 	}
 
 

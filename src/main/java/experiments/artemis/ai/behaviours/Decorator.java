@@ -9,11 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.artemis.Entity;
 import com.artemis.World;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-abstract public class Decorator implements IBehavior
+
+class Decorator implements IBehavior
 {
-	@XmlAnyElement(lax = true)
 	private IBehavior behavior;
 
 
@@ -29,6 +27,19 @@ abstract public class Decorator implements IBehavior
 
 
 	public Decorator(IBehavior behavior)
+	{
+		this.setBehavior(behavior);
+	}
+
+
+	@XmlAnyElement(lax = true)
+	public IBehavior getBehavior()
+	{
+		return behavior;
+	}
+
+
+	public void setBehavior(IBehavior behavior)
 	{
 		this.behavior = behavior;
 	}
@@ -78,15 +89,15 @@ abstract public class Decorator implements IBehavior
 	}
 
 
-	public IBehavior getBehavior()
+	public void actorAdded(Entity entity)
 	{
-		return behavior;
+		behavior.actorAdded(entity);
 	}
 
 
-	public void setBehavior(IBehavior behavior)
+	public void actorRemoved(Entity entity)
 	{
-		this.behavior = behavior;
+		behavior.actorRemoved(entity);
 	}
 
 

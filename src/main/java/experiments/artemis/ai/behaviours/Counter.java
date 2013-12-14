@@ -1,19 +1,16 @@
 
 package experiments.artemis.ai.behaviours;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.artemis.Entity;
 import com.artemis.utils.Bag;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Counter extends Filter
 {
-	@XmlAttribute
 	private int count;
 
 
@@ -33,60 +30,7 @@ public class Counter extends Filter
 	}
 
 
-	public void reset()
-	{
-		if (isCompleted() && filterCondition())
-		{
-			int countForEntity = getCounterForEntity();
-			counters.set(entity.getId(), -- countForEntity);
-
-			System.out.println("counter");
-			System.out.println(countForEntity);
-
-			super.reset();
-		}
-	}
-
-
-	public boolean isRunning()
-	{
-		return getCounterForEntity() != 0 && super.isRunning();
-	}
-
-
-	public boolean isCompleted()
-	{
-		return getCounterForEntity() == 0 || super.isCompleted();
-	}
-
-
-	public boolean isSuccess()
-	{
-		return getCounterForEntity() == 0 || super.isSuccess();
-	}
-
-
-	public boolean filterCondition()
-	{
-		int countForEntity = getCounterForEntity();
-
-		return countForEntity > 0;
-	}
-
-
-	private int getCounterForEntity()
-	{
-		Integer counter = counters.get(entity.getId());
-
-		if (counter == null)
-		{
-			counter = count;
-		}
-
-		return counter;
-	}
-
-
+	@XmlAttribute
 	public int getCount()
 	{
 		return count;
@@ -99,8 +43,54 @@ public class Counter extends Filter
 	}
 
 
-	public String toString()
+	public void reset()
 	{
-		return super.toString();
+		if (isCompleted() && filterCondition())
+		{
+			int countForEntity = counters.get(entity.getId());
+			counters.set(entity.getId(), -- countForEntity);
+
+			super.reset();
+		}
+	}
+
+
+	public boolean isRunning()
+	{
+		return counters.get(entity.getId()) != 0 && super.isRunning();
+	}
+
+
+	public boolean isCompleted()
+	{
+		return counters.get(entity.getId()) == 0 || super.isCompleted();
+	}
+
+
+	public boolean isSuccess()
+	{
+		return counters.get(entity.getId()) == 0 || super.isSuccess();
+	}
+
+
+	public boolean filterCondition()
+	{
+		return counters.get(entity.getId()) > 0;
+	}
+	
+	
+	public void actorAdded(Entity entity)
+	{
+		counters.set(entity.getId(), count);
+		
+		super.actorAdded(entity);
+	}
+	
+	
+	public void actorRemoved(Entity entity)
+	{
+		counters.set(entity.getId(), null);
+		
+		super.actorRemoved(entity);
 	}
 }
