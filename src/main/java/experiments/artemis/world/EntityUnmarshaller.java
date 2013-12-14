@@ -1,11 +1,14 @@
 package experiments.artemis.world;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.artemis.Component;
+import com.artemis.ComponentManager;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
+import com.artemis.utils.Bag;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -15,7 +18,7 @@ import com.google.inject.Singleton;
 public class EntityUnmarshaller
 {
 	@Inject
-	private transient Injector injector;
+	private Injector injector;
 
 
 	private World world;
@@ -57,6 +60,8 @@ public class EntityUnmarshaller
 			entity.addToWorld();
 		}
 		
+		// groups
+		
 		GroupManager groupManager = world.getManager(GroupManager.class);
 		
 		groupManager.removeFromAllGroups(entity);
@@ -66,10 +71,22 @@ public class EntityUnmarshaller
 			groupManager.add(entity, group);
 		}
 		
+		// components
+		
 		for (Component component : descriptor.components)
 		{
 			entity.addComponent(component);
 		}
+		
+		if (descriptor.removeComponents != null)
+		{
+			for (Component component : descriptor.removeComponents)
+			{
+				entity.removeComponent(component);
+			}
+		}
+		
+		entity.changedInWorld();
 		
 		return entity;
 	}

@@ -25,6 +25,11 @@ public class EntityDescriptor implements IWorldObjectDescriptor
 	public ArrayList<Component> components = new ArrayList<Component>();
 
 
+	@XmlElementWrapper(name = "remove")
+	@XmlAnyElement(lax = true)
+	public ArrayList<Component> removeComponents;
+
+
 	@XmlID
 	@XmlAttribute
 	public String id;

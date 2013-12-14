@@ -372,6 +372,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		log.debug("deserialized - World: {}", world);
 		
+		world.setDelta(0);
 		world.process();
 	}
 
@@ -447,6 +448,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		log.debug("deserialized - World: {}", world);
 		
+		world.setDelta(0);
 		world.process();
 	}
 
