@@ -6,17 +6,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import experiments.artemis.ai.goals.IGoal;
 import experiments.artemis.ai.goals.IPositionGoal;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class PositionTask extends Task
 {
-	@XmlAnyElement(lax = true)
-	private IPositionGoal goals;
-	
-	
 	public PositionTask()
 	{
 	}
@@ -34,16 +30,17 @@ public class PositionTask extends Task
 		this.setGoals(goals);
 	}
 
-
-	public IPositionGoal getGoals()
+	
+	@XmlAnyElement(lax = true)
+	public IGoal getGoals()
 	{
-		return goals;
+		return super.getGoals();
 	}
 
 
-	public void setGoals(IPositionGoal goals)
+	public void setGoals(IGoal goals)
 	{
-		this.goals = goals;
+		super.setGoals(goals);
 	}
 
 

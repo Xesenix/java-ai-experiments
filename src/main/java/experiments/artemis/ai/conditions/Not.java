@@ -3,13 +3,13 @@ package experiments.artemis.ai.conditions;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import experiments.artemis.ai.goals.IGoal;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Not extends Condition
 {
 	public Not()
@@ -26,6 +26,19 @@ public class Not extends Condition
 	public Not(String name, IGoal goals)
 	{
 		super(name, goals);
+	}
+	
+	
+	@XmlAnyElement(lax = true)
+	public IGoal getGoals()
+	{
+		return super.getGoals();
+	}
+	
+	
+	public void setGoals(IGoal goals)
+	{
+		super.setGoals(goals);
 	}
 
 

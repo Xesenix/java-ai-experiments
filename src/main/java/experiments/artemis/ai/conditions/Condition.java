@@ -11,13 +11,8 @@ import experiments.artemis.ai.tasks.Task;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Condition extends Task
 {
-	@XmlAnyElement(lax = true)
-	private IGoal goals;
-
-
 	public Condition()
 	{
 	}
@@ -77,17 +72,12 @@ public class Condition extends Task
 
 	public IGoal getGoals()
 	{
-		return goals;
+		return super.getGoals();
 	}
 
 
 	public void setGoals(IGoal goals)
 	{
-		this.goals = goals;
-
-		if (this.goals != null)
-		{
-			this.goals.setContext(world, entity);
-		}
+		super.setGoals(goals);
 	}
 }

@@ -25,7 +25,9 @@ import com.google.inject.Injector;
 import experiments.IExperimentManager;
 import experiments.IExperimentView;
 import experiments.artemis.ai.AI;
+import experiments.artemis.ai.AiDescriptor;
 import experiments.artemis.ai.AiMarshaller;
+import experiments.artemis.ai.AiUnmarshaller;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.behaviours.Counter;
 import experiments.artemis.ai.behaviours.IBehavior;
@@ -79,6 +81,10 @@ public class ArtemisExperiment implements IExperimentManager
 
 	@Inject
 	private AiMarshaller aiMarshaller;
+
+
+	@Inject
+	private AiUnmarshaller aiUnmarshaller;
 
 
 	@Inject
@@ -186,7 +192,8 @@ public class ArtemisExperiment implements IExperimentManager
 			quests
 		);
 		
-		ai.addBehavior("crowd", crowdBehavior);
+		ai.setBehavior("simple", tasks[0]);
+		ai.setBehavior("crowd", crowdBehavior);
 
 		// Actors
 		Entity entity = world.createEntity();
@@ -296,11 +303,6 @@ public class ArtemisExperiment implements IExperimentManager
 	}
 
 
-	public void loadAiFromXmlString(String source)
-	{
-	}
-
-
 	public String getAiAsXmlString()
 	{
 		StringWriter xmlWriter = new StringWriter();
@@ -322,6 +324,28 @@ public class ArtemisExperiment implements IExperimentManager
 		log.debug("serialized - XML AI: {}", result);
 
 		return result;
+	}
+
+
+	public void loadAiFromXmlString(String source)
+	{
+		log.debug("loading - XML AI: {}", source);
+
+		StringReader xmlReader = new StringReader(source);
+
+		try
+		{
+			AiDescriptor descriptor = (AiDescriptor) jaxbContext.createUnmarshaller().unmarshal(xmlReader);
+
+			aiUnmarshaller.setAi(ai);
+			ai = aiUnmarshaller.unmarshal(descriptor);
+		}
+		catch (JAXBException e)
+		{
+			e.printStackTrace();
+		}
+
+		log.debug("deserialized - AI: {}", ai);
 	}
 
 
@@ -373,6 +397,18 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public void loadAiFromJsonString(String source)
 	{
+		log.debug("loading - Json AI: {}", source);
+
+		try
+		{
+			ai = json.fromJson(AI.class, source);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		log.debug("deserialized - AI: {}", ai);
 	}
 
 
@@ -388,6 +424,20 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public void loadWorldFromJsonString(String source)
 	{
+		log.debug("loading - Json World: {}", source);
+
+		try
+		{
+			WorldDescriptor descriptor = json.fromJson(WorldDescriptor.class, source);
+			worldUnmarshaller.setWorld(world);
+			world = worldUnmarshaller.unmarshal(descriptor);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		log.debug("deserialized - World: {}", world);
 	}
 
 

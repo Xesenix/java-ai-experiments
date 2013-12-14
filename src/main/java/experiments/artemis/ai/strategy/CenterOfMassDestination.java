@@ -43,7 +43,7 @@ public class CenterOfMassDestination implements IStrategy
 
 		if (task instanceof PositionTask)
 		{
-			IPositionGoal goal = ((PositionTask) task).getGoals();
+			IPositionGoal goal = (IPositionGoal) ((PositionTask) task).getGoals();
 			
 			log.debug("goal {}", goal);
 			

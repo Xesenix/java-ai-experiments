@@ -11,7 +11,7 @@ public class AI
 	private Map<String, IBehavior> behaviors = new HashMap<String, IBehavior>();
 	
 	
-	public void addBehavior(String key, IBehavior behavior)
+	public void setBehavior(String key, IBehavior behavior)
 	{
 		behaviors.put(key, behavior);
 	}
