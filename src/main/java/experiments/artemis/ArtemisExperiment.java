@@ -150,11 +150,11 @@ public class ArtemisExperiment implements IExperimentManager
 		try
 		{
 			goals = new IPositionGoal[] {
-				new NearPositionGoal(targtPositions[0], 10),
-				new NearPositionGoal(targtPositions[1], 20),
-				new NearPositionGoal(targtPositions[2], 50),
-				new NearPositionGoal(targtPositions[3], 5),
-				new NearPositionGoal(targtPositions[4], 80),
+				new NearPositionGoal(targtPositions[0], 10.0),
+				new NearPositionGoal(targtPositions[1], 20.0),
+				new NearPositionGoal(targtPositions[2], 50.0),
+				new NearPositionGoal(targtPositions[3], 5.0),
+				new NearPositionGoal(targtPositions[4], 80.0),
 				new KeepInAreaGoal(0, 0, 300, 0, 500, 300, 0, 500),
 			};
 		}
@@ -401,7 +401,10 @@ public class ArtemisExperiment implements IExperimentManager
 
 		try
 		{
-			ai = json.fromJson(AI.class, source);
+			AiDescriptor descriptor = json.fromJson(AiDescriptor.class, source);
+			
+			aiUnmarshaller.setAi(ai);
+			ai = aiUnmarshaller.unmarshal(descriptor);
 		}
 		catch (Exception e)
 		{
@@ -414,7 +417,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public String getAiAsJsonString()
 	{
-		String result = json.prettyPrint(ai);
+		String result = json.prettyPrint(aiMarshaller.marshall(ai));
 
 		log.debug("serialized - Json AI: {}", result);
 

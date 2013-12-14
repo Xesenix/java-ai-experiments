@@ -14,13 +14,8 @@ import experiments.artemis.components.PositionComponent;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class PositionGoal extends Goal implements IPositionGoal
 {
-	@XmlAnyElement(lax = true)
-	private IPositionGoal[] goals;
-	
-	
 	public PositionGoal()
 	{
 	}
@@ -29,18 +24,6 @@ public class PositionGoal extends Goal implements IPositionGoal
 	public PositionGoal(IPositionGoal... goals)
 	{
 		setGoals(goals);
-	}
-	
-	
-	public IPositionGoal[] getGoals()
-	{
-		return goals;
-	}
-
-
-	public void setGoals(IPositionGoal... goals)
-	{
-		this.goals = goals;
 	}
 	
 	
@@ -58,15 +41,18 @@ public class PositionGoal extends Goal implements IPositionGoal
 		double x = 0, y = 0;
 		int n = 0;
 		
-		for (IPositionGoal goal : getGoals())
+		for (IGoal goal : getGoals())
 		{
-			IPosition pos = goal.getTarget();
-
-			if (pos instanceof Position)
+			if (goal instanceof IPositionGoal)
 			{
-				x += ((Position) pos).getX();
-				y += ((Position) pos).getY();
-				n ++;
+				IPosition pos = ((IPositionGoal) goal).getTarget();
+	
+				if (pos instanceof Position)
+				{
+					x += ((Position) pos).getX();
+					y += ((Position) pos).getY();
+					n ++;
+				}
 			}
 		}
 		

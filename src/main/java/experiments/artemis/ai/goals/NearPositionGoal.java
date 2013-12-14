@@ -1,25 +1,22 @@
 
 package experiments.artemis.ai.goals;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import ai.world.IPosition;
+import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.systems.NavigationSystem;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class NearPositionGoal extends PositionGoal
 {
-	@XmlAnyElement(lax = true)
-	private IPosition target;
+	private Position position;
 
 
-	@XmlAttribute
 	private double precision;
 
 
@@ -28,15 +25,15 @@ public class NearPositionGoal extends PositionGoal
 	}
 
 
-	public NearPositionGoal(IPosition target)
+	public NearPositionGoal(Position target)
 	{
 		this(target, 0);
 	}
 
 
-	public NearPositionGoal(IPosition target, double precision)
+	public NearPositionGoal(Position targtPositions, double precision)
 	{
-		setTarget(target);
+		setPosition(targtPositions);
 		setPrecision(precision);
 	}
 
@@ -45,22 +42,31 @@ public class NearPositionGoal extends PositionGoal
 	{
 		NavigationSystem navigation = world.getSystem(NavigationSystem.class);
 
-		return navigation.atPoint(entity, target, precision);
+		return navigation.atPoint(entity, position, precision);
 	}
 
 
+	@XmlTransient
 	public IPosition getTarget()
 	{
-		return target;
+		return position;
 	}
 
 
-	public void setTarget(IPosition target)
+	@XmlElement
+	public Position getPosition()
 	{
-		this.target = target;
+		return position;
 	}
 
 
+	public void setPosition(Position target)
+	{
+		this.position = target;
+	}
+
+
+	@XmlAttribute
 	public double getPrecision()
 	{
 		return precision;

@@ -1,22 +1,17 @@
 
 package experiments.artemis.ai.world2d;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import ai.world.IPosition;
 
-@XmlRootElement(name ="position")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Position implements IPosition
 {
-	@XmlAttribute
 	private double x;
 
 
-	@XmlAttribute
 	private double y;
 
 
@@ -44,6 +39,7 @@ public class Position implements IPosition
 	}
 
 
+	@XmlAttribute
 	public double getX()
 	{
 		return x;
@@ -56,6 +52,7 @@ public class Position implements IPosition
 	}
 
 
+	@XmlAttribute
 	public double getY()
 	{
 		return y;

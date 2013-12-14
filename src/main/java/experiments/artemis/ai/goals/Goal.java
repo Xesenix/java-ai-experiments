@@ -1,8 +1,6 @@
 
 package experiments.artemis.ai.goals;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,10 +11,8 @@ import experiments.artemis.ai.behaviours.IContextAware;
 
 
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Goal implements IGoal, IContextAware
 {
-	@XmlAnyElement(lax = true)
 	private IGoal[] goals;
 
 
@@ -62,6 +58,7 @@ public class Goal implements IGoal, IContextAware
 	}
 
 
+	@XmlAnyElement(lax = true)
 	public IGoal[] getGoals()
 	{
 		return goals;

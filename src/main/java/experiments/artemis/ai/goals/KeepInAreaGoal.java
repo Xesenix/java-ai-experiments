@@ -9,8 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import ai.world.IPosition;
 
 import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.World;
 
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
@@ -23,12 +21,6 @@ public class KeepInAreaGoal extends PositionGoal
 {
 	@XmlElement
 	private Polygon polygon;
-
-
-	private transient World world;
-
-
-	private transient Entity entity;
 
 
 	public KeepInAreaGoal()
@@ -66,13 +58,6 @@ public class KeepInAreaGoal extends PositionGoal
 		Position position = (Position) worldPosition.getPosition();
 
 		return Polygon.insidePolygon(position.getX(), position.getY(), polygon.getVertices());
-	}
-
-
-	public void setContext(World world, Entity entity)
-	{
-		this.world = world;
-		this.entity = entity;
 	}
 
 
