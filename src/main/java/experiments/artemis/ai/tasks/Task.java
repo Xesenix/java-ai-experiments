@@ -1,6 +1,8 @@
 
 package experiments.artemis.ai.tasks;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,11 +13,12 @@ import com.artemis.World;
 import com.artemis.utils.Bag;
 
 import experiments.artemis.ai.goals.IGoal;
+import experiments.artemis.ai.graph.ITreeNode;
 import experiments.artemis.systems.TasksSystem;
 
 
 @XmlRootElement
-public class Task implements ITask
+public class Task implements ITask, ITreeNode
 {
 	private String name;
 
@@ -158,6 +161,12 @@ public class Task implements ITask
 	public void actorRemoved(Entity entity)
 	{
 		stateByEntity.set(entity.getId(), null);
+	}
+
+
+	public List<ITreeNode> getChildren()
+	{
+		return null;
 	}
 
 
