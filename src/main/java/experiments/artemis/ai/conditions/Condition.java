@@ -1,9 +1,6 @@
 
 package experiments.artemis.ai.conditions;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import experiments.artemis.ai.goals.IGoal;

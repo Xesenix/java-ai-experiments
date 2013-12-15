@@ -2,10 +2,7 @@ package experiments.artemis.world;
 
 import java.util.ArrayList;
 
-import ai.world.IWorldDescriptor;
-
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;

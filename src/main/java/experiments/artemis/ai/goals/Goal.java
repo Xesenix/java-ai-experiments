@@ -5,14 +5,12 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.artemis.Entity;
-import com.artemis.World;
 
 import experiments.artemis.ai.behaviours.IActorAware;
-import experiments.artemis.ai.behaviours.IContextAware;
 
 
 @XmlRootElement
-public class Goal implements IGoal, IContextAware
+public class Goal implements IGoal
 {
 	private IGoal[] goals;
 
@@ -59,9 +57,9 @@ public class Goal implements IGoal, IContextAware
 		{
 			for (int i = 0; i < goals.length; i++)
 			{
-				if (goals[i] instanceof IContextAware)
+				if (goals[i] instanceof IActorAware)
 				{
-					((IContextAware) goals[i]).setActor(actor);
+					((IActorAware) goals[i]).setActor(actor);
 				}
 			}
 		}

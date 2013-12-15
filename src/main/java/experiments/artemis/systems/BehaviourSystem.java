@@ -1,8 +1,6 @@
 
 package experiments.artemis.systems;
 
-import java.util.Map;
-
 import org.slf4j.LoggerFactory;
 
 import com.artemis.Aspect;

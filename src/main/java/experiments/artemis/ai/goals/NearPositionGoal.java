@@ -6,9 +6,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import ai.world.IPosition;
+
 import com.artemis.World;
 
-import ai.world.IPosition;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.systems.NavigationSystem;
 

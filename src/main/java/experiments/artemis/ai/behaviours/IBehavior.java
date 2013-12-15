@@ -4,15 +4,11 @@ package experiments.artemis.ai.behaviours;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
-
 @XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface IBehavior extends IActorAware
 {
 	/**
 	 * 
-	 * @param world
-	 * @param e
-	 * @return
 	 */
 	void run();
 
@@ -20,8 +16,6 @@ public interface IBehavior extends IActorAware
 	/**
 	 * Reset state of behavior.
 	 * 
-	 * @param world
-	 * @param e
 	 */
 	void reset();
 
@@ -29,8 +23,6 @@ public interface IBehavior extends IActorAware
 	/**
 	 * True if not yet started.
 	 * 
-	 * @param world
-	 * @param e
 	 * @return
 	 */
 	boolean isReady();
@@ -39,8 +31,6 @@ public interface IBehavior extends IActorAware
 	/**
 	 * True if behavior still running.
 	 * 
-	 * @param world
-	 * @param e
 	 * @return
 	 */
 	boolean isRunning();
@@ -49,8 +39,6 @@ public interface IBehavior extends IActorAware
 	/**
 	 * True if goals achieved.
 	 * 
-	 * @param world
-	 * @param e
 	 * @return true if achieved all goals
 	 */
 	boolean isSuccess();
@@ -59,8 +47,6 @@ public interface IBehavior extends IActorAware
 	/**
 	 * Strategy finished execution either success or failure.
 	 * 
-	 * @param world
-	 * @param e
 	 * @return
 	 */
 	boolean isCompleted();

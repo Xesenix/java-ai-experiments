@@ -1,7 +1,6 @@
 
 package experiments.artemis.world;
 
-import com.artemis.Entity;
 import com.artemis.World;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

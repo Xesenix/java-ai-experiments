@@ -1,12 +1,10 @@
 
 package experiments.artemis.ai.goals;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import experiments.artemis.ai.behaviours.IContextAware;
+import experiments.artemis.ai.behaviours.IActorAware;
 
 
-public interface IGoal extends IContextAware
+public interface IGoal extends IActorAware
 {
 	boolean achived();
 }
