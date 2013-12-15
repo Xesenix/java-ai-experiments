@@ -24,7 +24,7 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 		{
 			indexForEntity.set(actor.getId(), i);
 			
-			if (behaviors[i].isSuccess())
+			if (behaviors[i].isCompleted() && behaviors[i].isSuccess())
 			{
 				continue;
 			}
@@ -45,7 +45,7 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 
 	public void reset()
 	{
-		if (!isRunning())
+		if (!isReady())
 		{
 			indexForEntity.set(actor.getId(), 0);
 
@@ -61,7 +61,7 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 	{
 		int index = indexForEntity.get(actor.getId());
 		
-		return index == 0 && behaviors[index].isReady();
+		return index < behaviors.length - 1 || !behaviors[index].isCompleted();
 	}
 
 

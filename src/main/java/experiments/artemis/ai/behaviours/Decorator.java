@@ -1,6 +1,7 @@
 
 package experiments.artemis.ai.behaviours;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,21 +87,24 @@ class Decorator implements IBehavior, ITreeNode
 	}
 
 
-	public void actorAdded(Entity entity)
+	public void actorAdded(Entity actor)
 	{
-		behavior.actorAdded(entity);
+		behavior.actorAdded(actor);
 	}
 
 
-	public void actorRemoved(Entity entity)
+	public void actorRemoved(Entity actor)
 	{
-		behavior.actorRemoved(entity);
+		behavior.actorRemoved(actor);
 	}
 
 
-	public List<ITreeNode> getChildren()
+	public ArrayList<ITreeNode> getChildren()
 	{
-		return Arrays.asList((ITreeNode) behavior);
+		ArrayList<ITreeNode> list = new ArrayList<ITreeNode>();
+		list.add((ITreeNode) behavior);
+		
+		return list;
 	}
 
 

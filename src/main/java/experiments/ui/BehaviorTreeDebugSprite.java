@@ -2,6 +2,7 @@ package experiments.ui;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,13 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 	private Circle spritePosition;
 	
 	
-	private Map<IBehavior, Node> map = new HashMap<IBehavior, Node>();
+	private Map<IBehavior, BehaviorTreeNodeDebugSprite> map = new HashMap<IBehavior, BehaviorTreeNodeDebugSprite>();
+
+
+	private DelegateTree<IBehavior, Pair<IBehavior>> tree;
+
+
+	private TreeLayout<IBehavior, Pair<IBehavior>> layout;
 
 
 	public BehaviorTreeDebugSprite()
@@ -43,21 +50,31 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 	
 	public void buildTree(ITreeNode root)
 	{
-		DelegateTree<IBehavior, Pair<IBehavior>> tree = new DelegateTree<IBehavior, Pair<IBehavior>>();
-		tree.addVertex((IBehavior) root);
-		
-		buildSubTree(tree, root);
-		
-		TreeLayout<IBehavior, Pair<IBehavior>> layout = new TreeLayout<IBehavior, Pair<IBehavior>>(tree, 50, 50);
-		layout.initialize();
+		if (tree == null || !tree.getRoot().equals(root))
+		{
+			tree = new DelegateTree<IBehavior, Pair<IBehavior>>();
+			tree.addVertex((IBehavior) root);
+			
+			for (Map.Entry<IBehavior, BehaviorTreeNodeDebugSprite> entry : map.entrySet())
+			{
+				getChildren().remove(entry.getValue());
+			}
+			
+			map.clear();
+			
+			buildSubTree(root);
+			
+			layout = new TreeLayout<IBehavior, Pair<IBehavior>>(tree, 20, 20);
+			layout.initialize();
+		}
 		
 		for (IBehavior behavior : tree.getVertices())
 		{
-			Node node = map.get(behavior);
+			BehaviorTreeNodeDebugSprite node = map.get(behavior);
 			
 			if (node == null)
 			{
-				node = new Circle(20, Color.RED);
+				node = new BehaviorTreeNodeDebugSprite();
 				
 				map.put(behavior, node);
 				
@@ -66,7 +83,10 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 			
 			Point2D pos = layout.transform(behavior);
 			
-			((Circle) node).setFill(behavior.isReady() ? Color.BLUE : behavior.isRunning() ? Color.YELLOW : behavior.isSuccess() ? Color.GREEN : Color.RED);
+			//((Circle) node).setFill(behavior.isReady() ? Color.BLUE : behavior.isRunning() ? Color.YELLOW : behavior.isSuccess() ? Color.GREEN : Color.RED);
+			//((Circle) node).setFill(behavior.isRunning() ? Color.YELLOW : behavior.isSuccess() ? Color.GREEN : behavior.isReady() ? Color.BLUE : Color.RED);
+			
+			node.update(behavior);
 			node.setLayoutX(pos.getX());
 			node.setLayoutY(pos.getY());
 		}
@@ -74,14 +94,13 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 
 
 	/**
-	 * @param tree
 	 * @param root
 	 */
-	public void buildSubTree(DelegateTree<IBehavior, Pair<IBehavior>> tree, ITreeNode root)
+	public void buildSubTree(ITreeNode root)
 	{
 		if (root instanceof IBehavior)
 		{
-			List<ITreeNode> children = root.getChildren();
+			ArrayList<ITreeNode> children = root.getChildren();
 			
 			if (children != null)
 			{
@@ -91,7 +110,7 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 					{
 						tree.addChild(new Pair<IBehavior>((IBehavior) root, (IBehavior) node), (IBehavior) root, (IBehavior) node);
 						
-						buildSubTree(tree, node);
+						buildSubTree(node);
 					}
 				}
 			}

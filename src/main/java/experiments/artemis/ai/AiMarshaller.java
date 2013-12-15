@@ -16,7 +16,7 @@ public class AiMarshaller
 	private transient Injector injector;
 	
 	
-	public AiDescriptor marshall(AI ai)
+	public AiDescriptor marshall(AiManager ai)
 	{
 		AiDescriptor descriptor = injector.getInstance(AiDescriptor.class);
 		BehaviorMarshaller behaviorMershaller = injector.getInstance(BehaviorMarshaller.class);

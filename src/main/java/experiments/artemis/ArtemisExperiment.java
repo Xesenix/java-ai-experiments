@@ -22,15 +22,16 @@ import com.google.inject.Injector;
 
 import experiments.IExperimentManager;
 import experiments.IExperimentView;
-import experiments.artemis.ai.AI;
 import experiments.artemis.ai.AiDescriptor;
+import experiments.artemis.ai.AiManager;
 import experiments.artemis.ai.AiMarshaller;
 import experiments.artemis.ai.AiUnmarshaller;
 import experiments.artemis.ai.StrategyPlanner;
-import experiments.artemis.ai.behaviours.Counter;
+import experiments.artemis.ai.behaviours.Limiter;
 import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.behaviours.PrioritySelector;
 import experiments.artemis.ai.behaviours.SequenceSelector;
+import experiments.artemis.ai.behaviours.Succeeder;
 import experiments.artemis.ai.conditions.Not;
 import experiments.artemis.ai.goals.IPositionGoal;
 import experiments.artemis.ai.goals.KeepInAreaGoal;
@@ -104,23 +105,22 @@ public class ArtemisExperiment implements IExperimentManager
 	private World world;
 
 
-	private AI ai;
+	private AiManager ai;
 
 
 	public void initialize()
 	{
-		ai = new AI();
-		
 		world = new World();
 		
-		world.setSystem(new BehaviourSystem(ai, 2.5f));
+		world.setSystem(new BehaviourSystem(2.5f));
 		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
-		world.setSystem(new DebugAiSystem(view, ai));
+		world.setSystem(new DebugAiSystem(view));
 		world.setSystem(new DebugActorSystem(view));
 		
 		world.setManager(new GroupManager());
+		ai = world.setManager(new AiManager());
 
 		world.initialize();
 
@@ -176,15 +176,15 @@ public class ArtemisExperiment implements IExperimentManager
 		);
 		
 		SequenceSelector quests = new SequenceSelector(
-			new Counter(tasks[0], 3),
+			new Succeeder(new Limiter(tasks[0], 3)),
 			tasks[1],
 			tasks[2],
-			new Counter(tasks[3], 2),
-			new Counter(tasks[4], 4)
+			new Limiter(tasks[3], 2),
+			new Limiter(tasks[4], 4)
 		);
 		
 		IBehavior crowdBehavior = new PrioritySelector(
-			new Counter(keepInAreaBehavior, 2),
+			new Limiter(keepInAreaBehavior, 2),
 			quests
 		);
 		

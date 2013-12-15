@@ -45,7 +45,7 @@ public class Condition extends Task
 
 	public boolean isReady()
 	{
-		return false;
+		return true;
 	}
 
 

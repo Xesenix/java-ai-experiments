@@ -38,7 +38,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 	{
 		for (int i = 0; i < behaviors.length; i++)
 		{
-			if (behaviors[i].isCompleted())
+			if (!behaviors[i].isReady())
 			{
 				behaviors[i].reset();
 			}
@@ -50,7 +50,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 	{
 		int index = indexForEntity.get(actor.getId());
 		
-		return index == 0 && behaviors[index].isReady();
+		return index < behaviors.length - 1 || !behaviors[index].isCompleted();
 	}
 
 

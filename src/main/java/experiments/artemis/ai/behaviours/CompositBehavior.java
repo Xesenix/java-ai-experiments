@@ -96,9 +96,9 @@ public class CompositBehavior implements IActorAware, ITreeNode
 	}
 
 
-	public List<ITreeNode> getChildren()
+	public ArrayList<ITreeNode> getChildren()
 	{
-		List<ITreeNode> children = new ArrayList<ITreeNode>();
+		ArrayList<ITreeNode> children = new ArrayList<ITreeNode>();
 		IBehavior[] behaviors = getBehaviours();
 		
 		for (int i = 0; i < behaviors.length; i ++)

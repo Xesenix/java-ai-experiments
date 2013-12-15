@@ -1,6 +1,7 @@
 
 package experiments.artemis.ai.tasks;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -164,7 +165,7 @@ public class Task implements ITask, ITreeNode
 	}
 
 
-	public List<ITreeNode> getChildren()
+	public ArrayList<ITreeNode> getChildren()
 	{
 		return null;
 	}

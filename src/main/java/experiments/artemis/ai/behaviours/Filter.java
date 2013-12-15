@@ -25,5 +25,17 @@ abstract public class Filter extends Decorator
 	}
 
 
+	public boolean isReady()
+	{
+		return filterCondition() && super.isReady();
+	}
+
+
+	public boolean isSuccess()
+	{
+		return filterCondition() && super.isSuccess();
+	}
+
+
 	abstract public boolean filterCondition();
 }

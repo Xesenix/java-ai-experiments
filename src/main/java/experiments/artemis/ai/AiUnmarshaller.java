@@ -11,20 +11,20 @@ public class AiUnmarshaller
 	private transient Injector injector;
 
 
-	private AI ai;
+	private AiManager ai;
 
 
-	public void setAi(AI ai)
+	public void setAi(AiManager ai)
 	{
 		this.ai = ai;
 	}
 	
 	
-	public AI getAi()
+	public AiManager getAi()
 	{
 		if (ai == null)
 		{
-			ai = injector.getInstance(AI.class);
+			ai = injector.getInstance(AiManager.class);
 		}
 		
 		return ai;
@@ -37,9 +37,9 @@ public class AiUnmarshaller
 	 * @param descriptor
 	 * @return
 	 */
-	public AI unmarshal(AiDescriptor descriptor)
+	public AiManager unmarshal(AiDescriptor descriptor)
 	{
-		AI ai = getAi();
+		AiManager ai = getAi();
 		
 		for (BehaviorDescriptor behavior : descriptor.behaviors)
 		{

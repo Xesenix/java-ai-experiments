@@ -10,7 +10,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.IntervalEntityProcessingSystem;
 
 import experiments.artemis.ActiveLogger;
-import experiments.artemis.ai.AI;
+import experiments.artemis.ai.AiManager;
 import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
@@ -34,13 +34,9 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
-	private AI ai;
-
-
-	public BehaviourSystem(AI ai, float interval)
+	public BehaviourSystem(float interval)
 	{
 		super(Aspect.getAspectForOne(BehaviorComponent.class), interval);
-		this.ai = ai;
 	}
 
 
@@ -67,7 +63,7 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 			actor.changedInWorld();
 		}
 		
-		IBehavior behavior = ai.getBehaviors().get(behaviorComponent.getName());
+		IBehavior behavior = world.getManager(AiManager.class).getBehaviors().get(behaviorComponent.getName());
 		
 		if (behavior != null)
 		{
@@ -79,17 +75,4 @@ public class BehaviourSystem extends IntervalEntityProcessingSystem
 			log.info("entity tasks {}", tasksComponent);
 		}
 	}
-
-
-	public void inserted(Entity entity)
-	{
-		ai.addActor(entity);
-	}
-
-
-	public void removed(Entity entity)
-	{
-		ai.removeActor(entity);
-	}
-	
 }

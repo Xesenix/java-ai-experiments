@@ -9,67 +9,49 @@ import com.artemis.utils.Bag;
 
 
 @XmlRootElement
-public class Counter extends Filter
+public class Limiter extends Filter
 {
-	private int count;
+	private int limit;
 
 
 	private transient Bag<Integer> counters = new Bag<Integer>();
 	
 	
-	public Counter()
+	public Limiter()
 	{
 	}
 
 
-	public Counter(IBehavior behavior, int count)
+	public Limiter(IBehavior behavior, int limit)
 	{
 		super(behavior);
 
-		this.count = count;
+		this.limit = limit;
 	}
 
 
 	@XmlAttribute
-	public int getCount()
+	public int getLimit()
 	{
-		return count;
+		return limit;
 	}
 
 
-	public void setCount(int count)
+	public void setLimit(int count)
 	{
-		this.count = count;
+		this.limit = count;
 	}
 
 
 	public void reset()
 	{
-		if (isCompleted() && filterCondition())
+		if ((isCompleted() || !isRunning()) && filterCondition())
 		{
 			int countForEntity = counters.get(actor.getId());
 			counters.set(actor.getId(), -- countForEntity);
 
 			super.reset();
 		}
-	}
-
-
-	public boolean isRunning()
-	{
-		return counters.get(actor.getId()) != 0 && super.isRunning();
-	}
-
-
-	public boolean isCompleted()
-	{
-		return counters.get(actor.getId()) == 0 || super.isCompleted();
-	}
-
-
-	public boolean isSuccess()
-	{
-		return counters.get(actor.getId()) == 0 || super.isSuccess();
 	}
 
 
@@ -81,7 +63,7 @@ public class Counter extends Filter
 	
 	public void actorAdded(Entity entity)
 	{
-		counters.set(entity.getId(), count);
+		counters.set(entity.getId(), limit);
 		
 		super.actorAdded(entity);
 	}

@@ -11,7 +11,7 @@ import com.artemis.utils.Bag;
 
 import experiments.IExperimentView;
 import experiments.artemis.ActiveLogger;
-import experiments.artemis.ai.AI;
+import experiments.artemis.ai.AiManager;
 import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.graph.ITreeNode;
 import experiments.artemis.components.BehaviorComponent;
@@ -30,16 +30,12 @@ public class DebugAiSystem extends EntityProcessingSystem
 
 
 	private Bag<BehaviorTreeDebugMediator> mediatorByEntity = new Bag<BehaviorTreeDebugMediator>();
-
-
-	private AI ai;
 	
 	
-	public DebugAiSystem(IExperimentView view, AI ai)
+	public DebugAiSystem(IExperimentView view)
 	{
 		super(Aspect.getAspectForAll(BehaviorComponent.class));
 		this.view = view;
-		this.ai = ai;
 	}
 	
 	
@@ -55,7 +51,7 @@ public class DebugAiSystem extends EntityProcessingSystem
 		
 		BehaviorComponent behaviorComponent = behaviorMapper.get(entity);
 		
-		IBehavior behavior = ai.getBehaviors().get(behaviorComponent.getName());
+		IBehavior behavior = world.getManager(AiManager.class).getBehaviors().get(behaviorComponent.getName());
 		
 		behavior.setActor(entity);
 		
