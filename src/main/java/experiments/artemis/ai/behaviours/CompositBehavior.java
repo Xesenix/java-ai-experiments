@@ -1,6 +1,7 @@
 
 package experiments.artemis.ai.behaviours;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,10 +12,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.artemis.Entity;
 import com.artemis.utils.Bag;
 
+import experiments.artemis.ai.graph.ITreeNode;
+
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CompositBehavior implements IActorAware
+public class CompositBehavior implements IActorAware, ITreeNode
 {
 	@XmlAnyElement(lax = true)
 	protected IBehavior behaviors[];
@@ -90,6 +93,26 @@ public class CompositBehavior implements IActorAware
 		{
 			behaviors[i].actorRemoved(entity);
 		}
+	}
+
+
+	public List<ITreeNode> getChildren()
+	{
+		List<ITreeNode> children = new ArrayList<ITreeNode>();
+		IBehavior[] behaviors = getBehaviours();
+		
+		for (int i = 0; i < behaviors.length; i ++)
+		{
+			children.add((ITreeNode) behaviors[i]);
+		}
+		
+		return children;
+	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x, {behaviors: %s}]", getClass().getSimpleName(), hashCode(), getBehaviours());
 	}
 
 }

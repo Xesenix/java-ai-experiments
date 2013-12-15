@@ -2,7 +2,7 @@
 package experiments.ui;
 
 
-public interface IDebugSprite
+public interface IActorDebugSprite
 {
 	void setPosition(double x, double y);
 
@@ -16,7 +16,7 @@ public interface IDebugSprite
 	void hideTargetPosition();
 
 
-	void setMediator(DebugSpriteMediator mediator);
+	void setMediator(ActorDebugMediator mediator);
 
 
 	void setCloseSightRange(double range);

@@ -19,8 +19,10 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
-import experiments.ui.DebugSpriteMediator;
-import experiments.ui.IDebugSprite;
+import experiments.ui.BehaviorTreeDebugMediator;
+import experiments.ui.ActorDebugMediator;
+import experiments.ui.IActorDebugSprite;
+import experiments.ui.IBehaviorTreeDebugSprite;
 
 
 @Singleton
@@ -183,21 +185,34 @@ public class UIController implements IExperimentView
 	}
 
 
-	public DebugSpriteMediator createPositionDebugSprite()
+	public ActorDebugMediator createPositionDebugSprite()
 	{
-		IDebugSprite sprite = inject.getInstance(IDebugSprite.class);
+		IActorDebugSprite sprite = inject.getInstance(IActorDebugSprite.class);
 
 		debugPointLayer.getChildren().add((Node) sprite);
 
-		DebugSpriteMediator mediator = inject.getInstance(DebugSpriteMediator.class);
+		ActorDebugMediator mediator = inject.getInstance(ActorDebugMediator.class);
 		mediator.setView(sprite);
 
 		return mediator;
 	}
 
 
-	public void removePositionDebugSprite(DebugSpriteMediator mediator)
+	public void removePositionDebugSprite(ActorDebugMediator mediator)
 	{
 		debugPointLayer.getChildren().remove(mediator.getSprite());
+	}
+
+
+	public BehaviorTreeDebugMediator createBehaviorSprite()
+	{
+		IBehaviorTreeDebugSprite sprite = inject.getInstance(IBehaviorTreeDebugSprite.class);
+		
+		debugPointLayer.getChildren().add((Node) sprite);
+		
+		BehaviorTreeDebugMediator mediator = inject.getInstance(BehaviorTreeDebugMediator.class);
+		mediator.setView(sprite);
+		
+		return mediator;
 	}
 }

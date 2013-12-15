@@ -5,8 +5,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
 import ai.AI;
-import ai.actions.MoveTo;
-import ai.actors.NPC;
 import ai.world.IPosition;
 import ai.world.IWorldDescriptor;
 import ai.world.IWorldObjectDescriptor;
@@ -47,8 +45,6 @@ public class ArtemisModule extends AbstractModule
 {
 	public void configure()
 	{
-		bindActions();
-		bindActors();
 		bindEnviroment();
 	}
 
@@ -102,17 +98,5 @@ public class ArtemisModule extends AbstractModule
 		{
 			e.printStackTrace();
 		}
-	}
-
-
-	private void bindActions()
-	{
-		bind(MoveTo.class);
-	}
-
-
-	private void bindActors()
-	{
-		bind(NPC.class);
 	}
 }

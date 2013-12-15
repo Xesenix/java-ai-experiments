@@ -27,12 +27,12 @@ import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.ShapeComponent;
-import experiments.ui.DebugSpriteMediator;
+import experiments.ui.ActorDebugMediator;
 
 
-public class DebugEntitySystem extends EntityProcessingSystem
+public class DebugActorSystem extends EntityProcessingSystem
 {
-	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(DebugEntitySystem.class));
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(DebugActorSystem.class));
 
 
 	@Mapper
@@ -70,10 +70,10 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	private IExperimentView view;
 
 
-	private Bag<DebugSpriteMediator> mediatorByEntity = new Bag<DebugSpriteMediator>();
+	private Bag<ActorDebugMediator> mediatorByEntity = new Bag<ActorDebugMediator>();
 
 
-	public DebugEntitySystem(IExperimentView view)
+	public DebugActorSystem(IExperimentView view)
 	{
 		super(Aspect.getAspectForAll(PositionComponent.class));
 
@@ -88,7 +88,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 		log.info("processing entity {}", entity);
 		log.info("retriving entity state..");
 
-		DebugSpriteMediator mediator = getMediatorForEntity(entity);
+		ActorDebugMediator mediator = getMediatorForEntity(entity);
 
 		debugInfo(mediator, entity);
 		debugPosition(mediator, entity);
@@ -105,9 +105,9 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param entity
 	 * @return
 	 */
-	public DebugSpriteMediator getMediatorForEntity(Entity entity)
+	public ActorDebugMediator getMediatorForEntity(Entity entity)
 	{
-		DebugSpriteMediator mediator = mediatorByEntity.get(entity.getId());
+		ActorDebugMediator mediator = mediatorByEntity.get(entity.getId());
 
 		if (mediator == null)
 		{
@@ -122,7 +122,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugInfo(DebugSpriteMediator mediator, Entity entity)
+	public void debugInfo(ActorDebugMediator mediator, Entity entity)
 	{
 		mediator.setLabel(getEntityDescription(entity));
 	}
@@ -132,7 +132,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugPosition(DebugSpriteMediator mediator, Entity entity)
+	public void debugPosition(ActorDebugMediator mediator, Entity entity)
 	{
 		PositionComponent position = positionMapper.get(entity);
 	
@@ -152,7 +152,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugDesiredPosition(DebugSpriteMediator mediator, Entity entity)
+	public void debugDesiredPosition(ActorDebugMediator mediator, Entity entity)
 	{
 		DesiredPositionComponent targetPosition = desiredPositionMapper.get(entity);
 	
@@ -183,7 +183,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugShape(DebugSpriteMediator mediator, Entity entity)
+	public void debugShape(ActorDebugMediator mediator, Entity entity)
 	{
 		ShapeComponent shapeComponent = shapeMapper.get(entity);
 	
@@ -203,7 +203,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugNearDistance(DebugSpriteMediator mediator, Entity entity)
+	public void debugNearDistance(ActorDebugMediator mediator, Entity entity)
 	{
 		NearDistanceComponent nearDistance = nearDistanceMapper.get(entity);
 	
@@ -218,7 +218,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugColor(DebugSpriteMediator mediator, Entity entity)
+	public void debugColor(ActorDebugMediator mediator, Entity entity)
 	{
 		ColorComponent color = colorMapper.get(entity);
 	
@@ -233,7 +233,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugSpeed(DebugSpriteMediator mediator, Entity entity)
+	public void debugSpeed(ActorDebugMediator mediator, Entity entity)
 	{
 		MovementSpeedComponent speed = movementSpeedMapper.get(entity);
 	
@@ -248,7 +248,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	 * @param mediator
 	 * @param entity
 	 */
-	public void debugDirection(DebugSpriteMediator mediator, Entity entity)
+	public void debugDirection(ActorDebugMediator mediator, Entity entity)
 	{
 		MovementDirectionComponent direction = movementDirectionMapper.get(entity);
 
@@ -285,7 +285,7 @@ public class DebugEntitySystem extends EntityProcessingSystem
 	
 	protected void removed(Entity entity)
 	{
-		DebugSpriteMediator mediator = mediatorByEntity.get(entity.getId());
+		ActorDebugMediator mediator = mediatorByEntity.get(entity.getId());
 		
 		if (mediator != null)
 		{

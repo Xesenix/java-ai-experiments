@@ -1,12 +1,17 @@
 
 package experiments.artemis.ai.behaviours;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAnyElement;
 
 import com.artemis.Entity;
 
+import experiments.artemis.ai.graph.ITreeNode;
 
-class Decorator implements IBehavior
+
+class Decorator implements IBehavior, ITreeNode
 {
 	private IBehavior behavior;
 
@@ -90,6 +95,12 @@ class Decorator implements IBehavior
 	public void actorRemoved(Entity entity)
 	{
 		behavior.actorRemoved(entity);
+	}
+
+
+	public List<ITreeNode> getChildren()
+	{
+		return Arrays.asList((ITreeNode) behavior);
 	}
 
 

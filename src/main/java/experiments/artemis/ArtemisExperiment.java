@@ -47,7 +47,8 @@ import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.BehaviourSystem;
-import experiments.artemis.systems.DebugEntitySystem;
+import experiments.artemis.systems.DebugActorSystem;
+import experiments.artemis.systems.DebugAiSystem;
 import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
 import experiments.artemis.systems.TasksSystem;
@@ -116,7 +117,8 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
-		world.setSystem(new DebugEntitySystem(view));
+		world.setSystem(new DebugAiSystem(view, ai));
+		world.setSystem(new DebugActorSystem(view));
 		
 		world.setManager(new GroupManager());
 

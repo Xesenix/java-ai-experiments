@@ -1,13 +1,16 @@
 
 package experiments;
 
-import experiments.ui.DebugSpriteMediator;
+import experiments.ui.BehaviorTreeDebugMediator;
+import experiments.ui.ActorDebugMediator;
 
 
 public interface IExperimentView
 {
 
-	DebugSpriteMediator createPositionDebugSprite();
+	ActorDebugMediator createPositionDebugSprite();
 
-	void removePositionDebugSprite(DebugSpriteMediator mediator);
+	void removePositionDebugSprite(ActorDebugMediator mediator);
+
+	BehaviorTreeDebugMediator createBehaviorSprite();
 }

@@ -11,9 +11,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 
-public class PositionDebugSprite extends Pane implements IDebugSprite
+public class ActorDebugSprite extends Pane implements IActorDebugSprite
 {
-	private DebugSpriteMediator mediator;
+	private ActorDebugMediator mediator;
 
 
 	private Circle spritePosition;
@@ -49,7 +49,7 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 	private Polygon spriteShape;
 
 
-	public PositionDebugSprite()
+	public ActorDebugSprite()
 	{
 		// transparent to mouse
 		setPickOnBounds(false);
@@ -166,7 +166,7 @@ public class PositionDebugSprite extends Pane implements IDebugSprite
 	}
 
 
-	public void setMediator(DebugSpriteMediator mediator)
+	public void setMediator(ActorDebugMediator mediator)
 	{
 		this.mediator = mediator;
 	}

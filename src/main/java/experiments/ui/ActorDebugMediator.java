@@ -2,12 +2,12 @@
 package experiments.ui;
 
 
-public class DebugSpriteMediator
+public class ActorDebugMediator
 {
-	private IDebugSprite sprite;
+	private IActorDebugSprite sprite;
 
 
-	public DebugSpriteMediator()
+	public ActorDebugMediator()
 	{
 	}
 
@@ -66,7 +66,7 @@ public class DebugSpriteMediator
 	}
 
 
-	public void setView(IDebugSprite sprite)
+	public void setView(IActorDebugSprite sprite)
 	{
 		this.sprite = sprite;
 		this.sprite.setMediator(this);
@@ -91,7 +91,7 @@ public class DebugSpriteMediator
 	}
 
 
-	public IDebugSprite getSprite()
+	public IActorDebugSprite getSprite()
 	{
 		return this.sprite;
 	}
