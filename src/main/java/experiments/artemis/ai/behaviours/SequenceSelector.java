@@ -74,7 +74,7 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 		
 		int index = indexForEntity.get(actor.getId());
 		
-		return index < behaviors.length - 1 || behaviors[index].isReady();
+		return index == 0 && behaviors[index].isReady();
 	}
 
 

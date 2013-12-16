@@ -240,7 +240,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		entity.addComponent(new ConsoleDebugComponent());
 		entity.addComponent(new PositionComponent(positions[0]));
-		entity.addComponent(new BehaviorComponent("limiter test"));
+		entity.addComponent(new BehaviorComponent("crowd"));
 		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
 		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		entity.addComponent(new NearDistanceComponent(60f));
