@@ -69,7 +69,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 		{
 			ITask task = iter.next();
 			
-			runTask(entity, task);
+			//runTask(entity, task);
 			
 			if (task.isCompleted())
 			{
@@ -142,8 +142,8 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 					else
 					{
 						//task.setState(world, e, TaskState.RUNNING);
-						TasksComponent tasksComponent = taskMapper.get(actor);
-						tasksComponent.addTask(task);
+						//TasksComponent tasksComponent = taskMapper.get(actor);
+						//tasksComponent.addTask(task);
 						
 						return;
 					}

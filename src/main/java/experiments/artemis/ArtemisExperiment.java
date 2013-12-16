@@ -113,7 +113,7 @@ public class ArtemisExperiment implements IExperimentManager
 	{
 		world = new World();
 		
-		world.setSystem(new BehaviourSystem(2.5f));
+		world.setSystem(new BehaviourSystem(0.5f));
 		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.5f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
@@ -149,7 +149,7 @@ public class ArtemisExperiment implements IExperimentManager
 			goals = new IPositionGoal[] {
 				new NearPositionGoal(targtPositions[0], 10.0),
 				new NearPositionGoal(targtPositions[1], 20.0),
-				new NearPositionGoal(targtPositions[2], 50.0),
+				new NearPositionGoal(targtPositions[2], 60.0),
 				new NearPositionGoal(targtPositions[3], 5.0),
 				new NearPositionGoal(targtPositions[4], 80.0),
 				new KeepInAreaGoal(0, 0, 300, 0, 500, 300, 0, 500),
@@ -161,10 +161,10 @@ public class ArtemisExperiment implements IExperimentManager
 		}
 
 		Task[] tasks = new Task[] {
-			new PositionTask("simple target 0", goals[0]),
-			new PositionTask("simple target 1", goals[1]),
-			new PositionTask("simple target 2", goals[2]),
-			new PositionTask("simple target 3", goals[3]),
+			new PositionTask("A", goals[0]),
+			new PositionTask("B", goals[1]),
+			new PositionTask("C", goals[2]),
+			new PositionTask("D", goals[3]),
 			new PositionTask("near 2 points", new PositionGoal(goals[4], goals[2])),
 			new PositionTask("keep in area", goals[5]),
 		};
@@ -191,8 +191,8 @@ public class ArtemisExperiment implements IExperimentManager
 		
 		try
 		{
-			// ai.setBehavior("simple", tasks[0]);
-			// ai.setBehavior("crowd", crowdBehavior);
+			ai.setBehavior("simple", tasks[0]);
+			ai.setBehavior("crowd", crowdBehavior);
 			ai.setBehavior("test", new SequenceSelector(
 				new SequenceSelector(
 					tasks[0],
@@ -207,7 +207,7 @@ public class ArtemisExperiment implements IExperimentManager
 					tasks[3].clone()
 				)),
 				tasks[1].clone(),
-				new Inverter(tasks[0].clone())
+				new Inverter(tasks[4].clone())
 			));
 		}
 		catch (CloneNotSupportedException e)
@@ -222,7 +222,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		entity.addComponent(new ConsoleDebugComponent());
 		entity.addComponent(new PositionComponent(positions[0]));
-		entity.addComponent(new BehaviorComponent("test"));
+		entity.addComponent(new BehaviorComponent("crowd"));
 		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
 		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		entity.addComponent(new NearDistanceComponent(60f));

@@ -43,7 +43,7 @@ public class Goal implements IGoal, Cloneable
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 

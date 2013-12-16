@@ -14,6 +14,7 @@ import com.google.inject.AbstractModule;
 
 import experiments.artemis.ai.AiDescriptor;
 import experiments.artemis.ai.BehaviorDescriptor;
+import experiments.artemis.ai.behaviours.Inverter;
 import experiments.artemis.ai.behaviours.Limiter;
 import experiments.artemis.ai.behaviours.PrioritySelector;
 import experiments.artemis.ai.behaviours.SequenceSelector;
@@ -72,6 +73,7 @@ public class ArtemisModule extends AbstractModule
 				Condition.class,
 				Limiter.class,
 				Succeeder.class,
+				Inverter.class,
 				PositionTask.class,
 				Goal.class,
 				PositionGoal.class,
