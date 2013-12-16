@@ -31,6 +31,12 @@ abstract public class Filter extends Decorator
 	}
 
 
+	public boolean isCompleted()
+	{
+		return !filterCondition() || super.isCompleted();
+	}
+
+
 	public boolean isSuccess()
 	{
 		return filterCondition() && super.isSuccess();

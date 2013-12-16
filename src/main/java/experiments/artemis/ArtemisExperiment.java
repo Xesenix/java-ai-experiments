@@ -114,7 +114,7 @@ public class ArtemisExperiment implements IExperimentManager
 		world = new World();
 		
 		world.setSystem(new BehaviourSystem(0.5f));
-		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.5f));
+		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.05f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
 		world.setSystem(new DebugAiSystem(view));
@@ -193,7 +193,7 @@ public class ArtemisExperiment implements IExperimentManager
 		{
 			ai.setBehavior("simple", tasks[0]);
 			ai.setBehavior("crowd", crowdBehavior);
-			ai.setBehavior("test", new SequenceSelector(
+			ai.setBehavior("sequence test", new SequenceSelector(
 				new SequenceSelector(
 					tasks[0],
 					tasks[1],
@@ -209,10 +209,28 @@ public class ArtemisExperiment implements IExperimentManager
 				tasks[1].clone(),
 				new Inverter(tasks[4].clone())
 			));
+			ai.setBehavior("priority test", new PrioritySelector(
+				new SequenceSelector(
+					new Not("not in area", new KeepInAreaGoal(0, 0, 200, 0, 300, 300, 0, 200)),
+					new PositionTask("back to area", new KeepInAreaGoal(0, 0, 200, 0, 200, 200, 0, 200))
+				),
+				new SequenceSelector(
+					new PositionTask("get target A", new NearPositionGoal(new Position(50, 50), 20.0)),
+					new PositionTask("get target B", new NearPositionGoal(new Position(175, 25), 20.0)),
+					new PositionTask("get target C", new NearPositionGoal(new Position(20, 180), 20.0)),
+					new PositionTask("get target D", new NearPositionGoal(new Position(300, 300), 20.0))
+				)
+			));
+			ai.setBehavior("limiter test", new SequenceSelector(
+				new Limiter(new PositionTask("get target A", new NearPositionGoal(new Position(50, 50), 20.0)), 1),
+				new Limiter(new PositionTask("get target B", new NearPositionGoal(new Position(175, 25), 20.0)), 2),
+				new PositionTask("get target C", new NearPositionGoal(new Position(20, 180), 20.0)),
+				new PositionTask("get target D", new NearPositionGoal(new Position(300, 300), 20.0))
+			));
 		}
-		catch (CloneNotSupportedException e)
+		catch (Exception ex)
 		{
-			e.printStackTrace();
+			ex.printStackTrace();
 		}
 
 		// Actors
@@ -222,7 +240,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		entity.addComponent(new ConsoleDebugComponent());
 		entity.addComponent(new PositionComponent(positions[0]));
-		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new BehaviorComponent("limiter test"));
 		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
 		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		entity.addComponent(new NearDistanceComponent(60f));

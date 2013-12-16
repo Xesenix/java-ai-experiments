@@ -45,19 +45,19 @@ public class Limiter extends Filter
 
 	public void reset()
 	{
-		if ((isCompleted() || !isRunning()) && filterCondition())
+		if (!isReady() && !isRunning() && filterCondition())
 		{
 			int countForEntity = counters.get(actor.getId());
 			counters.set(actor.getId(), -- countForEntity);
-
-			super.reset();
 		}
+
+		super.reset();
 	}
 
 
 	public boolean filterCondition()
 	{
-		return counters.get(actor.getId()) > 0;
+		return counters.get(actor.getId()) >= 0;
 	}
 	
 	
@@ -74,5 +74,11 @@ public class Limiter extends Filter
 		counters.set(entity.getId(), null);
 		
 		super.actorRemoved(entity);
+	}
+
+
+	public String toString()
+	{
+		return String.format("[%s@%x, {limit: %d}]", getClass().getSimpleName(), hashCode(), counters.get(actor.getId()));
 	}
 }
