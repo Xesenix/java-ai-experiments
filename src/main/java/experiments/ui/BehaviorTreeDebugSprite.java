@@ -8,8 +8,12 @@ import java.util.Map;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurve;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeType;
 import edu.uci.ics.jung.algorithms.layout.TreeLayout;
 import edu.uci.ics.jung.graph.DelegateTree;
+import edu.uci.ics.jung.graph.DirectedOrderedSparseMultigraph;
 import edu.uci.ics.jung.graph.util.Pair;
 import experiments.artemis.ai.behaviours.IBehavior;
 import experiments.artemis.ai.graph.ITreeNode;
@@ -22,13 +26,22 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 	private Circle spritePosition;
 	
 	
-	private Map<IBehavior, BehaviorTreeNodeDebugSprite> map = new HashMap<IBehavior, BehaviorTreeNodeDebugSprite>();
+	private Map<IBehavior, BehaviorTreeNodeDebugSprite> behaviorToSprite = new HashMap<IBehavior, BehaviorTreeNodeDebugSprite>();
+	
+	
+	private Map<Pair<IBehavior>, CubicCurve> edgeToSprite = new HashMap<Pair<IBehavior>, CubicCurve>();
 
 
 	private DelegateTree<IBehavior, Pair<IBehavior>> tree;
 
 
 	private TreeLayout<IBehavior, Pair<IBehavior>> layout;
+
+
+	private Group edgeLayer;
+
+
+	private Group nodeLayer;
 
 
 	public BehaviorTreeDebugSprite()
@@ -38,7 +51,12 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 		spritePosition = new Circle(0, 0, 5, Color.BLACK);
 		spritePosition.setMouseTransparent(false);
 		
+		edgeLayer = new Group();
+		nodeLayer = new Group();
+		
 		getChildren().add(spritePosition);
+		getChildren().add(nodeLayer);
+		getChildren().add(edgeLayer);
 	}
 	
 	
@@ -46,44 +64,108 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 	{
 		if (tree == null || !tree.getRoot().equals(root))
 		{
-			tree = new DelegateTree<IBehavior, Pair<IBehavior>>();
+			clear();
+			
+			tree = new DelegateTree<IBehavior, Pair<IBehavior>>(new DirectedOrderedSparseMultigraph<IBehavior, Pair<IBehavior>>());
 			tree.addVertex((IBehavior) root);
 			
-			for (Map.Entry<IBehavior, BehaviorTreeNodeDebugSprite> entry : map.entrySet())
-			{
-				getChildren().remove(entry.getValue());
-			}
-			
-			map.clear();
-			
 			buildSubTree(root);
+			layoutNodes();
+		}
+
+		updateNodes();
+	}
+
+
+	/**
+	 * 
+	 */
+	public void layoutNodes()
+	{
+		layout = new TreeLayout<IBehavior, Pair<IBehavior>>(tree, 20, 20);
+		
+		Point2D nodePosition, parentPosition, childPosition;
+		double dx, dy;
+		
+		for (Pair<IBehavior> pair : tree.getEdges())
+		{
+			IBehavior parent = pair.getFirst();
+			IBehavior child = pair.getSecond();
 			
-			layout = new TreeLayout<IBehavior, Pair<IBehavior>>(tree, 20, 20);
-			layout.initialize();
+			CubicCurve sprite = edgeToSprite.get(pair);
+			
+			parentPosition = layout.transform(parent);
+			childPosition = layout.transform(child);
+			
+			dx = childPosition.getX() - parentPosition.getX();
+			dy = childPosition.getY() - parentPosition.getY();
+			
+			sprite.setStartX(parentPosition.getX());
+			sprite.setStartY(parentPosition.getY());
+			
+			sprite.setEndX(childPosition.getX());
+			sprite.setEndY(childPosition.getY());
+
+			sprite.setControlX1(parentPosition.getX());
+			sprite.setControlY1(parentPosition.getY() + dy / (Math.abs(dx) / 100 + 1));
+			
+			sprite.setControlX2(childPosition.getX());
+			sprite.setControlY2(childPosition.getY() - dy * (Math.abs(dx) / 100 + 0.5));
 		}
 		
 		for (IBehavior behavior : tree.getVertices())
 		{
-			BehaviorTreeNodeDebugSprite node = map.get(behavior);
+			BehaviorTreeNodeDebugSprite sprite = behaviorToSprite.get(behavior);
 			
-			if (node == null)
-			{
-				node = new BehaviorTreeNodeDebugSprite();
-				
-				map.put(behavior, node);
-				
-				getChildren().add(node);
-			}
+			nodePosition = layout.transform(behavior);
 			
-			Point2D pos = layout.transform(behavior);
-			
-			//((Circle) node).setFill(behavior.isReady() ? Color.BLUE : behavior.isRunning() ? Color.YELLOW : behavior.isSuccess() ? Color.GREEN : Color.RED);
-			//((Circle) node).setFill(behavior.isRunning() ? Color.YELLOW : behavior.isSuccess() ? Color.GREEN : behavior.isReady() ? Color.BLUE : Color.RED);
-			
-			node.update(behavior);
-			node.setLayoutX(pos.getX());
-			node.setLayoutY(pos.getY());
+			sprite.setLayoutX(nodePosition.getX());
+			sprite.setLayoutY(nodePosition.getY());
 		}
+	}
+
+
+	/**
+	 * 
+	 */
+	public void updateNodes()
+	{
+		BehaviorTreeNodeDebugSprite nodeSprite;
+		
+		for (Pair<IBehavior> pair : tree.getEdges())
+		{
+			IBehavior parent = pair.getFirst();
+			nodeSprite = behaviorToSprite.get(parent);
+			nodeSprite.update(parent);
+			
+			IBehavior child = pair.getSecond();
+			nodeSprite = behaviorToSprite.get(child);
+			nodeSprite.update(child);
+			
+			CubicCurve edgeSprite = edgeToSprite.get(pair);
+			
+			edgeSprite.setStrokeWidth(1);
+			edgeSprite.setStroke(Color.GRAY);
+			
+			if (parent.isRunning() && child.isRunning())
+			{
+				edgeSprite.setStrokeWidth(2);
+				edgeSprite.setStroke(Color.GREEN);
+			}
+		}
+	}
+
+
+	/**
+	 * 
+	 */
+	public void clear()
+	{
+		nodeLayer.getChildren().clear();
+		behaviorToSprite.clear();
+		
+		edgeLayer.getChildren().clear();
+		edgeToSprite.clear();
 	}
 
 
@@ -94,21 +176,70 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 	{
 		if (root instanceof IBehavior)
 		{
+			IBehavior parent = (IBehavior) root;
+			
+			buildNodeSprite(parent);
+			
 			ArrayList<ITreeNode> children = root.getChildren();
 			
 			if (children != null)
 			{
+				int i = 0;
+				
 				for (ITreeNode node : children)
 				{
 					if (node instanceof IBehavior)
 					{
-						tree.addChild(new Pair<IBehavior>((IBehavior) root, (IBehavior) node), (IBehavior) root, (IBehavior) node);
+						IBehavior child = (IBehavior) node;
+						
+						Pair<IBehavior> edge = new Pair<IBehavior>(parent, child);
+						
+						tree.addChild(edge, parent, child);
 						
 						buildSubTree(node);
+						buildEdgeSprite(edge);
+						
+						BehaviorTreeNodeDebugSprite sprite = behaviorToSprite.get(child);
+						sprite.setComment(String.format("- index in parent: %d", i++));
 					}
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * @param behavior
+	 * @return
+	 */
+	protected BehaviorTreeNodeDebugSprite buildNodeSprite(IBehavior behavior)
+	{
+		BehaviorTreeNodeDebugSprite sprite = new BehaviorTreeNodeDebugSprite();
+		
+		behaviorToSprite.put(behavior, sprite);
+		
+		edgeLayer.getChildren().add(sprite);
+		
+		return sprite;
+	}
+
+
+	/**
+	 * @param edge
+	 * @return
+	 */
+	public CubicCurve buildEdgeSprite(Pair<IBehavior> edge)
+	{
+		CubicCurve sprite = new CubicCurve();
+		
+		sprite.setStrokeType(StrokeType.CENTERED);
+		sprite.setFill(null);
+		
+		edgeToSprite.put(edge, sprite);
+		
+		nodeLayer.getChildren().add(sprite);
+		
+		return sprite;
 	}
 
 
