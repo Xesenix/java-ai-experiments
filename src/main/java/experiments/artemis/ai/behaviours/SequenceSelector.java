@@ -20,24 +20,32 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 
 	public void run()
 	{
-		for (int i = indexForEntity.get(actor.getId()); i < behaviors.length; i++)
+		if (behaviors != null)
 		{
-			indexForEntity.set(actor.getId(), i);
-			
-			if (behaviors[i].isCompleted() && behaviors[i].isSuccess())
+			for (int i = indexForEntity.get(actor.getId()); i < behaviors.length; i++)
 			{
-				continue;
-			}
-			
-			behaviors[i].run();
-			
-			if (!behaviors[i].isSuccess())
-			{
-				return;
-			}
-			else if (behaviors[i].isRunning())
-			{
-				return;
+				indexForEntity.set(actor.getId(), i);
+				
+				if (behaviors[i].isCompleted())
+				{
+					if (behaviors[i].isSuccess())
+					{
+						continue;
+					}
+					
+					return;
+				}
+				
+				behaviors[i].run();
+				
+				if (!behaviors[i].isSuccess())
+				{
+					return;
+				}
+				else if (behaviors[i].isRunning())
+				{
+					return;
+				}
 			}
 		}
 	}
@@ -45,7 +53,7 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 
 	public void reset()
 	{
-		if (!isReady())
+		if (!isReady() || isCompleted())
 		{
 			indexForEntity.set(actor.getId(), 0);
 
@@ -59,22 +67,37 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 
 	public boolean isReady()
 	{
+		if (behaviors == null)
+		{
+			return true;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
-		return index < behaviors.length - 1 || !behaviors[index].isCompleted();
+		return index < behaviors.length - 1 || behaviors[index].isReady();
 	}
 
 
 	public boolean isRunning()
 	{
+		if (behaviors == null)
+		{
+			return false;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
-		return behaviors[index].isRunning() || behaviors[index].isSuccess() && index < behaviors.length - 1;
+		return index < behaviors.length - 1 && behaviors[index].isRunning() || index == behaviors.length - 1 && !behaviors[index].isCompleted();
 	}
 
 
 	public boolean isSuccess()
 	{
+		if (behaviors == null)
+		{
+			return false;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
 		return index == behaviors.length - 1 && behaviors[index].isSuccess();
@@ -83,8 +106,13 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 
 	public boolean isCompleted()
 	{
+		if (behaviors == null)
+		{
+			return true;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
-		return index == behaviors.length - 1 && behaviors[index].isCompleted();
+		return (index == behaviors.length - 1 || !behaviors[index].isSuccess()) && behaviors[index].isCompleted();
 	}
 }

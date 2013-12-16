@@ -10,7 +10,7 @@ import experiments.artemis.ai.behaviours.IActorAware;
 
 
 @XmlRootElement
-public class Goal implements IGoal
+public class Goal implements IGoal, Cloneable
 {
 	private IGoal[] goals;
 
@@ -103,5 +103,30 @@ public class Goal implements IGoal
 	public String toString()
 	{
 		return String.format("[%s@%x {goals: %s}]", getClass().getSimpleName(), hashCode(), getGoals());
+	}
+	
+	
+	public Goal clone() throws CloneNotSupportedException
+	{
+		Goal clone = (Goal) super.clone();
+		
+		IGoal[] goals = getGoals();
+		
+		if (goals != null)
+		{
+			IGoal[] goalsClone = new IGoal[goals.length];
+			
+			for (int i = 0; i < goalsClone.length; i++)
+			{
+				if (goals[i] instanceof Goal)
+				{
+					goalsClone[i] = ((Goal) goals[i]).clone();
+				}
+			}
+			
+			clone.setGoals(goalsClone);
+		}
+		
+		return clone;
 	}
 }

@@ -1,8 +1,8 @@
 
 package experiments;
 
-import experiments.ui.BehaviorTreeDebugMediator;
 import experiments.ui.ActorDebugMediator;
+import experiments.ui.BehaviorTreeDebugMediator;
 
 
 public interface IExperimentView

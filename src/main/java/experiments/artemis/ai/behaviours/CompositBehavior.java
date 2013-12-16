@@ -45,9 +45,12 @@ public class CompositBehavior implements IActorAware, ITreeNode
 	{
 		this.actor = actor;
 
-		for (int i = 0; i < behaviors.length; i++)
+		if (behaviors != null)
 		{
-			behaviors[i].setActor(actor);
+			for (int i = 0; i < behaviors.length; i++)
+			{
+				behaviors[i].setActor(actor);
+			}
 		}
 	}
 
@@ -72,13 +75,16 @@ public class CompositBehavior implements IActorAware, ITreeNode
 
 	public void actorAdded(Entity entity)
 	{
-		indexForEntity.set(entity.getId(), 0);
+		indexForEntity.set(entity.getId(), behaviors.length - 1);
 		
 		IBehavior[] behaviors = getBehaviours();
 
-		for (int i = 0; i < behaviors.length; i++)
+		if (behaviors != null)
 		{
-			behaviors[i].actorAdded(entity);
+			for (int i = 0; i < behaviors.length; i++)
+			{
+				behaviors[i].actorAdded(entity);
+			}
 		}
 	}
 
@@ -89,9 +95,12 @@ public class CompositBehavior implements IActorAware, ITreeNode
 		
 		IBehavior[] behaviors = getBehaviours();
 
-		for (int i = 0; i < behaviors.length; i++)
+		if (behaviors != null)
 		{
-			behaviors[i].actorRemoved(entity);
+			for (int i = 0; i < behaviors.length; i++)
+			{
+				behaviors[i].actorRemoved(entity);
+			}
 		}
 	}
 
@@ -101,9 +110,12 @@ public class CompositBehavior implements IActorAware, ITreeNode
 		ArrayList<ITreeNode> children = new ArrayList<ITreeNode>();
 		IBehavior[] behaviors = getBehaviours();
 		
-		for (int i = 0; i < behaviors.length; i ++)
+		if (behaviors != null)
 		{
-			children.add((ITreeNode) behaviors[i]);
+			for (int i = 0; i < behaviors.length; i ++)
+			{
+				children.add((ITreeNode) behaviors[i]);
+			}
 		}
 		
 		return children;
@@ -112,7 +124,7 @@ public class CompositBehavior implements IActorAware, ITreeNode
 
 	public String toString()
 	{
-		return String.format("[%s@%x, {behaviors: %s}]", getClass().getSimpleName(), hashCode(), getBehaviours());
+		return String.format("[%s@%x, {behaviors: %s, index: %d}]", getClass().getSimpleName(), hashCode(), getBehaviours(), indexForEntity.get(actor.getId()));
 	}
 
 }

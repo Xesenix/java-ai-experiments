@@ -2,8 +2,6 @@
 package experiments.artemis.ai.behaviours;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 

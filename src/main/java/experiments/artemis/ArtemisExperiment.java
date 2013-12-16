@@ -27,8 +27,9 @@ import experiments.artemis.ai.AiManager;
 import experiments.artemis.ai.AiMarshaller;
 import experiments.artemis.ai.AiUnmarshaller;
 import experiments.artemis.ai.StrategyPlanner;
-import experiments.artemis.ai.behaviours.Limiter;
 import experiments.artemis.ai.behaviours.IBehavior;
+import experiments.artemis.ai.behaviours.Inverter;
+import experiments.artemis.ai.behaviours.Limiter;
 import experiments.artemis.ai.behaviours.PrioritySelector;
 import experiments.artemis.ai.behaviours.SequenceSelector;
 import experiments.artemis.ai.behaviours.Succeeder;
@@ -188,8 +189,31 @@ public class ArtemisExperiment implements IExperimentManager
 			quests
 		);
 		
-		ai.setBehavior("simple", tasks[0]);
-		ai.setBehavior("crowd", crowdBehavior);
+		try
+		{
+			// ai.setBehavior("simple", tasks[0]);
+			// ai.setBehavior("crowd", crowdBehavior);
+			ai.setBehavior("test", new SequenceSelector(
+				new SequenceSelector(
+					tasks[0],
+					tasks[1],
+					tasks[0].clone(),
+					tasks[1].clone()
+				),
+				new Succeeder(new SequenceSelector(
+					tasks[2],
+					tasks[3],
+					tasks[2].clone(),
+					tasks[3].clone()
+				)),
+				tasks[1].clone(),
+				new Inverter(tasks[0].clone())
+			));
+		}
+		catch (CloneNotSupportedException e)
+		{
+			e.printStackTrace();
+		}
 
 		// Actors
 		Entity entity = world.createEntity();
@@ -198,7 +222,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 		entity.addComponent(new ConsoleDebugComponent());
 		entity.addComponent(new PositionComponent(positions[0]));
-		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new BehaviorComponent("test"));
 		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
 		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		entity.addComponent(new NearDistanceComponent(60f));

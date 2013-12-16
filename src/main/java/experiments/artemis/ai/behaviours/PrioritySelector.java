@@ -20,15 +20,18 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public void run()
 	{
-		for (int i = 0; i < behaviors.length; i++)
+		if (behaviors != null)
 		{
-			indexForEntity.set(actor.getId(), i);
-			
-			behaviors[i].run();
-			
-			if (behaviors[i].isRunning())
+			for (int i = 0; i < behaviors.length; i++)
 			{
-				return;
+				indexForEntity.set(actor.getId(), i);
+				
+				behaviors[i].run();
+				
+				if (behaviors[i].isRunning())
+				{
+					return;
+				}
 			}
 		}
 	}
@@ -36,11 +39,14 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public void reset()
 	{
-		for (int i = 0; i < behaviors.length; i++)
+		if (behaviors != null)
 		{
-			if (!behaviors[i].isReady())
+			for (int i = 0; i < behaviors.length; i++)
 			{
-				behaviors[i].reset();
+				if (!behaviors[i].isReady())
+				{
+					behaviors[i].reset();
+				}
 			}
 		}
 	}
@@ -48,6 +54,11 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isReady()
 	{
+		if (behaviors == null)
+		{
+			return true;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
 		return index < behaviors.length - 1 || !behaviors[index].isCompleted();
@@ -56,6 +67,11 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isRunning()
 	{
+		if (behaviors == null)
+		{
+			return false;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
 		return behaviors[index].isRunning() || behaviors[index].isSuccess() && index < behaviors.length - 1;
@@ -64,6 +80,11 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isSuccess()
 	{
+		if (behaviors == null)
+		{
+			return false;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
 		return index == behaviors.length - 1 && behaviors[index].isSuccess();
@@ -72,6 +93,11 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public boolean isCompleted()
 	{
+		if (behaviors == null)
+		{
+			return true;
+		}
+		
 		int index = indexForEntity.get(actor.getId());
 		
 		return index == behaviors.length - 1 && behaviors[index].isCompleted();

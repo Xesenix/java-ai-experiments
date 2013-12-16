@@ -2,7 +2,6 @@
 package experiments.artemis.ai.tasks;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,13 +12,14 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.utils.Bag;
 
+import experiments.artemis.ai.goals.Goal;
 import experiments.artemis.ai.goals.IGoal;
 import experiments.artemis.ai.graph.ITreeNode;
 import experiments.artemis.systems.TasksSystem;
 
 
 @XmlRootElement
-public class Task implements ITask, ITreeNode
+public class Task implements ITask, ITreeNode, Cloneable
 {
 	private String name;
 
@@ -173,6 +173,22 @@ public class Task implements ITask, ITreeNode
 
 	public String toString()
 	{
-		return String.format("[%s@%x {name: %s, goals: %s}]", getClass().getSimpleName(), hashCode(), getName(), getGoals());
+		return String.format("[%s@%x {name: %s, goals: %s, bag: %x}]", getClass().getSimpleName(), hashCode(), getName(), getGoals(), stateByEntity.hashCode());
+	}
+	
+	
+	public Task clone() throws CloneNotSupportedException
+	{
+		Task clone = (Task) super.clone();
+		
+		clone.stateByEntity = new Bag<TaskState>();
+		
+		clone.name = getName();
+		
+		Goal goal = (Goal) getGoals();
+		
+		clone.goals = goal.clone();
+		
+		return (Task) clone;
 	}
 }

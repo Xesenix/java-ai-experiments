@@ -3,10 +3,10 @@ package experiments;
 
 import com.google.inject.AbstractModule;
 
+import experiments.ui.ActorDebugSprite;
 import experiments.ui.BehaviorTreeDebugSprite;
 import experiments.ui.IActorDebugSprite;
 import experiments.ui.IBehaviorTreeDebugSprite;
-import experiments.ui.ActorDebugSprite;
 
 
 public class DebugModule extends AbstractModule
