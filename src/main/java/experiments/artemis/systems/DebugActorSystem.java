@@ -259,7 +259,7 @@ public class DebugActorSystem extends EntityProcessingSystem
 	}
 
 
-	private String getEntityDescription(Entity e)
+	public String getEntityDescription(Entity e)
 	{
 		StringBuilder entityComponentsDescription = new StringBuilder();
 		Bag<Component> entityComponents = e.getComponents(new Bag<Component>());

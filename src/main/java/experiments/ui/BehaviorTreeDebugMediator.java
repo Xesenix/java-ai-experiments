@@ -1,6 +1,8 @@
 
 package experiments.ui;
 
+import com.artemis.Entity;
+
 import experiments.artemis.ai.graph.ITreeNode;
 
 public class BehaviorTreeDebugMediator
@@ -14,8 +16,14 @@ public class BehaviorTreeDebugMediator
 	}
 
 
-	public void update(ITreeNode root)
+	public void updateBehaviorTree(ITreeNode root)
 	{
-		sprite.buildTree(root);
+		sprite.updateTree(root);
+	}
+
+
+	public void updateEntityDescription(String description)
+	{
+		sprite.updateEntityDescription(description);
 	}
 }

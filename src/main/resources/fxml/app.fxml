@@ -43,7 +43,35 @@
                       <ToggleButton fx:id="aiRunningButton" maxWidth="-1.0" minWidth="80.0" mnemonicParsing="false" onAction="#toggleAiRunning" prefHeight="30.0" prefWidth="-1.0" selected="false" text="%button.start" textAlignment="CENTER" underline="false" wrapText="false" />
                     </items>
                   </ToolBar>
-                  <Viewport fx:id="viewport" style="" styleClass="grid" VBox.vgrow="ALWAYS" />
+                  <SplitPane dividerPositions="0.5" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" VBox.vgrow="ALWAYS">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                        <children>
+                          <Viewport fx:id="viewport" style="" styleClass="grid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        </children>
+                      </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                        <children>
+                          <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <content>
+                              <AnchorPane id="AnchorPane">
+                                <children>
+                                  <FlowPane fx:id="btDebugList" alignment="TOP_LEFT" columnHalignment="LEFT" focusTraversable="false" hgap="20.0" orientation="HORIZONTAL" prefHeight="-1.0" prefWidth="-1.0" rowValignment="TOP" vgap="20.0" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <padding>
+                                      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                    </padding>
+                                  </FlowPane>
+                                </children>
+                                <padding>
+                                  <Insets />
+                                </padding>
+                              </AnchorPane>
+                            </content>
+                          </ScrollPane>
+                        </children>
+                      </AnchorPane>
+                    </items>
+                  </SplitPane>
                 </children>
               </VBox>
             </children>

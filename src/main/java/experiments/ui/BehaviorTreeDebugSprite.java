@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.artemis.Entity;
+
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurve;
@@ -44,6 +49,12 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 	private Group nodeLayer;
 
 
+	private Tooltip tip;
+
+
+	private EventHandler<MouseEvent> mouseEventHandler;
+
+
 	public BehaviorTreeDebugSprite()
 	{
 		setPickOnBounds(false);
@@ -57,10 +68,37 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 		getChildren().add(spritePosition);
 		getChildren().add(nodeLayer);
 		getChildren().add(edgeLayer);
+		
+		tip = new Tooltip("debug");
+		tip.setAutoHide(true);
+		tip.setAutoFix(true);
+
+		mouseEventHandler = new EventHandler<MouseEvent>() {
+
+			public void handle(MouseEvent event)
+			{
+				if (event.getEventType().equals(MouseEvent.MOUSE_MOVED))
+				{
+					tip.show(getParent(), event.getScreenX(), event.getScreenY());
+				}
+				else if (event.getEventType().equals(MouseEvent.MOUSE_EXITED))
+				{
+					tip.hide();
+				}
+			}
+		};
+
+		spritePosition.addEventHandler(MouseEvent.ANY, mouseEventHandler);
+	}
+
+
+	public void updateEntityDescription(String description)
+	{
+		tip.setText(description);
 	}
 	
 	
-	public void buildTree(ITreeNode root)
+	public void updateTree(ITreeNode root)
 	{
 		if (tree == null || !tree.getRoot().equals(root))
 		{

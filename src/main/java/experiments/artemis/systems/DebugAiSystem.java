@@ -55,7 +55,14 @@ public class DebugAiSystem extends EntityProcessingSystem
 		
 		behavior.setActor(entity);
 		
-		mediator.update((ITreeNode) behavior);
+		mediator.updateBehaviorTree((ITreeNode) behavior);
+		
+		DebugActorSystem debugActorSystem = world.getSystem(DebugActorSystem.class);
+		
+		if (debugActorSystem != null)
+		{
+			mediator.updateEntityDescription(debugActorSystem.getEntityDescription(entity));
+		}
 	}
 
 }

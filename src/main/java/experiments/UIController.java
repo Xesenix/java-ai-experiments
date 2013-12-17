@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import pl.xesenix.fxml.viewport.Viewport;
 import pl.xesenix.javafx.animation.FixedStepAnimationTimer;
 
@@ -76,7 +77,12 @@ public class UIController implements IExperimentView
 	private TextArea worldXmlSource;
 
 
+	@FXML
 	private Group debugPointLayer;
+
+
+	@FXML
+	private FlowPane btDebugList;
 
 
 	@FXML
@@ -160,6 +166,7 @@ public class UIController implements IExperimentView
 		assert viewport != null : "fx:id=\"viewport\" was not injected: check your FXML file 'app.fxml'.";
 		assert worldJsonSource != null : "fx:id=\"worldJsonSource\" was not injected: check your FXML file 'app.fxml'.";
 		assert worldXmlSource != null : "fx:id=\"worldXmlSource\" was not injected: check your FXML file 'app.fxml'.";
+		assert btDebugList != null : "fx:id=\"btDebugList\" was not injected: check your FXML file 'app.fxml'.";
 
 		debugPointLayer = new Group();
 
@@ -207,12 +214,12 @@ public class UIController implements IExperimentView
 	public BehaviorTreeDebugMediator createBehaviorSprite()
 	{
 		IBehaviorTreeDebugSprite sprite = inject.getInstance(IBehaviorTreeDebugSprite.class);
-		
-		debugPointLayer.getChildren().add((Node) sprite);
-		
+
+		btDebugList.getChildren().add((Node) sprite);
+
 		BehaviorTreeDebugMediator mediator = inject.getInstance(BehaviorTreeDebugMediator.class);
 		mediator.setView(sprite);
-		
+
 		return mediator;
 	}
 }
