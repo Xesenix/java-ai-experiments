@@ -53,9 +53,12 @@ public class DebugAiSystem extends EntityProcessingSystem
 		
 		IBehavior behavior = world.getManager(AiManager.class).getBehaviors().get(behaviorComponent.getName());
 		
-		behavior.setActor(entity);
-		
-		mediator.updateBehaviorTree((ITreeNode) behavior);
+		if (behavior != null)
+		{
+			behavior.setActor(entity);
+			
+			mediator.updateBehaviorTree((ITreeNode) behavior);
+		}
 		
 		DebugActorSystem debugActorSystem = world.getSystem(DebugActorSystem.class);
 		

@@ -94,7 +94,12 @@ public class BehaviorTreeDebugSprite extends Group implements IBehaviorTreeDebug
 
 	public void updateEntityDescription(String description)
 	{
+		double x = tip.getX();
+		double y = tip.getY();
+		
 		tip.setText(description);
+		tip.setX(x);
+		tip.setY(y);
 	}
 	
 	

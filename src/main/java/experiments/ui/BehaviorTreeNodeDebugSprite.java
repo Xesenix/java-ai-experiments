@@ -86,6 +86,9 @@ public class BehaviorTreeNodeDebugSprite extends Group
 		{
 			circle.setStroke(null);
 		}
+		
+		double x = tip.getX();
+		double y = tip.getY();
 
 		tip.setText(String.format("%s:\n%s\n%s\n%s\n%s\ncomment:\n%s",
 			behavior,
@@ -95,5 +98,7 @@ public class BehaviorTreeNodeDebugSprite extends Group
 			behavior.isSuccess() ? "success" : "fail",
 			comment
 		));
+		tip.setX(x);
+		tip.setY(y);
 	}
 }

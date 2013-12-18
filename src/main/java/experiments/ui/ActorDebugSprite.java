@@ -112,7 +112,12 @@ public class ActorDebugSprite extends Pane implements IActorDebugSprite
 
 	public void setLabel(String string)
 	{
+		double x = tip.getX();
+		double y = tip.getY();
+		
 		tip.setText(string);
+		tip.setX(x);
+		tip.setY(y);
 	}
 
 
