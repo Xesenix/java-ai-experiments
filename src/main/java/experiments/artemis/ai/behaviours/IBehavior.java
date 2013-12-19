@@ -13,12 +13,24 @@ public interface IBehavior extends IActorAware
 
 
 	void setState(BehaviorState state);
+
+
+	/**
+	 * Perform behavior action initialization.
+	 */
+	void start();
 	
 	
 	/**
-	 * 
+	 * Perform behavior tick actions
 	 */
 	void run();
+
+
+	/**
+	 * Perform behavior action shutdown.
+	 */
+	void end();
 
 
 	/**

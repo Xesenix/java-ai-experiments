@@ -28,27 +28,9 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 			{
 				indexForEntity.set(actor.getId(), i);
 				
-				/* probably unneeded overhead
-				// did task child finished ?
-				if (behaviors[i].isCompleted())
-				{
-					// behaviors[i].end();
-					
-					// was it a success ?
-					if (behaviors[i].isSuccess())
-					{
-						// choose next child task
-						continue;
-					}
-					
-					// return with fail state
-					setState(TaskState.FAILURE);
-					return;
-				}*/
-				
 				if (behaviors[i].isReady())
 				{
-					// behaviors[i].start();
+					behaviors[i].start();
 				}
 				
 				behaviors[i].run();
@@ -61,7 +43,7 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 					return;
 				}
 				
-				// behaviors[i].end();
+				behaviors[i].end();
 				
 				if (!behaviors[i].isSuccess())
 				{

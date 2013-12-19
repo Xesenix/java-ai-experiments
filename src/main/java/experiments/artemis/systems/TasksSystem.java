@@ -65,20 +65,48 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 
 		Iterator<ITask> iter = tasksComponent.getTasks().iterator();
 		
+		log.info("looping entity tasks list");
+		
 		while (iter.hasNext())
 		{
 			ITask task = iter.next();
 			
-			//runTask(entity, task);
+			if (task.isReady())
+			{
+				log.info("loop - starting task {}", task);
+				startTask(entity, task);
+			}
 			
 			if (task.isCompleted())
 			{
+				log.info("loop - ending task {}", task);
+				endTask(entity, task);
+				
+				log.info("loop - removing task {}", task);
 				iter.remove();
+				
+				continue;
 			}
 			
+			log.info("loop - running task {}", task);
+			runTask(entity, task);
 		}
 		
 		log.info("tasks {}", tasksComponent);
+	}
+
+
+	public void startTask(Entity actor, ITask task)
+	{
+		log.setActive(consoleDebugMapper.get(actor) != null && consoleDebugMapper.get(actor).behavior);
+		
+		log.debug("starting task {}", task);
+		
+		TasksComponent tasksComponent = taskMapper.get(actor);
+		
+		log.info("tasks {}", tasksComponent);
+		
+		tasksComponent.addTask(task);
 	}
 
 
@@ -156,6 +184,14 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 		}
 		
 		task.setState(BehaviorState.FAILURE);
+	}
+
+
+	public void endTask(Entity actor, ITask task)
+	{
+		log.setActive(consoleDebugMapper.get(actor) != null && consoleDebugMapper.get(actor).behavior);
+		
+		log.debug("ending task {}", task);
 	}
 	
 	

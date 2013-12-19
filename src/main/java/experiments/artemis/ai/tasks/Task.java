@@ -101,12 +101,30 @@ public class Task implements ITask, ITreeNode, Cloneable
 	}
 
 
+	public void start()
+	{
+		World world = actor.getWorld();
+		TasksSystem system = world.getSystem(TasksSystem.class);
+		
+		system.startTask(actor, this);
+	}
+
+
 	public void run()
 	{
 		World world = actor.getWorld();
 		TasksSystem system = world.getSystem(TasksSystem.class);
 
 		system.runTask(actor, this);
+	}
+
+
+	public void end()
+	{
+		World world = actor.getWorld();
+		TasksSystem system = world.getSystem(TasksSystem.class);
+		
+		system.endTask(actor, this);
 	}
 
 

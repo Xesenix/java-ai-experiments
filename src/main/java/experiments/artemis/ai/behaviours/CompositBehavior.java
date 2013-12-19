@@ -148,7 +148,17 @@ public abstract class CompositBehavior implements IActorAware, ITreeNode, IBehav
 	}
 
 
+	public void start()
+	{
+	}
+
+
 	abstract public void run();
+
+
+	public void end()
+	{
+	}
 
 
 	abstract public void reset();

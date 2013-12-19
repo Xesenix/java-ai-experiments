@@ -55,9 +55,21 @@ class Decorator implements IBehavior, ITreeNode
 	}
 
 
+	public void start()
+	{
+		behavior.start();
+	}
+
+
 	public void run()
 	{
 		behavior.run();
+	}
+
+
+	public void end()
+	{
+		behavior.end();
 	}
 
 
