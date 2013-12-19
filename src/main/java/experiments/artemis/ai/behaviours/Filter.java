@@ -31,15 +31,21 @@ abstract public class Filter extends Decorator
 	}
 
 
+	/**
+	 * While condition valid return child state else true.
+	 */
 	public boolean isCompleted()
 	{
 		return !filterCondition() || super.isCompleted();
 	}
 
 
+	/**
+	 * While condition valid return child state else true.
+	 */
 	public boolean isSuccess()
 	{
-		return filterCondition() && super.isSuccess();
+		return !filterCondition() || super.isSuccess();
 	}
 
 
