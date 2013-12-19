@@ -3,10 +3,18 @@ package experiments.artemis.ai.behaviours;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import experiments.artemis.ai.tasks.BehaviorState;
+
 
 @XmlJavaTypeAdapter(xml.AnyTypeAdapter.class)
 public interface IBehavior extends IActorAware
 {
+	BehaviorState getState();
+
+
+	void setState(BehaviorState state);
+	
+	
 	/**
 	 * 
 	 */

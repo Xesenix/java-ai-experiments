@@ -1,6 +1,6 @@
 package experiments.artemis.ai.tasks;
 
-public enum TaskState
+public enum BehaviorState
 {
 	READY,
 	RUNNING,

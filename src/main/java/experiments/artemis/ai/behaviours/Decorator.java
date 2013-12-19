@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import com.artemis.Entity;
 
 import experiments.artemis.ai.graph.ITreeNode;
+import experiments.artemis.ai.tasks.BehaviorState;
 
 
 class Decorator implements IBehavior, ITreeNode
@@ -39,6 +40,18 @@ class Decorator implements IBehavior, ITreeNode
 	public void setBehavior(IBehavior behavior)
 	{
 		this.behavior = behavior;
+	}
+
+
+	public BehaviorState getState()
+	{
+		return behavior.getState();
+	}
+
+
+	public void setState(BehaviorState state)
+	{
+		behavior.setState(state);
 	}
 
 

@@ -3,6 +3,8 @@ package experiments.artemis.ai.behaviours;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import experiments.artemis.ai.tasks.BehaviorState;
+
 
 @XmlRootElement
 public class SequenceSelector extends CompositBehavior implements IBehavior
@@ -26,93 +28,71 @@ public class SequenceSelector extends CompositBehavior implements IBehavior
 			{
 				indexForEntity.set(actor.getId(), i);
 				
+				/* probably unneeded overhead
+				// did task child finished ?
 				if (behaviors[i].isCompleted())
 				{
+					// behaviors[i].end();
+					
+					// was it a success ?
 					if (behaviors[i].isSuccess())
 					{
+						// choose next child task
 						continue;
 					}
 					
+					// return with fail state
+					setState(TaskState.FAILURE);
 					return;
+				}*/
+				
+				if (behaviors[i].isReady())
+				{
+					// behaviors[i].start();
 				}
 				
 				behaviors[i].run();
 				
-				if (!behaviors[i].isSuccess())
+				// is running ?
+				if (behaviors[i].isRunning())
 				{
+					// return with running state
+					setState(BehaviorState.RUNNING);
 					return;
 				}
-				else if (behaviors[i].isRunning())
+				
+				// behaviors[i].end();
+				
+				if (!behaviors[i].isSuccess())
 				{
+					// return with fail state
+					setState(BehaviorState.FAILURE);
 					return;
 				}
 			}
+			
+			setState(BehaviorState.SUCCESS);
 		}
 	}
 
 
 	public void reset()
 	{
-		if (!isReady() && !isRunning() || isCompleted())
+		BehaviorState state = getState();
+		
+		if (behaviors != null)
 		{
-			indexForEntity.set(actor.getId(), 0);
-
-			for (int i = 0; i < behaviors.length; i++)
+			if (state != BehaviorState.RUNNING)
 			{
-				behaviors[i].reset();
+				indexForEntity.set(actor.getId(), 0);
+				
+				for (int i = 0; i < behaviors.length; i++)
+				{
+					behaviors[i].reset();
+				}
+				
+				setState(BehaviorState.READY);
 			}
 		}
-	}
-
-
-	public boolean isReady()
-	{
-		if (behaviors == null)
-		{
-			return true;
-		}
-		
-		int index = indexForEntity.get(actor.getId());
-		
-		return index == 0 && behaviors[index].isReady();
-	}
-
-
-	public boolean isRunning()
-	{
-		if (behaviors == null)
-		{
-			return false;
-		}
-		
-		int index = indexForEntity.get(actor.getId());
-		
-		return index < behaviors.length - 1 && behaviors[index].isRunning() || index == behaviors.length - 1 && !behaviors[index].isCompleted() && behaviors[index].isRunning();
-	}
-
-
-	public boolean isSuccess()
-	{
-		if (behaviors == null)
-		{
-			return false;
-		}
-		
-		int index = indexForEntity.get(actor.getId());
-		
-		return index == behaviors.length - 1 && behaviors[index].isSuccess();
-	}
-
-
-	public boolean isCompleted()
-	{
-		if (behaviors == null)
-		{
-			return true;
-		}
-		
-		int index = indexForEntity.get(actor.getId());
-		
-		return (index == behaviors.length - 1 || !behaviors[index].isSuccess()) && behaviors[index].isCompleted();
 	}
 }

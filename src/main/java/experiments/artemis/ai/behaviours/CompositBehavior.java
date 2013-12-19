@@ -13,17 +13,24 @@ import com.artemis.Entity;
 import com.artemis.utils.Bag;
 
 import experiments.artemis.ai.graph.ITreeNode;
+import experiments.artemis.ai.tasks.BehaviorState;
 
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CompositBehavior implements IActorAware, ITreeNode
+public abstract class CompositBehavior implements IActorAware, ITreeNode, IBehavior
 {
 	@XmlAnyElement(lax = true)
 	protected IBehavior behaviors[];
 
 
 	protected transient Bag<Integer> indexForEntity = new Bag<Integer>();
+
+
+	/**
+	 * For speedup of state queries.
+	 */
+	private transient Bag<BehaviorState> stateByEntity = new Bag<BehaviorState>();
 
 
 	protected transient Entity actor;
@@ -44,7 +51,9 @@ public class CompositBehavior implements IActorAware, ITreeNode
 	public void setActor(Entity actor)
 	{
 		this.actor = actor;
-
+		
+		IBehavior[] behaviors = getBehaviours();
+		
 		if (behaviors != null)
 		{
 			for (int i = 0; i < behaviors.length; i++)
@@ -52,6 +61,23 @@ public class CompositBehavior implements IActorAware, ITreeNode
 				behaviors[i].setActor(actor);
 			}
 		}
+	}
+
+
+	public BehaviorState getState()
+	{
+		return stateByEntity.get(actor.getId());
+	}
+
+
+	/**
+	 * Applies only to this node.
+	 * 
+	 * @param state
+	 */
+	public void setState(BehaviorState state)
+	{
+		this.stateByEntity.set(actor.getId(), state);
 	}
 
 
@@ -75,12 +101,12 @@ public class CompositBehavior implements IActorAware, ITreeNode
 
 	public void actorAdded(Entity entity)
 	{
-		indexForEntity.set(entity.getId(), behaviors.length - 1);
-		
 		IBehavior[] behaviors = getBehaviours();
 
 		if (behaviors != null)
 		{
+			indexForEntity.set(entity.getId(), behaviors.length - 1);
+			
 			for (int i = 0; i < behaviors.length; i++)
 			{
 				behaviors[i].actorAdded(entity);
@@ -119,6 +145,44 @@ public class CompositBehavior implements IActorAware, ITreeNode
 		}
 		
 		return children;
+	}
+
+
+	abstract public void run();
+
+
+	abstract public void reset();
+
+
+	public boolean isReady()
+	{
+		BehaviorState state = getState();
+		
+		return state == BehaviorState.READY;
+	}
+
+
+	public boolean isRunning()
+	{
+		BehaviorState state = getState();
+		
+		return state == BehaviorState.RUNNING;
+	}
+
+
+	public boolean isSuccess()
+	{
+		BehaviorState state = getState();
+		
+		return state == BehaviorState.SUCCESS;
+	}
+
+
+	public boolean isCompleted()
+	{
+		BehaviorState state = getState();
+		
+		return state == BehaviorState.SUCCESS || state == BehaviorState.FAILURE;
 	}
 
 

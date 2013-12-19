@@ -3,9 +3,11 @@ package experiments.artemis.ai.behaviours;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import experiments.artemis.ai.tasks.BehaviorState;
+
 
 @XmlRootElement
-public class PrioritySelector extends CompositBehavior implements IBehavior
+public class PrioritySelector extends CompositBehavior
 {
 	public PrioritySelector()
 	{
@@ -20,33 +22,39 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 
 	public void run()
 	{
-		if (behaviors != null)
+		for (int i = 0; i < behaviors.length; i++)
 		{
-			for (int i = 0; i < behaviors.length; i++)
+			indexForEntity.set(actor.getId(), i);
+			
+			behaviors[i].run();
+			
+			if (behaviors[i].isRunning())
 			{
-				indexForEntity.set(actor.getId(), i);
-				
-				behaviors[i].run();
-				
-				if (behaviors[i].isRunning())
-				{
-					return;
-				}
+				setState(BehaviorState.RUNNING);
+				return;
+			}
+			
+			if (behaviors[i].isSuccess())
+			{
+				setState(BehaviorState.SUCCESS);
+			}
+			else
+			{
+				setState(BehaviorState.FAILURE);
 			}
 		}
+		
+		setState(BehaviorState.SUCCESS);
 	}
 
 
 	public void reset()
 	{
-		if (behaviors != null)
+		for (int i = 0; i < behaviors.length; i++)
 		{
-			for (int i = 0; i < behaviors.length; i++)
+			if (!behaviors[i].isReady())
 			{
-				if (!behaviors[i].isReady())
-				{
-					behaviors[i].reset();
-				}
+				behaviors[i].reset();
 			}
 		}
 	}
@@ -56,7 +64,7 @@ public class PrioritySelector extends CompositBehavior implements IBehavior
 	{
 		if (behaviors == null)
 		{
-			return true;
+			return false;
 		}
 		
 		int index = indexForEntity.get(actor.getId());

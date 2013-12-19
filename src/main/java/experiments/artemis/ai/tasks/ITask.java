@@ -19,17 +19,4 @@ public interface ITask extends IBehavior
 
 
 	void setGoals(IGoal goals);
-
-
-	/**
-	 * Strategy finished execution.
-	 * 
-	 * @param world
-	 * @param e
-	 * @return
-	 */
-	TaskState getState();
-
-
-	void setState(TaskState state);
 }

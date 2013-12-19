@@ -30,7 +30,7 @@ public class Task implements ITask, ITreeNode, Cloneable
 	protected transient Entity actor;
 
 
-	private transient Bag<TaskState> stateByEntity = new Bag<TaskState>();
+	private transient Bag<BehaviorState> stateByEntity = new Bag<BehaviorState>();
 
 
 	public Task()
@@ -89,13 +89,13 @@ public class Task implements ITask, ITreeNode, Cloneable
 
 
 	@XmlTransient
-	public TaskState getState()
+	public BehaviorState getState()
 	{
 		return stateByEntity.get(actor.getId());
 	}
 
 
-	public void setState(TaskState state)
+	public void setState(BehaviorState state)
 	{
 		stateByEntity.set(actor.getId(), state);
 	}
@@ -112,33 +112,33 @@ public class Task implements ITask, ITreeNode, Cloneable
 
 	public void reset()
 	{
-		setState(TaskState.READY);
+		setState(BehaviorState.READY);
 	}
 
 
 	public boolean isReady()
 	{
-		return getState() == TaskState.READY;
+		return getState() == BehaviorState.READY;
 	}
 
 
 	public boolean isRunning()
 	{
-		return getState() == TaskState.RUNNING;
+		return getState() == BehaviorState.RUNNING;
 	}
 
 
 	public boolean isSuccess()
 	{
-		return getState() == TaskState.SUCCESS;
+		return getState() == BehaviorState.SUCCESS;
 	}
 
 
 	public boolean isCompleted()
 	{
-		TaskState state = getState();
+		BehaviorState state = getState();
 
-		return state == TaskState.SUCCESS || state == TaskState.FAILURE;
+		return state == BehaviorState.SUCCESS || state == BehaviorState.FAILURE;
 	}
 
 
@@ -181,7 +181,7 @@ public class Task implements ITask, ITreeNode, Cloneable
 	{
 		Task clone = (Task) super.clone();
 		
-		clone.stateByEntity = new Bag<TaskState>();
+		clone.stateByEntity = new Bag<BehaviorState>();
 		
 		clone.name = getName();
 		

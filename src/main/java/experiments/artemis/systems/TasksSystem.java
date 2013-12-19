@@ -16,7 +16,7 @@ import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.strategy.IStrategy;
 import experiments.artemis.ai.tasks.ITask;
-import experiments.artemis.ai.tasks.TaskState;
+import experiments.artemis.ai.tasks.BehaviorState;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.TasksComponent;
 
@@ -106,7 +106,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 
 			if (runningStrategy.canPerform(world, actor, task))
 			{
-				task.setState(TaskState.RUNNING);
+				task.setState(BehaviorState.RUNNING);
 				
 				// performing strategy
 				log.info("performing chosen strategy");
@@ -119,7 +119,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 				{
 					log.info("goal achived");
 					// TODO strategy successful modify priority so it would be used more often
-					task.setState(TaskState.SUCCESS);
+					task.setState(BehaviorState.SUCCESS);
 					
 					return;
 				}
@@ -135,7 +135,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 						strategyByEntity.set(actor.getId(), null);
 						
 						// TODO if there is other strategy available choose it
-						task.setState(TaskState.FAILURE);
+						task.setState(BehaviorState.FAILURE);
 						
 						return;
 					}
@@ -155,7 +155,7 @@ public class TasksSystem extends IntervalEntityProcessingSystem
 			}
 		}
 		
-		task.setState(TaskState.FAILURE);
+		task.setState(BehaviorState.FAILURE);
 	}
 	
 	
