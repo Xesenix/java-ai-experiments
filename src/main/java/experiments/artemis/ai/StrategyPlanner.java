@@ -9,7 +9,7 @@ import experiments.artemis.ai.strategy.CenterOfMassDestination;
 import experiments.artemis.ai.strategy.IStrategy;
 import experiments.artemis.ai.strategy.NearCenterOfMassDestination;
 import experiments.artemis.ai.tasks.ITask;
-import experiments.artemis.ai.tasks.PositionTask;
+import experiments.artemis.ai.tasks.NavigationTask;
 
 
 public class StrategyPlanner
@@ -30,7 +30,7 @@ public class StrategyPlanner
 	{
 		IStrategy startegy = null;
 		
-		if (task instanceof PositionTask)
+		if (task instanceof NavigationTask)
 		{
 			int index = 0;
 			

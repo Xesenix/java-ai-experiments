@@ -25,7 +25,7 @@ import experiments.artemis.ai.goals.Goal;
 import experiments.artemis.ai.goals.KeepInAreaGoal;
 import experiments.artemis.ai.goals.NearPositionGoal;
 import experiments.artemis.ai.goals.PositionGoal;
-import experiments.artemis.ai.tasks.PositionTask;
+import experiments.artemis.ai.tasks.NavigationTask;
 import experiments.artemis.ai.tasks.Task;
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
@@ -74,7 +74,7 @@ public class ArtemisModule extends AbstractModule
 				Limiter.class,
 				Succeeder.class,
 				Inverter.class,
-				PositionTask.class,
+				NavigationTask.class,
 				Goal.class,
 				PositionGoal.class,
 				NearPositionGoal.class,

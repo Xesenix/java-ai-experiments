@@ -38,7 +38,7 @@ import experiments.artemis.ai.goals.IPositionGoal;
 import experiments.artemis.ai.goals.KeepInAreaGoal;
 import experiments.artemis.ai.goals.NearPositionGoal;
 import experiments.artemis.ai.goals.PositionGoal;
-import experiments.artemis.ai.tasks.PositionTask;
+import experiments.artemis.ai.tasks.NavigationTask;
 import experiments.artemis.ai.tasks.Task;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
@@ -161,12 +161,12 @@ public class ArtemisExperiment implements IExperimentManager
 		}
 
 		Task[] tasks = new Task[] {
-			new PositionTask("A", goals[0]),
-			new PositionTask("B", goals[1]),
-			new PositionTask("C", goals[2]),
-			new PositionTask("D", goals[3]),
-			new PositionTask("near 2 points", new PositionGoal(goals[4], goals[2])),
-			new PositionTask("keep in area", goals[5]),
+			new NavigationTask("A", goals[0]),
+			new NavigationTask("B", goals[1]),
+			new NavigationTask("C", goals[2]),
+			new NavigationTask("D", goals[3]),
+			new NavigationTask("near 2 points", new PositionGoal(goals[4], goals[2])),
+			new NavigationTask("keep in area", goals[5]),
 		};
 		
 		IBehavior keepInAreaBehavior = new SequenceSelector(
@@ -212,20 +212,20 @@ public class ArtemisExperiment implements IExperimentManager
 			ai.setBehavior("priority test", new PrioritySelector(
 				new SequenceSelector(
 					new Not("not in area", new KeepInAreaGoal(0, 0, 200, 0, 300, 300, 0, 200)),
-					new PositionTask("back to area", new KeepInAreaGoal(0, 0, 200, 0, 200, 200, 0, 200))
+					new NavigationTask("back to area", new KeepInAreaGoal(0, 0, 200, 0, 200, 200, 0, 200))
 				),
 				new SequenceSelector(
-					new PositionTask("get target A", new NearPositionGoal(new Position(50, 50), 20.0)),
-					new PositionTask("get target B", new NearPositionGoal(new Position(175, 25), 20.0)),
-					new PositionTask("get target C", new NearPositionGoal(new Position(20, 180), 20.0)),
-					new PositionTask("get target D", new NearPositionGoal(new Position(300, 300), 20.0))
+					new NavigationTask("get target A", new NearPositionGoal(new Position(50, 50), 20.0)),
+					new NavigationTask("get target B", new NearPositionGoal(new Position(175, 25), 20.0)),
+					new NavigationTask("get target C", new NearPositionGoal(new Position(20, 180), 20.0)),
+					new NavigationTask("get target D", new NearPositionGoal(new Position(300, 300), 20.0))
 				)
 			));
 			ai.setBehavior("limiter test", new SequenceSelector(
-				new Limiter(new PositionTask("get target A", new NearPositionGoal(new Position(50, 50), 20.0)), 1),
-				new Limiter(new PositionTask("get target B", new NearPositionGoal(new Position(175, 25), 20.0)), 2),
-				new PositionTask("get target C", new NearPositionGoal(new Position(20, 180), 20.0)),
-				new PositionTask("get target D", new NearPositionGoal(new Position(300, 300), 20.0))
+				new Limiter(new NavigationTask("get target A", new NearPositionGoal(new Position(50, 50), 20.0)), 1),
+				new Limiter(new NavigationTask("get target B", new NearPositionGoal(new Position(175, 25), 20.0)), 2),
+				new NavigationTask("get target C", new NearPositionGoal(new Position(20, 180), 20.0)),
+				new NavigationTask("get target D", new NearPositionGoal(new Position(300, 300), 20.0))
 			));
 		}
 		catch (Exception ex)

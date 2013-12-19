@@ -9,20 +9,20 @@ import experiments.artemis.ai.goals.IPositionGoal;
 
 
 @XmlRootElement
-public class PositionTask extends Task
+public class NavigationTask extends Task
 {
-	public PositionTask()
+	public NavigationTask()
 	{
 	}
 
 
-	public PositionTask(IPositionGoal goals)
+	public NavigationTask(IPositionGoal goals)
 	{
 		this.goals = goals;
 	}
 
 
-	public PositionTask(String name, IPositionGoal goals)
+	public NavigationTask(String name, IPositionGoal goals)
 	{
 		this.setName(name);
 		this.setGoals(goals);

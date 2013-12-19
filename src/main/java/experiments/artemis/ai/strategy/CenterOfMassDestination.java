@@ -10,7 +10,7 @@ import com.artemis.World;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.goals.IPositionGoal;
 import experiments.artemis.ai.tasks.ITask;
-import experiments.artemis.ai.tasks.PositionTask;
+import experiments.artemis.ai.tasks.NavigationTask;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
@@ -29,7 +29,7 @@ public class CenterOfMassDestination implements IStrategy
 
 		PositionComponent position = pm.get(e);
 
-		return position != null && task instanceof PositionTask;
+		return position != null && task instanceof NavigationTask;
 	}
 
 
@@ -41,9 +41,9 @@ public class CenterOfMassDestination implements IStrategy
 		
 		task.setActor(actor);
 
-		if (task instanceof PositionTask)
+		if (task instanceof NavigationTask)
 		{
-			IPositionGoal goal = (IPositionGoal) ((PositionTask) task).getGoals();
+			IPositionGoal goal = (IPositionGoal) ((NavigationTask) task).getGoals();
 			
 			log.debug("goal {}", goal);
 			
