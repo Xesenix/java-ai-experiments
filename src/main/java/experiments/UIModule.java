@@ -28,7 +28,7 @@ public class UIModule extends AbstractModule
 	private void bindExperiment()
 	{
 		bind(IExperimentManager.class).to(type);
-		bind(IExperimentView.class).to(UIController.class);
+		bind(IExperimentViewMediator.class).to(UIController.class);
 	}
 
 

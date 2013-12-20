@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import experiments.IExperimentManager;
-import experiments.IExperimentView;
+import experiments.IExperimentViewMediator;
 import experiments.artemis.ai.AiDescriptor;
 import experiments.artemis.ai.AiManager;
 import experiments.artemis.ai.AiMarshaller;
@@ -38,17 +38,21 @@ import experiments.artemis.ai.goals.IPositionGoal;
 import experiments.artemis.ai.goals.KeepInAreaGoal;
 import experiments.artemis.ai.goals.NearPositionGoal;
 import experiments.artemis.ai.goals.PositionGoal;
+import experiments.artemis.ai.goals.MessageGoal;
+import experiments.artemis.ai.tasks.MessageTask;
 import experiments.artemis.ai.tasks.NavigationTask;
 import experiments.artemis.ai.tasks.Task;
 import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
+import experiments.artemis.components.MessageComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.BehaviourSystem;
+import experiments.artemis.systems.ConsoleMessageSystem;
 import experiments.artemis.systems.DebugActorSystem;
 import experiments.artemis.systems.DebugAiSystem;
 import experiments.artemis.systems.MovementSystem;
@@ -69,7 +73,7 @@ public class ArtemisExperiment implements IExperimentManager
 
 
 	@Inject
-	protected IExperimentView view;
+	protected IExperimentViewMediator mediator;
 
 
 	@Inject
@@ -117,8 +121,9 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.05f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
-		world.setSystem(new DebugAiSystem(view));
-		world.setSystem(new DebugActorSystem(view));
+		world.setSystem(new ConsoleMessageSystem(mediator));
+		world.setSystem(new DebugAiSystem(mediator));
+		world.setSystem(new DebugActorSystem(mediator));
 		
 		world.setManager(new GroupManager());
 		ai = world.setManager(new AiManager());
@@ -194,18 +199,26 @@ public class ArtemisExperiment implements IExperimentManager
 			ai.setBehavior("simple", tasks[0]);
 			ai.setBehavior("crowd", crowdBehavior);
 			ai.setBehavior("sequence test", new SequenceSelector(
-				new SequenceSelector(
-					tasks[0],
-					tasks[1],
-					tasks[0].clone(),
-					tasks[1].clone()
+				new PrioritySelector(
+					new SequenceSelector(
+						new MessageTask("sequence 1 started", new MessageGoal("Let`s see if i can do it")),
+						tasks[0],
+						tasks[1],
+						tasks[0].clone(),
+						new MessageTask("sequence 1 almost", new MessageGoal("One more and im done it")),
+						tasks[1].clone(),
+						new MessageTask("sequence 1 completed", new MessageGoal("I have done it!!!"))
+					),
+					new MessageTask("sequence 1 fail", new MessageGoal("Wrrr why why buehehehee!!!"))
 				),
+				new MessageTask("main line 1", new MessageGoal("To the next big task")),
 				new Succeeder(new SequenceSelector(
 					tasks[2],
 					tasks[3],
 					tasks[2].clone(),
 					tasks[3].clone()
 				)),
+				new MessageTask("main line 2", new MessageGoal("Few little ones and i can rest")),
 				tasks[1].clone(),
 				new Inverter(tasks[4].clone())
 			));
@@ -240,10 +253,11 @@ public class ArtemisExperiment implements IExperimentManager
 
 		entity.addComponent(new ConsoleDebugComponent());
 		entity.addComponent(new PositionComponent(positions[0]));
-		entity.addComponent(new BehaviorComponent("crowd"));
+		entity.addComponent(new BehaviorComponent("sequence test"));
 		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
 		entity.addComponent(new MovementDirectionComponent(0, 0.5 * Math.PI));
 		entity.addComponent(new NearDistanceComponent(60f));
+		entity.addComponent(new MessageComponent("Hello", "I`m some entity", "I will do as my behavior controls me."));
 		entity.addToWorld();
 
 		/*entity = world.createEntity();

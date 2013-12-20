@@ -33,6 +33,7 @@ import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
+import experiments.artemis.components.MessageComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
@@ -90,6 +91,7 @@ public class ArtemisModule extends AbstractModule
 				DesiredPositionComponent.class,
 				MovementDirectionComponent.class,
 				MovementSpeedComponent.class,
+				MessageComponent.class,
 				NearDistanceComponent.class,
 				ShapeComponent.class,
 				TasksComponent.class,

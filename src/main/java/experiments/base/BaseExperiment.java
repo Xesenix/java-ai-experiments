@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import experiments.IExperimentManager;
-import experiments.IExperimentView;
+import experiments.IExperimentViewMediator;
 
 
 public class BaseExperiment implements IExperimentManager
@@ -51,7 +51,7 @@ public class BaseExperiment implements IExperimentManager
 
 
 	@Inject
-	protected IExperimentView view;
+	protected IExperimentViewMediator view;
 
 
 	@Inject

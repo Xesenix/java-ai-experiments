@@ -9,7 +9,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.Bag;
 
-import experiments.IExperimentView;
+import experiments.IExperimentViewMediator;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.AiManager;
 import experiments.artemis.ai.behaviours.IBehavior;
@@ -26,13 +26,13 @@ public class DebugAiSystem extends EntityProcessingSystem
 	ComponentMapper<BehaviorComponent> behaviorMapper;
 	
 	
-	private IExperimentView view;
+	private IExperimentViewMediator view;
 
 
 	private Bag<BehaviorTreeDebugMediator> mediatorByEntity = new Bag<BehaviorTreeDebugMediator>();
 	
 	
-	public DebugAiSystem(IExperimentView view)
+	public DebugAiSystem(IExperimentViewMediator view)
 	{
 		super(Aspect.getAspectForAll(BehaviorComponent.class));
 		this.view = view;

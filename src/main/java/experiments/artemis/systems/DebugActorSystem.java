@@ -15,7 +15,7 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 
-import experiments.IExperimentView;
+import experiments.IExperimentViewMediator;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
@@ -67,13 +67,13 @@ public class DebugActorSystem extends EntityProcessingSystem
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
-	private IExperimentView view;
+	private IExperimentViewMediator view;
 
 
 	private Bag<ActorDebugMediator> mediatorByEntity = new Bag<ActorDebugMediator>();
 
 
-	public DebugActorSystem(IExperimentView view)
+	public DebugActorSystem(IExperimentViewMediator view)
 	{
 		super(Aspect.getAspectForAll(PositionComponent.class));
 

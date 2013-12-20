@@ -27,7 +27,7 @@ import experiments.ui.IBehaviorTreeDebugSprite;
 
 
 @Singleton
-public class UIController implements IExperimentView
+public class UIController implements IExperimentViewMediator
 {
 	@Inject
 	Injector inject;
@@ -221,5 +221,11 @@ public class UIController implements IExperimentView
 		mediator.setView(sprite);
 
 		return mediator;
+	}
+
+
+	public void createMessage(String message)
+	{
+		aiConsole.appendText(message + "\n");
 	}
 }
