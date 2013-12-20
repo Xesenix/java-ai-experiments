@@ -15,6 +15,7 @@ import experiments.IExperimentViewMediator;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.MessageComponent;
+import experiments.artemis.components.NameComponent;
 
 
 public class ConsoleMessageSystem extends EntityProcessingSystem
@@ -23,6 +24,10 @@ public class ConsoleMessageSystem extends EntityProcessingSystem
 
 
 	private IExperimentViewMediator mediator;
+
+
+	@Mapper
+	ComponentMapper<NameComponent> nameMapper;
 
 
 	@Mapper
@@ -62,7 +67,8 @@ public class ConsoleMessageSystem extends EntityProcessingSystem
 
 	public void messageToConsole(Entity actor, String message)
 	{
-		String name = actor.toString();
+		NameComponent nameComponent = nameMapper.get(actor);
+		String name = nameComponent == null ? actor.toString() : nameComponent.getName();
 		
 		mediator.createMessage(String.format("%s:\n%s", name, message));
 	}

@@ -38,6 +38,7 @@ import experiments.artemis.components.DesiredPositionComponent;
 import experiments.artemis.components.MessageComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
+import experiments.artemis.components.NameComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.ShapeComponent;
@@ -97,6 +98,7 @@ public class ArtemisModule extends AbstractModule
 				MovementSpeedComponent.class,
 				MessageComponent.class,
 				NearDistanceComponent.class,
+				NameComponent.class,
 				ShapeComponent.class,
 				TasksComponent.class,
 				

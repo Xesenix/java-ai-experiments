@@ -49,6 +49,7 @@ import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.MessageComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
+import experiments.artemis.components.NameComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.BehaviourSystem;
@@ -255,6 +256,7 @@ public class ArtemisExperiment implements IExperimentManager
 		world.getManager(GroupManager.class).add(entity, "serializable");
 
 		entity.addComponent(new ConsoleDebugComponent());
+		entity.addComponent(new NameComponent("Jhon"));
 		entity.addComponent(new PositionComponent(positions[0]));
 		entity.addComponent(new BehaviorComponent("sequence test"));
 		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
