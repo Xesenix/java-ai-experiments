@@ -205,19 +205,22 @@ public class ArtemisExperiment implements IExperimentManager
 						tasks[0],
 						tasks[1],
 						tasks[0].clone(),
-						new MessageTask("sequence 1 almost", new MessageGoal("One more and im done it")),
+						new MessageTask("sequence 1 almost", new MessageGoal("One more and i`ve done it")),
 						tasks[1].clone(),
 						new MessageTask("sequence 1 completed", new MessageGoal("I have done it!!!"))
 					),
 					new MessageTask("sequence 1 fail", new MessageGoal("Wrrr why why buehehehee!!!"))
 				),
 				new MessageTask("main line 1", new MessageGoal("To the next big task")),
-				new Succeeder(new SequenceSelector(
-					tasks[2],
-					tasks[3],
-					tasks[2].clone(),
-					tasks[3].clone()
-				)),
+					new Succeeder(new PrioritySelector(new SequenceSelector(
+							tasks[2],
+							tasks[3],
+							tasks[2].clone(),
+							tasks[3].clone()
+						),
+						new MessageTask("sequence 1 fail", new MessageGoal("Nooooo why why buehehehee!!!"))
+					)
+				),
 				new MessageTask("main line 2", new MessageGoal("Few little ones and i can rest")),
 				tasks[1].clone(),
 				new Inverter(tasks[4].clone())

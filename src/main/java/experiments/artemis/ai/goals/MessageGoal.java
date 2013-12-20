@@ -1,6 +1,8 @@
 package experiments.artemis.ai.goals;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 @XmlRootElement
 public class MessageGoal extends Goal implements IMessageGoal
@@ -20,6 +22,7 @@ public class MessageGoal extends Goal implements IMessageGoal
 	}
 	
 	
+	@XmlAttribute
 	public String getMessage()
 	{
 		return message;
