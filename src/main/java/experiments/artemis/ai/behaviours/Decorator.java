@@ -4,6 +4,7 @@ package experiments.artemis.ai.behaviours;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import com.artemis.Entity;
 
@@ -43,6 +44,7 @@ class Decorator implements IBehavior, ITreeNode
 	}
 
 
+	@XmlTransient
 	public BehaviorState getState()
 	{
 		return behavior.getState();
