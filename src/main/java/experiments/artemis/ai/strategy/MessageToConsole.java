@@ -6,7 +6,6 @@ import com.artemis.World;
 import experiments.artemis.ai.goals.IMessageGoal;
 import experiments.artemis.ai.tasks.ITask;
 import experiments.artemis.ai.tasks.MessageTask;
-import experiments.artemis.ai.tasks.NavigationTask;
 import experiments.artemis.systems.ConsoleMessageSystem;
 
 public class MessageToConsole implements IStrategy

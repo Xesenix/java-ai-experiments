@@ -1,8 +1,6 @@
 
 package experiments.ui;
 
-import com.artemis.Entity;
-
 import experiments.artemis.ai.graph.ITreeNode;
 
 

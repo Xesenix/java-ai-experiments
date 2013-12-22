@@ -15,8 +15,8 @@ import com.artemis.utils.Bag;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.StrategyPlanner;
 import experiments.artemis.ai.strategy.IStrategy;
-import experiments.artemis.ai.tasks.ITask;
 import experiments.artemis.ai.tasks.BehaviorState;
+import experiments.artemis.ai.tasks.ITask;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.TasksComponent;
 

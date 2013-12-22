@@ -1,12 +1,17 @@
 
 package experiments.artemis;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,9 +41,9 @@ import experiments.artemis.ai.behaviours.Succeeder;
 import experiments.artemis.ai.conditions.Not;
 import experiments.artemis.ai.goals.IPositionGoal;
 import experiments.artemis.ai.goals.KeepInAreaGoal;
+import experiments.artemis.ai.goals.MessageGoal;
 import experiments.artemis.ai.goals.NearPositionGoal;
 import experiments.artemis.ai.goals.PositionGoal;
-import experiments.artemis.ai.goals.MessageGoal;
 import experiments.artemis.ai.tasks.MessageTask;
 import experiments.artemis.ai.tasks.NavigationTask;
 import experiments.artemis.ai.tasks.Task;
@@ -522,7 +527,22 @@ public class ArtemisExperiment implements IExperimentManager
 
 	public void saveXmlSchema()
 	{
-
+		try
+		{
+			jaxbContext.generateSchema(new SchemaOutputResolver() {
+				public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException
+				{
+					File file = new File(suggestedFileName);
+					StreamResult result = new StreamResult(file);
+					result.setSystemId(file.toURI().toURL().toString());
+					return result;
+				}
+			});
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }
