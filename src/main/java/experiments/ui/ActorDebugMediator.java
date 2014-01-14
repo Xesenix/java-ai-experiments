@@ -91,6 +91,12 @@ public class ActorDebugMediator
 	}
 
 
+	public void setHealth(double precentage)
+	{
+		this.sprite.setHealth(precentage);
+	}
+
+
 	public IActorDebugSprite getSprite()
 	{
 		return this.sprite;

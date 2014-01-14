@@ -2,6 +2,7 @@
 package experiments.ui;
 
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -9,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 
 
 public class ActorDebugSprite extends Pane implements IActorDebugSprite
@@ -49,6 +51,15 @@ public class ActorDebugSprite extends Pane implements IActorDebugSprite
 	private Polygon spriteShape;
 
 
+	private Group healthBar;
+
+
+	private Rectangle maxHealthBar;
+
+
+	private Rectangle currentHealthBar;
+
+
 	public ActorDebugSprite()
 	{
 		// transparent to mouse
@@ -80,7 +91,24 @@ public class ActorDebugSprite extends Pane implements IActorDebugSprite
 		target = new Circle(0, 0, 1, Color.color(0, 1f, 1f, 0.5f));
 		target.setMouseTransparent(true);
 		target.setStroke(Color.BLUE);
-
+		
+		maxHealthBar = new Rectangle();
+		maxHealthBar.setWidth(20);
+		maxHealthBar.setHeight(4);
+		maxHealthBar.setFill(Color.RED);
+		
+		currentHealthBar = new Rectangle();
+		currentHealthBar.setWidth(20);
+		currentHealthBar.setHeight(4);
+		currentHealthBar.setFill(Color.GREEN);
+		
+		healthBar = new Group();
+		healthBar.setTranslateX(-10);
+		healthBar.setTranslateY(-10);
+		healthBar.setVisible(false);
+		healthBar.getChildren().add(maxHealthBar);
+		healthBar.getChildren().add(currentHealthBar);
+		
 		getChildren().add(farShight);
 		getChildren().add(closeSight);
 		getChildren().add(target);
@@ -88,6 +116,7 @@ public class ActorDebugSprite extends Pane implements IActorDebugSprite
 		getChildren().add(targetVector);
 		getChildren().add(spriteShape);
 		getChildren().add(spritePosition);
+		getChildren().add(healthBar);
 		
 		tip = new Tooltip("debug");
 
@@ -213,5 +242,12 @@ public class ActorDebugSprite extends Pane implements IActorDebugSprite
 	{
 		velocity.setEndX(speed * Math.cos(direction));
 		velocity.setEndY(speed * Math.sin(direction));
+	}
+
+
+	public void setHealth(double precentage)
+	{
+		healthBar.setVisible(true);
+		currentHealthBar.setWidth(20 * Math.max(0, Math.min(precentage, 1)));
 	}
 }

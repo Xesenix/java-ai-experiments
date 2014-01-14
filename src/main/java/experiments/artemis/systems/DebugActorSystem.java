@@ -22,6 +22,7 @@ import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.DesiredPositionComponent;
+import experiments.artemis.components.HealthComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.NearDistanceComponent;
@@ -64,6 +65,10 @@ public class DebugActorSystem extends EntityProcessingSystem
 
 
 	@Mapper
+	ComponentMapper<HealthComponent> healthMapper;
+
+
+	@Mapper
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
@@ -98,6 +103,7 @@ public class DebugActorSystem extends EntityProcessingSystem
 		debugColor(mediator, entity);
 		debugSpeed(mediator, entity);
 		debugDirection(mediator, entity);
+		debugHealth(mediator, entity);
 	}
 
 
@@ -114,6 +120,7 @@ public class DebugActorSystem extends EntityProcessingSystem
 			mediator = view.createPositionDebugSprite();
 			mediatorByEntity.set(entity.getId(), mediator);
 		}
+		
 		return mediator;
 	}
 
@@ -125,6 +132,20 @@ public class DebugActorSystem extends EntityProcessingSystem
 	public void debugInfo(ActorDebugMediator mediator, Entity entity)
 	{
 		mediator.setLabel(getEntityDescription(entity));
+	}
+
+
+	private void debugHealth(ActorDebugMediator mediator, Entity entity)
+	{
+		HealthComponent health = healthMapper.get(entity);
+		
+		if (health != null)
+		{
+			double current = health.getCurrent();
+			double max = health.getMax();
+	
+			mediator.setHealth(current / max);
+		}
 	}
 
 

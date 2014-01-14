@@ -41,4 +41,7 @@ public interface IActorDebugSprite
 
 
 	void setShape(double[] vertices);
+
+
+	void setHealth(double precentage);
 }
