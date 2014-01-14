@@ -51,6 +51,7 @@ import experiments.artemis.ai.world2d.EuclideanMetric2D;
 import experiments.artemis.ai.world2d.Position;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
+import experiments.artemis.components.HealthComponent;
 import experiments.artemis.components.MessageComponent;
 import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
@@ -261,7 +262,8 @@ public class ArtemisExperiment implements IExperimentManager
 		world.getManager(GroupManager.class).add(entity, "serializable");
 
 		entity.addComponent(new ConsoleDebugComponent());
-		entity.addComponent(new NameComponent("Jhon"));
+		entity.addComponent(new NameComponent("Tabelatko"));
+		entity.addComponent(new HealthComponent(12));
 		entity.addComponent(new PositionComponent(positions[0]));
 		entity.addComponent(new BehaviorComponent("sequence test"));
 		entity.addComponent(new MovementSpeedComponent(100, -50, 200, 250, 120));
