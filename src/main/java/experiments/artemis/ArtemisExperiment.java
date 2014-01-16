@@ -62,6 +62,7 @@ import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.ConsoleMessageSystem;
 import experiments.artemis.systems.DebugActorSystem;
 import experiments.artemis.systems.DebugAiSystem;
+import experiments.artemis.systems.HealthSystem;
 import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
 import experiments.artemis.systems.TasksSystem;
@@ -129,6 +130,7 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
 		world.setSystem(new MovementSystem());
 		world.setSystem(new ConsoleMessageSystem(mediator));
+		world.setSystem(new HealthSystem(0.05f));
 		world.setSystem(new DebugAiSystem(mediator));
 		world.setSystem(new DebugActorSystem(mediator));
 		
