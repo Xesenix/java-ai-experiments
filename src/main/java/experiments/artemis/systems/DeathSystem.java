@@ -12,9 +12,9 @@ import experiments.artemis.ActiveLogger;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.HealthComponent;
 
-public class HealthSystem extends IntervalEntityProcessingSystem
+public class DeathSystem extends IntervalEntityProcessingSystem
 {
-	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(HealthSystem.class));
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(DeathSystem.class));
 
 
 	@Mapper
@@ -25,7 +25,7 @@ public class HealthSystem extends IntervalEntityProcessingSystem
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 	
 
-	public HealthSystem(float interval)
+	public DeathSystem(float interval)
 	{
 		super(Aspect.getAspectForAll(HealthComponent.class), interval);
 	}
@@ -37,9 +37,9 @@ public class HealthSystem extends IntervalEntityProcessingSystem
 		
 		HealthComponent healthComponent = healthMapper.get(actor);
 		
-		if (healthComponent.getCurrent() > 0)
+		if (healthComponent.getCurrent() <= 0)
 		{
-			healthComponent.setCurrent((healthComponent.getCurrent() - 1 * world.getDelta()));
+			world.deleteEntity(actor);
 		}
 	}
 

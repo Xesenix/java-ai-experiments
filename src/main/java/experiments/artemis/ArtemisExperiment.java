@@ -60,6 +60,7 @@ import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.ConsoleMessageSystem;
+import experiments.artemis.systems.DeathSystem;
 import experiments.artemis.systems.DebugActorSystem;
 import experiments.artemis.systems.DebugAiSystem;
 import experiments.artemis.systems.HealthSystem;
@@ -131,6 +132,7 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new MovementSystem());
 		world.setSystem(new ConsoleMessageSystem(mediator));
 		world.setSystem(new HealthSystem(0.05f));
+		world.setSystem(new DeathSystem(0.05f));
 		world.setSystem(new DebugAiSystem(mediator));
 		world.setSystem(new DebugActorSystem(mediator));
 		
