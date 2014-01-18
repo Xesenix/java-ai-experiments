@@ -43,6 +43,7 @@ import experiments.artemis.components.NameComponent;
 import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.components.ShapeComponent;
+import experiments.artemis.components.SkillsComponent;
 import experiments.artemis.components.TasksComponent;
 import experiments.artemis.world.EntityChangeDescriptor;
 import experiments.artemis.world.WorldChangeDescriptor;
@@ -101,6 +102,7 @@ public class ArtemisModule extends AbstractModule
 				NearDistanceComponent.class,
 				NameComponent.class,
 				HealthComponent.class,
+				SkillsComponent.class,
 				ShapeComponent.class,
 				TasksComponent.class,
 				
