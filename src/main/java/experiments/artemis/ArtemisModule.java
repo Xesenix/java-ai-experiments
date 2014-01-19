@@ -31,6 +31,7 @@ import experiments.artemis.ai.tasks.NavigationTask;
 import experiments.artemis.ai.tasks.Task;
 import experiments.artemis.ai.world2d.Polygon;
 import experiments.artemis.ai.world2d.Position;
+import experiments.artemis.components.ActionComponent;
 import experiments.artemis.components.BehaviorComponent;
 import experiments.artemis.components.ColorComponent;
 import experiments.artemis.components.ConsoleDebugComponent;
@@ -91,6 +92,7 @@ public class ArtemisModule extends AbstractModule
 				SequenceSelector.class,
 				PrioritySelector.class,
 				
+				ActionComponent.class,
 				BehaviorComponent.class,
 				ConsoleDebugComponent.class,
 				ColorComponent.class,
