@@ -1,7 +1,6 @@
 
 package experiments.ui;
 
-
 public class ActorDebugMediator
 {
 	private IActorDebugSprite sprite;
@@ -14,55 +13,55 @@ public class ActorDebugMediator
 
 	public void setLabel(String string)
 	{
-		this.sprite.setLabel(string);
+		sprite.setLabel(string);
 	}
 
 
 	public void setPosition(double x, double y)
 	{
-		this.sprite.setPosition(x, y);
+		sprite.setPosition(x, y);
 	}
 
 
 	public void setTargetPosition(double x, double y)
 	{
-		this.sprite.setTargetPosition(x, y);
+		sprite.setTargetPosition(x, y);
 	}
 
 
 	public void setTargetPositionPrecision(double precision)
 	{
-		this.sprite.setTargetPositionPrecision(precision);
+		sprite.setTargetPositionPrecision(precision);
 	}
 
 
 	public void setCloseSightRange(double range)
 	{
-		this.sprite.setCloseSightRange(range);
+		sprite.setCloseSightRange(range);
 	}
 
 
 	public void setCloseFarSighRange(double range)
 	{
-		this.sprite.setCloseFarSighRange(range);
+		sprite.setCloseFarSighRange(range);
 	}
 
 
 	public void setRangeColor(String string)
 	{
-		this.sprite.setRangeColor(string);
+		sprite.setRangeColor(string);
 	}
 
 
 	public void setSpeed(double speed)
 	{
-		this.sprite.setSpeed(speed);
+		sprite.setSpeed(speed);
 	}
 
 
 	public void setDirection(double direction)
 	{
-		this.sprite.setDirection(direction);
+		sprite.setDirection(direction);
 	}
 
 
@@ -75,25 +74,31 @@ public class ActorDebugMediator
 
 	public void showTargetPosition()
 	{
-		this.sprite.showTargetPosition();
+		sprite.showTargetPosition();
 	}
 
 
 	public void hideTargetPosition()
 	{
-		this.sprite.hideTargetPosition();
+		sprite.hideTargetPosition();
 	}
 
 
 	public void setShape(double[] vertices)
 	{
-		this.sprite.setShape(vertices);
+		sprite.setShape(vertices);
 	}
 
 
 	public void setHealth(double precentage)
 	{
-		this.sprite.setHealth(precentage);
+		sprite.setHealth(precentage);
+	}
+
+
+	public void showDamageTaken(Double dmg)
+	{
+		
 	}
 
 

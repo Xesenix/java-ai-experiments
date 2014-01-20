@@ -1,5 +1,8 @@
 package experiments.artemis.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,6 +16,9 @@ public class HealthComponent extends Component
 	
 	
 	private double current;
+	
+	
+	private transient List<Double> dmgRequests = new ArrayList<Double>();
 	
 	
 	public HealthComponent()
@@ -50,6 +56,18 @@ public class HealthComponent extends Component
 	public void setCurrent(double current)
 	{
 		this.current = current;
+	}
+	
+	
+	public void dealDamage(double dmg)
+	{
+		dmgRequests.add(dmg);
+	}
+	
+	
+	public List<Double> getDamageRequests()
+	{
+		return dmgRequests;
 	}
 
 
