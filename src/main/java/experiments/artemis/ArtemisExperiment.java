@@ -60,6 +60,8 @@ import experiments.artemis.components.NearDistanceComponent;
 import experiments.artemis.components.PositionComponent;
 import experiments.artemis.systems.BehaviourSystem;
 import experiments.artemis.systems.ConsoleMessageSystem;
+import experiments.artemis.systems.DamageDebugSystem;
+import experiments.artemis.systems.DamageSystem;
 import experiments.artemis.systems.DeathSystem;
 import experiments.artemis.systems.DebugActorSystem;
 import experiments.artemis.systems.DebugAiSystem;
@@ -135,6 +137,8 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new DeathSystem(0.05f));
 		world.setSystem(new DebugAiSystem(mediator));
 		world.setSystem(new DebugActorSystem(mediator));
+		world.setSystem(new DamageDebugSystem(1f));
+		world.setSystem(new DamageSystem(1f));
 		
 		world.setManager(new GroupManager());
 		ai = world.setManager(new AiManager());
@@ -266,7 +270,7 @@ public class ArtemisExperiment implements IExperimentManager
 		world.getManager(GroupManager.class).add(entity, "serializable");
 
 		entity.addComponent(new ConsoleDebugComponent());
-		entity.addComponent(new NameComponent("Tabelatko"));
+		entity.addComponent(new NameComponent("Tabelątko"));
 		entity.addComponent(new HealthComponent(12));
 		entity.addComponent(new PositionComponent(positions[0]));
 		entity.addComponent(new BehaviorComponent("sequence test"));

@@ -15,9 +15,9 @@ import experiments.artemis.components.HealthComponent;
 import experiments.ui.ActorDebugMediator;
 
 
-public class DamageDebugSystem extends IntervalEntityProcessingSystem
+public class DamageSystem extends IntervalEntityProcessingSystem
 {
-	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(DamageDebugSystem.class));
+	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(DamageSystem.class));
 
 
 	@Mapper
@@ -28,7 +28,7 @@ public class DamageDebugSystem extends IntervalEntityProcessingSystem
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
-	public DamageDebugSystem(float interval)
+	public DamageSystem(float interval)
 	{
 		super(Aspect.getAspectForAll(HealthComponent.class), interval);
 	}
@@ -46,9 +46,10 @@ public class DamageDebugSystem extends IntervalEntityProcessingSystem
 
 		for (Double dmg : health.getDamageRequests())
 		{
-			mediator.showDamageTaken(dmg);
-			consoleSystem.messageToConsole(entity, String.format("damage recived: %.2f", dmg));
+			health.setCurrent(health.getCurrent() - dmg);
 		}
+		
+		health.getDamageRequests().clear();
 	}
 
 }
