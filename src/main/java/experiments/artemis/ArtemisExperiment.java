@@ -137,8 +137,8 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new DeathSystem(0.05f));
 		world.setSystem(new DebugAiSystem(mediator));
 		world.setSystem(new DebugActorSystem(mediator));
-		world.setSystem(new DamageDebugSystem(1f));
-		world.setSystem(new DamageSystem(1f));
+		world.setSystem(new DamageSystem(0.01f));
+		world.setSystem(new DamageDebugSystem(0.1f));
 		
 		world.setManager(new GroupManager());
 		ai = world.setManager(new AiManager());

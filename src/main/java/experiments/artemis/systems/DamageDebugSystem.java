@@ -1,6 +1,8 @@
 
 package experiments.artemis.systems;
 
+import java.util.List;
+
 import org.slf4j.LoggerFactory;
 
 import com.artemis.Aspect;
@@ -38,16 +40,21 @@ public class DamageDebugSystem extends IntervalEntityProcessingSystem
 	{
 		log.setActive(consoleDebugMapper.get(entity) != null && consoleDebugMapper.get(entity).debug);
 
-		HealthComponent health = healthMapper.get(entity);
+		DamageSystem damageSystem = world.getSystem(DamageSystem.class);
 
-		DebugActorSystem debugActorSystem = world.getSystem(DebugActorSystem.class);
-		ActorDebugMediator mediator = debugActorSystem.getMediatorForEntity(entity);
-		ConsoleMessageSystem consoleSystem = world.getSystem(ConsoleMessageSystem.class);
-
-		for (Double dmg : health.getDamageRequests())
+		List<Double> damageReports = damageSystem.getEntityDamageRaport(entity);
+		
+		if (damageReports != null)
 		{
-			mediator.showDamageTaken(dmg);
-			consoleSystem.messageToConsole(entity, String.format("damage recived: %.2f", dmg));
+			DebugActorSystem debugActorSystem = world.getSystem(DebugActorSystem.class);
+			ActorDebugMediator mediator = debugActorSystem.getMediatorForEntity(entity);
+			ConsoleMessageSystem consoleSystem = world.getSystem(ConsoleMessageSystem.class);
+			
+			for (Double dmg : damageSystem.getEntityDamageRaport(entity))
+			{
+				mediator.showDamageTaken(dmg);
+				consoleSystem.messageToConsole(entity, String.format("damage recived: %.2f", dmg));
+			}
 		}
 	}
 
