@@ -14,6 +14,7 @@ import com.artemis.systems.IntervalEntityProcessingSystem;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.HealthComponent;
+import experiments.artemis.damage.Damage;
 import experiments.ui.ActorDebugMediator;
 
 
@@ -42,7 +43,7 @@ public class DamageDebugSystem extends IntervalEntityProcessingSystem
 
 		DamageSystem damageSystem = world.getSystem(DamageSystem.class);
 
-		List<Double> damageReports = damageSystem.getEntityDamageRaport(entity);
+		List<Damage> damageReports = damageSystem.getEntityDamageRaport(entity);
 		
 		if (damageReports != null)
 		{
@@ -50,10 +51,10 @@ public class DamageDebugSystem extends IntervalEntityProcessingSystem
 			ActorDebugMediator mediator = debugActorSystem.getMediatorForEntity(entity);
 			ConsoleMessageSystem consoleSystem = world.getSystem(ConsoleMessageSystem.class);
 			
-			for (Double dmg : damageSystem.getEntityDamageRaport(entity))
+			for (Damage dmg : damageSystem.getEntityDamageRaport(entity))
 			{
-				mediator.showDamageTaken(dmg);
-				consoleSystem.messageToConsole(entity, String.format("damage recived: %.2f", dmg));
+				mediator.showDamageTaken(dmg.getPower());
+				consoleSystem.messageToConsole(entity, String.format("damage recived: %.2f", dmg.getPower()));
 			}
 		}
 	}

@@ -16,6 +16,7 @@ import com.artemis.utils.Bag;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.HealthComponent;
+import experiments.artemis.damage.Damage;
 import experiments.ui.ActorDebugMediator;
 
 
@@ -32,7 +33,7 @@ public class DamageSystem extends IntervalEntityProcessingSystem
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 
 
-	private Bag<List<Double>> damageRaportByEntity = new Bag<List<Double>>();
+	private Bag<List<Damage>> damageRaportByEntity = new Bag<List<Damage>>();
 
 
 	public DamageSystem(float interval)
@@ -51,9 +52,9 @@ public class DamageSystem extends IntervalEntityProcessingSystem
 		ActorDebugMediator mediator = debugActorSystem.getMediatorForEntity(entity);
 		ConsoleMessageSystem consoleSystem = world.getSystem(ConsoleMessageSystem.class);
 
-		for (Double dmg : health.getDamageRequests())
+		for (Damage dmg : health.getDamageRequests())
 		{
-			health.setCurrent(health.getCurrent() - dmg);
+			health.setCurrent(health.getCurrent() - dmg.getPower());
 			damageRaportByEntity.get(entity.getId()).add(dmg);
 		}
 		
@@ -63,11 +64,11 @@ public class DamageSystem extends IntervalEntityProcessingSystem
 	
 	protected void inserted(Entity entity)
 	{
-		damageRaportByEntity.set(entity.getId(), new ArrayList<Double>(20));
+		damageRaportByEntity.set(entity.getId(), new ArrayList<Damage>(20));
 	}
 	
 	
-	public List<Double> getEntityDamageRaport(Entity entity)
+	public List<Damage> getEntityDamageRaport(Entity entity)
 	{
 		return damageRaportByEntity.get(entity.getId());
 	}

@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.artemis.Component;
 
+import experiments.artemis.damage.Damage;
+
 
 @XmlRootElement(name = "health")
 public class HealthComponent extends Component
@@ -18,7 +20,7 @@ public class HealthComponent extends Component
 	private double current;
 	
 	
-	private transient List<Double> dmgRequests = new ArrayList<Double>();
+	private transient List<Damage> dmgRequests = new ArrayList<Damage>();
 	
 	
 	public HealthComponent()
@@ -59,13 +61,13 @@ public class HealthComponent extends Component
 	}
 	
 	
-	public void dealDamage(double dmg)
+	public void dealDamage(Damage dmg)
 	{
 		dmgRequests.add(dmg);
 	}
 	
 	
-	public List<Double> getDamageRequests()
+	public List<Damage> getDamageRequests()
 	{
 		return dmgRequests;
 	}

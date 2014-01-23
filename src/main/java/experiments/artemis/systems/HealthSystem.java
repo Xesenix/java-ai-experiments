@@ -11,6 +11,7 @@ import com.artemis.systems.IntervalEntityProcessingSystem;
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.components.ConsoleDebugComponent;
 import experiments.artemis.components.HealthComponent;
+import experiments.artemis.damage.Damage;
 
 public class HealthSystem extends IntervalEntityProcessingSystem
 {
@@ -39,7 +40,7 @@ public class HealthSystem extends IntervalEntityProcessingSystem
 		
 		if (healthComponent.getCurrent() > 0)
 		{
-			healthComponent.dealDamage(2 * world.getDelta());
+			healthComponent.dealDamage(new Damage(2 * world.getDelta()));
 		}
 	}
 
