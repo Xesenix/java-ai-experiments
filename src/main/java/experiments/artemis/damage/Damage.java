@@ -1,5 +1,7 @@
 package experiments.artemis.damage;
 
+import experiments.artemis.damage.Damage.ElementType;
+
 public class Damage
 {
 	private double power;
@@ -14,6 +16,14 @@ public class Damage
 	public Damage(double power)
 	{
 		setPower(power);
+		setElementType(ElementType.PHYSIQUE);
+	}
+
+
+	public Damage(float power, ElementType element)
+	{
+		setPower(power);
+		setElementType(element);
 	}
 
 

@@ -54,7 +54,7 @@ public class DamageDebugSystem extends IntervalEntityProcessingSystem
 			for (Damage dmg : damageSystem.getEntityDamageRaport(entity))
 			{
 				mediator.showDamageTaken(dmg.getPower());
-				consoleSystem.messageToConsole(entity, String.format("damage recived: %.2f", dmg.getPower()));
+				consoleSystem.messageToConsole(entity, String.format("%s damage recived: %.2f", dmg.getElementType(), dmg.getPower()));
 			}
 		}
 	}

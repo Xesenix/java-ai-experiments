@@ -40,7 +40,7 @@ public class HealthSystem extends IntervalEntityProcessingSystem
 		
 		if (healthComponent.getCurrent() > 0)
 		{
-			healthComponent.dealDamage(new Damage(2 * world.getDelta()));
+			healthComponent.dealDamage(new Damage(2 * world.getDelta(), Damage.ElementType.POISON));
 		}
 	}
 
