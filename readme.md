@@ -1,4 +1,24 @@
-Usefull links
+AI experiments
+============
+
+Tasks:
+
+- Appearance:
+	- [x] movable viewport for entities
+	- [x] console for ai communicate
+	- [ ] xml view for serialized AI
+	- [x] console for world communicate
+	- [ ] xml view for serialized world
+
+- Patterns:
+	- [x] mediator pattern
+	- [x] entieties system
+
+- Futures:
+	- [x] debugging behavior tree
+	- [x] loading changes in xml
+
+Useful links
 =============
 
 http://gamadu.com/artemis/manual.html
