@@ -1,18 +1,20 @@
+
 package experiments.artemis.damage;
 
 import experiments.artemis.damage.Damage.ElementType;
 
+
 public class Damage
 {
 	private double power;
-	
-	
+
+
 	private ElementType elementType;
-	
-	
+
+
 	private AttackType attackType;
-	
-	
+
+
 	public Damage(double power)
 	{
 		setPower(power);
@@ -37,7 +39,8 @@ public class Damage
 	{
 		return power;
 	}
-	
+
+
 	public ElementType getElementType()
 	{
 		return elementType;
@@ -48,6 +51,7 @@ public class Damage
 	{
 		this.elementType = elementType;
 	}
+
 
 	public AttackType getAttackType()
 	{
@@ -60,24 +64,17 @@ public class Damage
 		this.attackType = attackType;
 	}
 
-	public static enum AttackType {
+
+	public static enum AttackType
+	{
 		SLASH, // bleeding?
 		CRUSH, // stun?
 		PRICING, // ...?
 		ENERGY // elemental effect
 	}
-	
-	public static enum ElementType {
-		PHYSIQUE,
-		POISON,
-		ACID,
-		EARTH,
-		WATER,
-		FIRE,
-		COLD,
-		AIR,
-		HOLY,
-		UNHOLY,
-		DARK
+
+	public static enum ElementType
+	{
+		PHYSIQUE, POISON, ACID, EARTH, WATER, FIRE, COLD, AIR, HOLY, UNHOLY, DARK
 	}
 }
