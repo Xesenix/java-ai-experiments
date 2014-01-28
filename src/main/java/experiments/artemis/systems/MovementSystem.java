@@ -7,6 +7,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.systems.IntervalEntityProcessingSystem;
 
 import experiments.artemis.ActiveLogger;
 import experiments.artemis.ai.world2d.Position;
@@ -15,7 +16,7 @@ import experiments.artemis.components.MovementDirectionComponent;
 import experiments.artemis.components.MovementSpeedComponent;
 import experiments.artemis.components.PositionComponent;
 
-public class MovementSystem extends EntityProcessingSystem
+public class MovementSystem extends IntervalEntityProcessingSystem
 {
 	private static final ActiveLogger log = new ActiveLogger(LoggerFactory.getLogger(MovementSystem.class));
 
@@ -36,9 +37,9 @@ public class MovementSystem extends EntityProcessingSystem
 	ComponentMapper<ConsoleDebugComponent> consoleDebugMapper;
 	
 
-	public MovementSystem()
+	public MovementSystem(float delta)
 	{
-		super(Aspect.getAspectForAll(PositionComponent.class, MovementDirectionComponent.class, MovementSpeedComponent.class));
+		super(Aspect.getAspectForAll(PositionComponent.class, MovementDirectionComponent.class, MovementSpeedComponent.class), delta);
 	}
 
 	

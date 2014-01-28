@@ -68,6 +68,7 @@ import experiments.artemis.systems.DebugAiSystem;
 import experiments.artemis.systems.HealthSystem;
 import experiments.artemis.systems.MovementSystem;
 import experiments.artemis.systems.NavigationSystem;
+import experiments.artemis.systems.ProximitySystem;
 import experiments.artemis.systems.TasksSystem;
 import experiments.artemis.world.WorldChangeDescriptor;
 import experiments.artemis.world.WorldMarshaller;
@@ -131,12 +132,13 @@ public class ArtemisExperiment implements IExperimentManager
 		world.setSystem(new BehaviourSystem(0.5f));
 		world.setSystem(new TasksSystem(new StrategyPlanner(), 0.05f));
 		world.setSystem(new NavigationSystem((IMetric) metric, 0.05f));
-		world.setSystem(new MovementSystem());
+		world.setSystem(new MovementSystem(0.05f));
 		world.setSystem(new ConsoleMessageSystem(mediator));
 		world.setSystem(new HealthSystem(0.05f));
 		world.setSystem(new DeathSystem(0.05f));
 		world.setSystem(new DebugAiSystem(mediator));
 		world.setSystem(new DebugActorSystem(mediator));
+		world.setSystem(new ProximitySystem());
 		world.setSystem(new DamageSystem(0.01f));
 		world.setSystem(new DamageDebugSystem(0.1f));
 		
